@@ -1,0 +1,91 @@
+{
+  "@@locale": "id",
+
+  "appName": "Tanbih",
+  "appTagline": "Pengingat shalat & adzan",
+
+  "prayerImsak": "Imsak",
+  "prayerFajr": "Subuh",
+  "prayerSunrise": "Terbit",
+  "prayerDhuhr": "Dzuhur",
+  "prayerJumuah": "Jumat",
+  "prayerAsr": "Ashar",
+  "prayerMaghrib": "Maghrib",
+  "prayerIsha": "Isya",
+
+  "nextPrayerLabel": "Waktu berikutnya",
+  "remainingLabel": "Tersisa",
+  "countdownHoursMinutes": "{hours} jam {minutes} menit",
+  "@countdownHoursMinutes": {
+    "placeholders": { "hours": { "type": "int" }, "minutes": { "type": "int" } }
+  },
+  "countdownMinutes": "{minutes} menit",
+  "@countdownMinutes": {
+    "placeholders": { "minutes": { "type": "int" } }
+  },
+  "prayerTimeNow": "Sudah masuk waktu",
+
+  "locationCurrent": "Lokasi saat ini",
+  "locationTapToChange": "Ketuk untuk ubah lokasi",
+  "locationUnknown": "Lokasi belum diketahui",
+  "locationPermissionTitle": "Izin lokasi diperlukan",
+  "locationPermissionBody": "Tanbih memakai lokasi untuk menghitung waktu shalat di tempatmu. Lokasi tidak pernah dikirim ke server mana pun.",
+  "locationPermissionDeniedForever": "Izin lokasi ditolak permanen. Buka pengaturan aplikasi untuk mengaktifkannya, atau pilih kota secara manual.",
+  "locationChooseManually": "Pilih kota manual",
+
+  "notificationPermissionTitle": "Izin notifikasi diperlukan",
+  "notificationPermissionBody": "Tanpa izin ini, Tanbih tidak bisa mengingatkanmu saat waktu shalat masuk.",
+  "exactAlarmPermissionTitle": "Izin alarm presisi",
+  "exactAlarmPermissionBody": "Diperlukan agar adzan berbunyi tepat waktu, bukan tertunda beberapa menit.",
+
+  "settingsTitle": "Pengaturan",
+  "settingsPrayerTimes": "Pengaturan Waktu Shalat",
+  "settingsPrayerTimesSubtitle": "Metode perhitungan waktu shalat",
+  "settingsLocation": "Pengaturan Lokasi",
+  "settingsLocationSubtitle": "Atur bagaimana lokasi ditentukan",
+  "settingsNotification": "Pengaturan Notifikasi",
+  "settingsNotificationSubtitle": "Notifikasi dan pengingat",
+  "settingsSilent": "Pengaturan Senyap",
+  "settingsSilentSubtitle": "Mode senyap otomatis saat shalat",
+  "settingsHijri": "Pengaturan Hijriah",
+  "settingsHijriSubtitle": "Koreksi tanggal Hijriah",
+  "settingsFajrAlarm": "Alarm Subuh & Sahur",
+  "settingsFajrAlarmSubtitle": "Alarm bangun untuk sahur atau Subuh",
+  "settingsLanguage": "Bahasa",
+  "settingsDarkMode": "Mode Gelap",
+  "settingsTheme": "Tema Aplikasi",
+
+  "languageIndonesian": "Bahasa Indonesia",
+  "languageEnglish": "English",
+  "languageFollowSystem": "Ikuti sistem",
+
+  "themeLight": "Terang",
+  "themeDark": "Gelap",
+  "themeSystem": "Ikuti sistem",
+
+  "menuTitle": "Menu",
+  "menuGeneral": "Umum",
+  "menuOther": "Lainnya",
+  "menuQibla": "Arah Kiblat",
+  "menuDuas": "Doa Shalat",
+  "menuWuduGuide": "Panduan Wudhu",
+  "menuPrayerGuide": "Panduan Shalat",
+  "menuTasbih": "Tasbih Digital",
+  "menuCalendar": "Kalender Islam",
+  "menuComingSoon": "Segera",
+
+  "commonRetry": "Coba lagi",
+  "commonCancel": "Batal",
+  "commonSave": "Simpan",
+  "commonClose": "Tutup",
+  "commonOpenSettings": "Buka Pengaturan",
+  "commonAllow": "Izinkan",
+  "commonNotNow": "Nanti saja",
+  "commonSearch": "Cari",
+  "commonToday": "Hari ini",
+
+  "errorNoInternet": "Tidak ada koneksi internet",
+  "errorNoInternetBody": "Jadwal shalat tetap bisa dipakai tanpa internet. Sebagian fitur seperti pencarian kota memerlukan koneksi.",
+  "errorCalculation": "Gagal menghitung waktu shalat",
+  "errorUnexpected": "Terjadi kesalahan tak terduga"
+}

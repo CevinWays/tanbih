@@ -1,0 +1,91 @@
+{
+  "@@locale": "en",
+  "appName": "Tanbih",
+  "appTagline": "Prayer times & adhan reminder",
+  "prayerImsak": "Imsak",
+  "prayerFajr": "Fajr",
+  "prayerSunrise": "Sunrise",
+  "prayerDhuhr": "Dhuhr",
+  "prayerJumuah": "Jumu'ah",
+  "prayerAsr": "Asr",
+  "prayerMaghrib": "Maghrib",
+  "prayerIsha": "Isha",
+  "nextPrayerLabel": "Next prayer",
+  "remainingLabel": "Remaining",
+  "countdownHoursMinutes": "{hours} hr {minutes} min",
+  "@countdownHoursMinutes": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "countdownMinutes": "{minutes} min",
+  "@countdownMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "prayerTimeNow": "It's time for prayer",
+  "locationCurrent": "Current location",
+  "locationTapToChange": "Tap to change location",
+  "locationUnknown": "Location not set yet",
+  "locationPermissionTitle": "Location permission needed",
+  "locationPermissionBody": "Tanbih uses your location to calculate prayer times where you are. Your location is never sent to any server.",
+  "locationPermissionDeniedForever": "Location permission was permanently denied. Open app settings to enable it, or pick a city manually.",
+  "locationChooseManually": "Pick a city manually",
+  "notificationPermissionTitle": "Notification permission needed",
+  "notificationPermissionBody": "Without it, Tanbih cannot remind you when a prayer time begins.",
+  "exactAlarmPermissionTitle": "Exact alarm permission",
+  "exactAlarmPermissionBody": "Needed so the adhan sounds on time instead of being delayed by minutes.",
+  "settingsTitle": "Settings",
+  "settingsPrayerTimes": "Prayer Times Settings",
+  "settingsPrayerTimesSubtitle": "Settings for calculating prayer times",
+  "settingsLocation": "Location Settings",
+  "settingsLocationSubtitle": "Choose how your location is determined",
+  "settingsNotification": "Notification Settings",
+  "settingsNotificationSubtitle": "Notifications and reminders",
+  "settingsSilent": "Silent Settings",
+  "settingsSilentSubtitle": "Automatic silent mode during prayer",
+  "settingsHijri": "Hijri Settings",
+  "settingsHijriSubtitle": "Hijri date adjustment",
+  "settingsFajrAlarm": "Fajr & Sahoor Alarm",
+  "settingsFajrAlarmSubtitle": "Wake-up alarm for sahoor or Fajr",
+  "settingsLanguage": "Language",
+  "settingsDarkMode": "Dark Mode",
+  "settingsTheme": "App Theme",
+  "languageIndonesian": "Bahasa Indonesia",
+  "languageEnglish": "English",
+  "languageFollowSystem": "Follow system",
+  "themeLight": "Light",
+  "themeDark": "Dark",
+  "themeSystem": "Follow system",
+  "menuTitle": "Menu",
+  "menuGeneral": "General",
+  "menuOther": "Other",
+  "menuQibla": "Qibla Direction",
+  "menuDuas": "Prayer Duas",
+  "menuWuduGuide": "Wudu Guide",
+  "menuPrayerGuide": "Prayer Guide",
+  "menuTasbih": "Tasbih Counter",
+  "menuCalendar": "Islamic Calendar",
+  "menuComingSoon": "Soon",
+  "commonRetry": "Retry",
+  "commonCancel": "Cancel",
+  "commonSave": "Save",
+  "commonClose": "Close",
+  "commonOpenSettings": "Open Settings",
+  "commonAllow": "Allow",
+  "commonNotNow": "Not now",
+  "commonSearch": "Search",
+  "commonToday": "Today",
+  "errorNoInternet": "No internet connection",
+  "errorNoInternetBody": "Prayer times work fine offline. Some features such as city search need a connection.",
+  "errorCalculation": "Could not calculate prayer times",
+  "errorUnexpected": "Something went wrong"
+}
