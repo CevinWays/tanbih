@@ -865,6 +865,96 @@ abstract class AppLocalizations {
   /// In id, this message translates to:
   /// **'Kembalikan ke nol'**
   String get settingsResetAdjustments;
+
+  /// No description provided for @preReminderBody.
+  ///
+  /// In id, this message translates to:
+  /// **'{minutes} menit lagi menuju {prayer}'**
+  String preReminderBody(int minutes, String prayer);
+
+  /// No description provided for @notificationActivate.
+  ///
+  /// In id, this message translates to:
+  /// **'Aktifkan Notifikasi'**
+  String get notificationActivate;
+
+  /// No description provided for @notificationActivateSubtitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Ingatkan saat waktu shalat masuk'**
+  String get notificationActivateSubtitle;
+
+  /// No description provided for @notificationPerPrayer.
+  ///
+  /// In id, this message translates to:
+  /// **'Notifikasi Tiap Waktu'**
+  String get notificationPerPrayer;
+
+  /// No description provided for @notificationSound.
+  ///
+  /// In id, this message translates to:
+  /// **'Suara Notifikasi'**
+  String get notificationSound;
+
+  /// No description provided for @notificationTest.
+  ///
+  /// In id, this message translates to:
+  /// **'Tes Notifikasi'**
+  String get notificationTest;
+
+  /// No description provided for @notificationTestSubtitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Kirim contoh notifikasi sekarang'**
+  String get notificationTestSubtitle;
+
+  /// No description provided for @preReminderTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Pengingat Awal'**
+  String get preReminderTitle;
+
+  /// No description provided for @preReminderOff.
+  ///
+  /// In id, this message translates to:
+  /// **'Mati'**
+  String get preReminderOff;
+
+  /// No description provided for @soundSilent.
+  ///
+  /// In id, this message translates to:
+  /// **'Tanpa suara'**
+  String get soundSilent;
+
+  /// No description provided for @soundDefault.
+  ///
+  /// In id, this message translates to:
+  /// **'Nada bawaan'**
+  String get soundDefault;
+
+  /// No description provided for @soundAdhanShort.
+  ///
+  /// In id, this message translates to:
+  /// **'Adzan singkat'**
+  String get soundAdhanShort;
+
+  /// No description provided for @fajrAlarmMinutesTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Berapa lama sebelum Subuh'**
+  String get fajrAlarmMinutesTitle;
+
+  /// No description provided for @permissionGrant.
+  ///
+  /// In id, this message translates to:
+  /// **'Izinkan'**
+  String get permissionGrant;
+
+  /// No description provided for @permissionFix.
+  ///
+  /// In id, this message translates to:
+  /// **'Perbaiki'**
+  String get permissionFix;
 }
 
 class _AppLocalizationsDelegate

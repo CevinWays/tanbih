@@ -408,4 +408,51 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get settingsResetAdjustments => 'Kembalikan ke nol';
+
+  @override
+  String preReminderBody(int minutes, String prayer) {
+    return '$minutes menit lagi menuju $prayer';
+  }
+
+  @override
+  String get notificationActivate => 'Aktifkan Notifikasi';
+
+  @override
+  String get notificationActivateSubtitle => 'Ingatkan saat waktu shalat masuk';
+
+  @override
+  String get notificationPerPrayer => 'Notifikasi Tiap Waktu';
+
+  @override
+  String get notificationSound => 'Suara Notifikasi';
+
+  @override
+  String get notificationTest => 'Tes Notifikasi';
+
+  @override
+  String get notificationTestSubtitle => 'Kirim contoh notifikasi sekarang';
+
+  @override
+  String get preReminderTitle => 'Pengingat Awal';
+
+  @override
+  String get preReminderOff => 'Mati';
+
+  @override
+  String get soundSilent => 'Tanpa suara';
+
+  @override
+  String get soundDefault => 'Nada bawaan';
+
+  @override
+  String get soundAdhanShort => 'Adzan singkat';
+
+  @override
+  String get fajrAlarmMinutesTitle => 'Berapa lama sebelum Subuh';
+
+  @override
+  String get permissionGrant => 'Izinkan';
+
+  @override
+  String get permissionFix => 'Perbaiki';
 }

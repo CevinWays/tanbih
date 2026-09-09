@@ -144,5 +144,20 @@
   "hijriOffsetTitle": "Hijri Date Adjustment",
   "hijriOffsetSubtitle": "Shift the Hijri date forward or back",
   "dayOffsetValue": "{days} days",
-  "settingsResetAdjustments": "Reset to zero"
+  "settingsResetAdjustments": "Reset to zero",
+  "preReminderBody": "{minutes} minutes until {prayer}",
+  "notificationActivate": "Activate Notifications",
+  "notificationActivateSubtitle": "Remind me when a prayer time starts",
+  "notificationPerPrayer": "Per-Prayer Notifications",
+  "notificationSound": "Notification Sound",
+  "notificationTest": "Test Notification",
+  "notificationTestSubtitle": "Send a sample notification now",
+  "preReminderTitle": "Early Reminder",
+  "preReminderOff": "Off",
+  "soundSilent": "Silent",
+  "soundDefault": "Default tone",
+  "soundAdhanShort": "Short adhan",
+  "fajrAlarmMinutesTitle": "How long before Fajr",
+  "permissionGrant": "Allow",
+  "permissionFix": "Fix"
 }

@@ -158,5 +158,30 @@
         "type": "int"
       }
     }
-  }
+  },
+  "preReminderBody": "{minutes} menit lagi menuju {prayer}",
+  "@preReminderBody": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      },
+      "prayer": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationActivate": "Aktifkan Notifikasi",
+  "notificationActivateSubtitle": "Ingatkan saat waktu shalat masuk",
+  "notificationPerPrayer": "Notifikasi Tiap Waktu",
+  "notificationSound": "Suara Notifikasi",
+  "notificationTest": "Tes Notifikasi",
+  "notificationTestSubtitle": "Kirim contoh notifikasi sekarang",
+  "preReminderTitle": "Pengingat Awal",
+  "preReminderOff": "Mati",
+  "soundSilent": "Tanpa suara",
+  "soundDefault": "Nada bawaan",
+  "soundAdhanShort": "Adzan singkat",
+  "fajrAlarmMinutesTitle": "Berapa lama sebelum Subuh",
+  "permissionGrant": "Izinkan",
+  "permissionFix": "Perbaiki"
 }

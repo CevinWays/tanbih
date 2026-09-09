@@ -409,4 +409,52 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsResetAdjustments => 'Reset to zero';
+
+  @override
+  String preReminderBody(int minutes, String prayer) {
+    return '$minutes minutes until $prayer';
+  }
+
+  @override
+  String get notificationActivate => 'Activate Notifications';
+
+  @override
+  String get notificationActivateSubtitle =>
+      'Remind me when a prayer time starts';
+
+  @override
+  String get notificationPerPrayer => 'Per-Prayer Notifications';
+
+  @override
+  String get notificationSound => 'Notification Sound';
+
+  @override
+  String get notificationTest => 'Test Notification';
+
+  @override
+  String get notificationTestSubtitle => 'Send a sample notification now';
+
+  @override
+  String get preReminderTitle => 'Early Reminder';
+
+  @override
+  String get preReminderOff => 'Off';
+
+  @override
+  String get soundSilent => 'Silent';
+
+  @override
+  String get soundDefault => 'Default tone';
+
+  @override
+  String get soundAdhanShort => 'Short adhan';
+
+  @override
+  String get fajrAlarmMinutesTitle => 'How long before Fajr';
+
+  @override
+  String get permissionGrant => 'Allow';
+
+  @override
+  String get permissionFix => 'Fix';
 }

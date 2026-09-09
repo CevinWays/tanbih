@@ -25,6 +25,8 @@ import 'package:tanbih/core/network/network_info.dart' as _i598;
 import 'package:tanbih/core/routes/app_router.dart' as _i208;
 import 'package:tanbih/core/services/app_context.dart' as _i596;
 import 'package:tanbih/core/services/clock.dart' as _i457;
+import 'package:tanbih/core/services/notification_service.dart' as _i251;
+import 'package:tanbih/core/services/prayer_schedule_coordinator.dart' as _i969;
 import 'package:tanbih/features/location/data/datasources/city_search_local_data_source.dart'
     as _i33;
 import 'package:tanbih/features/location/data/datasources/city_search_remote_data_source.dart'
@@ -51,6 +53,14 @@ import 'package:tanbih/features/location/domain/usecases/set_manual_city.dart'
     as _i702;
 import 'package:tanbih/features/location/presentation/bloc/location_bloc.dart'
     as _i605;
+import 'package:tanbih/features/notification/data/datasources/notification_settings_local_data_source.dart'
+    as _i1041;
+import 'package:tanbih/features/notification/data/repositories/notification_repository_impl.dart'
+    as _i955;
+import 'package:tanbih/features/notification/domain/repositories/notification_repository.dart'
+    as _i390;
+import 'package:tanbih/features/notification/presentation/bloc/notification_settings_cubit.dart'
+    as _i1031;
 import 'package:tanbih/features/prayer_times/data/datasources/adhan_calculator_data_source.dart'
     as _i237;
 import 'package:tanbih/features/prayer_times/data/datasources/calculation_settings_local_data_source.dart'
@@ -123,6 +133,11 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i460.SharedPreferences>(),
       ),
     );
+    gh.lazySingleton<_i1041.NotificationSettingsLocalDataSource>(
+      () => _i1041.NotificationSettingsLocalDataSourceImpl(
+        gh<_i460.SharedPreferences>(),
+      ),
+    );
     gh.lazySingleton<_i33.CitySearchLocalDataSource>(
       () => _i33.CitySearchLocalDataSourceImpl(gh<_i281.AssetBundle>()),
     );
@@ -140,6 +155,11 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i259.HijriDataSource>(),
         gh<_i647.CalculationSettingsLocalDataSource>(),
         gh<_i596.AppContext>(),
+      ),
+    );
+    gh.lazySingleton<_i251.NotificationService>(
+      () => _i251.NotificationServiceImpl(
+        gh<_i163.FlutterLocalNotificationsPlugin>(),
       ),
     );
     gh.lazySingleton<_i598.NetworkInfo>(
@@ -187,6 +207,12 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i596.AppContext>(),
       ),
     );
+    gh.lazySingleton<_i390.NotificationRepository>(
+      () => _i955.NotificationRepositoryImpl(
+        gh<_i1041.NotificationSettingsLocalDataSource>(),
+        gh<_i251.NotificationService>(),
+      ),
+    );
     gh.factory<_i267.PrayerTimesBloc>(
       () => _i267.PrayerTimesBloc(
         gh<_i710.GetPrayerTimesForDate>(),
@@ -213,6 +239,10 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i596.AppContext>(),
       ),
     );
+    gh.lazySingleton<_i1031.NotificationSettingsCubit>(
+      () =>
+          _i1031.NotificationSettingsCubit(gh<_i390.NotificationRepository>()),
+    );
     gh.factory<_i188.EnsureLocationPermission>(
       () => _i188.EnsureLocationPermission(gh<_i790.LocationRepository>()),
     );
@@ -227,6 +257,16 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i702.SetManualCity>(
       () => _i702.SetManualCity(gh<_i790.LocationRepository>()),
+    );
+    gh.lazySingleton<_i969.PrayerScheduleCoordinator>(
+      () => _i969.PrayerScheduleCoordinator(
+        gh<_i812.GetPrayerTimesRange>(),
+        gh<_i34.GetCalculationSettings>(),
+        gh<_i390.NotificationRepository>(),
+        gh<_i251.NotificationService>(),
+        gh<_i457.Clock>(),
+        gh<_i596.AppContext>(),
+      ),
     );
     gh.lazySingleton<_i605.LocationBloc>(
       () => _i605.LocationBloc(

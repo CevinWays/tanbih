@@ -41,14 +41,14 @@ class SettingsScreen extends StatelessWidget {
         SettingTile.navigation(
           title: l10n.settingsNotification,
           subtitle: l10n.settingsNotificationSubtitle,
-          enabled: false,
-          onTap: null,
+          onTap: () => context.router.push(const NotificationSettingsRoute()),
         ),
+        // The Fajr alarm lives inside the notification screen, which is
+        // where its permissions and sound already are.
         SettingTile.navigation(
           title: l10n.settingsFajrAlarm,
           subtitle: l10n.settingsFajrAlarmSubtitle,
-          enabled: false,
-          onTap: null,
+          onTap: () => context.router.push(const NotificationSettingsRoute()),
         ),
         SettingTile.navigation(
           title: l10n.settingsSilent,
