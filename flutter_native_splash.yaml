@@ -1,0 +1,17 @@
+# Cold-start splash. Matches the brand board: the mark on the navy ground,
+# so there is no colour jump between the system splash and the app.
+#
+# The Figma splash frame (node 1:44) carries another app's copy — "Prayer
+# Reminder / Bringing you closer to Allah" — which is deliberately not used.
+flutter_native_splash:
+  color: "#131C2E"
+  image: assets/images/logo_mark_foreground.png
+
+  android_12:
+    color: "#131C2E"
+    image: assets/images/logo_mark_foreground.png
+    icon_background_color: "#131C2E"
+
+  android: true
+  ios: false
+  web: false

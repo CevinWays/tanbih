@@ -96,5 +96,13 @@
   "previousPrayer": "Previous prayer",
   "nextPrayerAction": "Next prayer",
   "openSettings": "Open settings",
-  "openMenu": "Open menu"
+  "openMenu": "Open menu",
+  "menuFeedback": "Feedback",
+  "menuFeedbackSubtitle": "Share your thoughts with us",
+  "menuRateUs": "Rate Us",
+  "menuRateUsSubtitle": "Your experience on the app",
+  "menuShareApp": "Share App",
+  "menuShareAppSubtitle": "Help your friends become better Muslims",
+  "menuFinancialSupport": "Financial Support",
+  "menuFinancialSupportSubtitle": "Anyone can support and become part of sadaqah jariyah"
 }

@@ -47,6 +47,8 @@ dependencies:
 
   # ui
   flutter_svg: ^2.0.0
+  # Used at runtime by bootstrap() to hold the splash across startup.
+  flutter_native_splash: ^2.4.0
   flutter_screenutil: ^5.9.3
 
   # storage & utils
@@ -70,7 +72,6 @@ dev_dependencies:
   bloc_test: ^10.0.0
   mocktail: ^1.0.4
   flutter_launcher_icons: ^0.14.1
-  flutter_native_splash: ^2.4.0
 
 flutter:
   uses-material-design: true

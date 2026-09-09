@@ -256,4 +256,30 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get openMenu => 'Buka menu';
+
+  @override
+  String get menuFeedback => 'Masukan';
+
+  @override
+  String get menuFeedbackSubtitle => 'Sampaikan pendapatmu ke kami';
+
+  @override
+  String get menuRateUs => 'Beri Rating';
+
+  @override
+  String get menuRateUsSubtitle => 'Pengalamanmu memakai aplikasi';
+
+  @override
+  String get menuShareApp => 'Bagikan Aplikasi';
+
+  @override
+  String get menuShareAppSubtitle =>
+      'Bantu temanmu jadi muslim yang lebih baik';
+
+  @override
+  String get menuFinancialSupport => 'Dukungan Dana';
+
+  @override
+  String get menuFinancialSupportSubtitle =>
+      'Siapa pun bisa mendukung dan jadi bagian dari sadaqah jariyah';
 }

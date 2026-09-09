@@ -71,6 +71,8 @@ import 'package:tanbih/features/prayer_times/domain/usecases/get_today_prayer_ti
     as _i378;
 import 'package:tanbih/features/prayer_times/domain/usecases/save_calculation_settings.dart'
     as _i105;
+import 'package:tanbih/features/prayer_times/presentation/bloc/monthly_schedule_cubit.dart'
+    as _i678;
 import 'package:tanbih/features/prayer_times/presentation/bloc/next_prayer_countdown_cubit.dart'
     as _i913;
 import 'package:tanbih/features/prayer_times/presentation/bloc/prayer_times_bloc.dart'
@@ -185,6 +187,13 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i457.Clock>(),
       ),
     );
+    gh.factory<_i678.MonthlyScheduleCubit>(
+      () => _i678.MonthlyScheduleCubit(
+        gh<_i812.GetPrayerTimesRange>(),
+        gh<_i34.GetCalculationSettings>(),
+        gh<_i457.Clock>(),
+      ),
+    );
     gh.lazySingleton<_i790.LocationRepository>(
       () => _i206.LocationRepositoryImpl(
         gh<_i420.GeolocatorLocationDataSource>(),
@@ -211,7 +220,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i702.SetManualCity>(
       () => _i702.SetManualCity(gh<_i790.LocationRepository>()),
     );
-    gh.factory<_i605.LocationBloc>(
+    gh.lazySingleton<_i605.LocationBloc>(
       () => _i605.LocationBloc(
         gh<_i628.GetCurrentLocation>(),
         gh<_i1039.GetCachedLocation>(),

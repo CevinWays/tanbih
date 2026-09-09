@@ -96,5 +96,13 @@
   "previousPrayer": "Waktu sebelumnya",
   "nextPrayerAction": "Waktu berikutnya",
   "openSettings": "Buka pengaturan",
-  "openMenu": "Buka menu"
+  "openMenu": "Buka menu",
+  "menuFeedback": "Masukan",
+  "menuFeedbackSubtitle": "Sampaikan pendapatmu ke kami",
+  "menuRateUs": "Beri Rating",
+  "menuRateUsSubtitle": "Pengalamanmu memakai aplikasi",
+  "menuShareApp": "Bagikan Aplikasi",
+  "menuShareAppSubtitle": "Bantu temanmu jadi muslim yang lebih baik",
+  "menuFinancialSupport": "Dukungan Dana",
+  "menuFinancialSupportSubtitle": "Siapa pun bisa mendukung dan jadi bagian dari sadaqah jariyah"
 }

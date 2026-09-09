@@ -18,6 +18,7 @@ class HomeHeader extends StatelessWidget {
     this.onLocationTap,
     this.onSettingsTap,
     this.onMenuTap,
+    this.onDateTap,
     this.isRefreshingLocation = false,
   });
 
@@ -33,6 +34,10 @@ class HomeHeader extends StatelessWidget {
   final VoidCallback? onLocationTap;
   final VoidCallback? onSettingsTap;
   final VoidCallback? onMenuTap;
+
+  /// Opens the whole month. The date row is the natural affordance for it.
+  final VoidCallback? onDateTap;
+
   final bool isRefreshingLocation;
 
   @override
@@ -87,18 +92,25 @@ class HomeHeader extends StatelessWidget {
                 ],
               ),
               Expanded(child: Center(child: child)),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  if (gregorian != null)
-                    Text(gregorian, style: AppTextStyle.onHeaderCaption),
-                  if (hijriDate != null)
-                    Text(
-                      '${hijriDate!.day} ${hijriDate!.monthName} '
-                      '${hijriDate!.year}',
-                      style: AppTextStyle.onHeaderCaption,
-                    ),
-                ],
+              InkWell(
+                onTap: onDateTap,
+                borderRadius: BorderRadius.circular(AppSpacing.radiusSm),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      if (gregorian != null)
+                        Text(gregorian, style: AppTextStyle.onHeaderCaption),
+                      if (hijriDate != null)
+                        Text(
+                          '${hijriDate!.day} ${hijriDate!.monthName} '
+                          '${hijriDate!.year}',
+                          style: AppTextStyle.onHeaderCaption,
+                        ),
+                    ],
+                  ),
+                ),
               ),
               const SizedBox(height: AppSpacing.sm),
             ],

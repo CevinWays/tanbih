@@ -1,0 +1,23 @@
+# Launcher icon, generated from the Tanbih brand mark in Figma.
+#
+# The mark is a mint bell inside two signal rings on the brand's navy ground.
+# The rings are barely lighter than that navy on purpose, so the adaptive
+# background colour has to match it exactly or they disappear.
+flutter_launcher_icons:
+  android: true
+  ios: false # iOS is not a target yet; revisit when that phase starts.
+
+  # Legacy icon: the mark already sits on its navy ground.
+  image_path: "assets/images/logo_mark.png"
+
+  # Adaptive icon: transparent mark over the same navy.
+  adaptive_icon_background: "#131C2E"
+  adaptive_icon_foreground: "assets/images/logo_mark_foreground.png"
+  # Android masks adaptive icons down to a ~66% safe zone; without an inset
+  # the outer signal ring gets clipped off on round-mask launchers.
+  adaptive_icon_foreground_inset: 18
+
+  # Monochrome (Android 13 themed icons) reuses the foreground silhouette.
+  adaptive_icon_monochrome: "assets/images/logo_mark_foreground.png"
+
+  remove_alpha_ios: true

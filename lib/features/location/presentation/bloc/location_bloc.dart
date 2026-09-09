@@ -12,7 +12,11 @@ import 'location_event.dart';
 import 'location_state.dart';
 
 /// Owns the location the schedule is computed for.
-@injectable
+///
+/// A singleton because it is app-wide state: Home, the monthly table, and
+/// the settings screens all read the same resolved location, and re-running
+/// GPS resolution per screen would be both slow and wrong.
+@lazySingleton
 class LocationBloc extends Bloc<LocationEvent, LocationState> {
   LocationBloc(
     this._getCurrentLocation,

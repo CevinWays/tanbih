@@ -577,6 +577,54 @@ abstract class AppLocalizations {
   /// In id, this message translates to:
   /// **'Buka menu'**
   String get openMenu;
+
+  /// No description provided for @menuFeedback.
+  ///
+  /// In id, this message translates to:
+  /// **'Masukan'**
+  String get menuFeedback;
+
+  /// No description provided for @menuFeedbackSubtitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Sampaikan pendapatmu ke kami'**
+  String get menuFeedbackSubtitle;
+
+  /// No description provided for @menuRateUs.
+  ///
+  /// In id, this message translates to:
+  /// **'Beri Rating'**
+  String get menuRateUs;
+
+  /// No description provided for @menuRateUsSubtitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Pengalamanmu memakai aplikasi'**
+  String get menuRateUsSubtitle;
+
+  /// No description provided for @menuShareApp.
+  ///
+  /// In id, this message translates to:
+  /// **'Bagikan Aplikasi'**
+  String get menuShareApp;
+
+  /// No description provided for @menuShareAppSubtitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Bantu temanmu jadi muslim yang lebih baik'**
+  String get menuShareAppSubtitle;
+
+  /// No description provided for @menuFinancialSupport.
+  ///
+  /// In id, this message translates to:
+  /// **'Dukungan Dana'**
+  String get menuFinancialSupport;
+
+  /// No description provided for @menuFinancialSupportSubtitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Siapa pun bisa mendukung dan jadi bagian dari sadaqah jariyah'**
+  String get menuFinancialSupportSubtitle;
 }
 
 class _AppLocalizationsDelegate

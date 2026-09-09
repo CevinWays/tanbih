@@ -258,4 +258,29 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get openMenu => 'Open menu';
+
+  @override
+  String get menuFeedback => 'Feedback';
+
+  @override
+  String get menuFeedbackSubtitle => 'Share your thoughts with us';
+
+  @override
+  String get menuRateUs => 'Rate Us';
+
+  @override
+  String get menuRateUsSubtitle => 'Your experience on the app';
+
+  @override
+  String get menuShareApp => 'Share App';
+
+  @override
+  String get menuShareAppSubtitle => 'Help your friends become better Muslims';
+
+  @override
+  String get menuFinancialSupport => 'Financial Support';
+
+  @override
+  String get menuFinancialSupportSubtitle =>
+      'Anyone can support and become part of sadaqah jariyah';
 }

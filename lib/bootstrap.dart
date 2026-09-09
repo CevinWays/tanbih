@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:talker_bloc_logger/talker_bloc_logger.dart';
 import 'package:talker_flutter/talker_flutter.dart';
@@ -19,7 +20,11 @@ import 'core/services/app_context.dart';
 /// build a `TZDateTime`, and DI has to be configured before the widget tree
 /// resolves a bloc.
 Future<void> bootstrap() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  final binding = WidgetsFlutterBinding.ensureInitialized();
+
+  // Hold the native splash across startup instead of flashing an empty frame
+  // while the timezone database loads and DI is wired.
+  FlutterNativeSplash.preserve(widgetsBinding: binding);
 
   final timeZoneId = await _initTimeZone();
   await configureDependencies();
@@ -41,6 +46,7 @@ Future<void> bootstrap() async {
   };
 
   runApp(TanbihApp());
+  FlutterNativeSplash.remove();
 }
 
 /// Loads the tz database, pins the local zone, and returns its IANA name.

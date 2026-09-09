@@ -5,6 +5,8 @@ import 'core/di/injector.dart';
 import 'core/l10n/generated/app_localizations.dart';
 import 'core/routes/app_router.dart';
 import 'core/styles/styles.dart';
+import 'features/location/presentation/bloc/location_bloc.dart';
+import 'features/location/presentation/bloc/location_event.dart';
 import 'features/settings/presentation/bloc/locale_cubit.dart';
 import 'features/settings/presentation/bloc/theme_cubit.dart';
 
@@ -19,6 +21,9 @@ class TanbihApp extends StatelessWidget {
       providers: [
         BlocProvider.value(value: sl<LocaleCubit>()),
         BlocProvider.value(value: sl<ThemeCubit>()),
+        BlocProvider.value(
+          value: sl<LocationBloc>()..add(const LocationStartupRequested()),
+        ),
       ],
       child: BlocBuilder<LocaleCubit, Locale?>(
         builder: (context, locale) {

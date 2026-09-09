@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/di/injector.dart';
 import '../../../../core/enums/prayer_slot.dart';
 import '../../../../core/l10n/l10n_extension.dart';
+import '../../../../core/routes/app_router.gr.dart';
 import '../../../../core/styles/styles.dart';
 import '../../../location/presentation/bloc/location_bloc.dart';
 import '../../../location/presentation/bloc/location_event.dart';
@@ -28,10 +29,6 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (_) =>
-              sl<LocationBloc>()..add(const LocationStartupRequested()),
-        ),
         BlocProvider(create: (_) => sl<PrayerTimesBloc>()),
         BlocProvider(create: (_) => sl<NextPrayerCountdownCubit>()),
       ],
@@ -104,6 +101,8 @@ class _HomeBody extends StatelessWidget {
               onLocationTap: () => context.read<LocationBloc>().add(
                 const LocationRefreshRequested(),
               ),
+              onMenuTap: () => context.router.push(const MenuRoute()),
+              onDateTap: () => context.router.push(const AllPrayerRoute()),
               child: PrayerCountdownCarousel(
                 entries: times?.prayerEntries ?? const [],
                 nextSlot: countdown.slot,

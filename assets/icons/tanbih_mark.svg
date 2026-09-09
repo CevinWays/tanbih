@@ -1,0 +1,21 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="140" height="140" viewBox="0 0 140 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="logo-mark-container">
+<circle id="pulse-ring-outer" cx="70.0004" cy="64.1701" r="57.185" stroke="#7AC793" stroke-opacity="0.133333" stroke-width="2.33"/>
+<circle id="pulse-ring-inner" cx="70" cy="64.17" r="40.835" stroke="#7AC793" stroke-opacity="0.266667" stroke-width="2.33"/>
+<g id="bell-structure">
+<path id="bell-dome" d="M46.665 63C46.665 50.1152 57.1152 39.67 70 39.67V39.67C82.8848 39.67 93.335 50.1152 93.335 63V72.33C93.335 74.9092 91.2442 77 88.665 77H51.335C48.7558 77 46.665 74.9092 46.665 72.33V63Z" fill="url(#paint0_linear_0_4)"/>
+<rect id="bell-flare" x="42" y="77" width="56" height="7" rx="3.5" fill="url(#paint1_linear_0_4)"/>
+<circle id="bell-clapper" cx="70" cy="92.165" r="8.165" fill="#7AC793"/>
+</g>
+</g>
+<defs>
+<linearGradient id="paint0_linear_0_4" x1="70" y1="39.67" x2="70" y2="77" gradientUnits="userSpaceOnUse">
+<stop stop-color="#2DB1B3"/>
+<stop offset="1" stop-color="#7AC793"/>
+</linearGradient>
+<linearGradient id="paint1_linear_0_4" x1="70" y1="77" x2="70" y2="84" gradientUnits="userSpaceOnUse">
+<stop stop-color="#2DB1B3"/>
+<stop offset="1" stop-color="#7AC793"/>
+</linearGradient>
+</defs>
+</svg>

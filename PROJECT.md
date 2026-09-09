@@ -83,3 +83,14 @@ Jangan diimplement mentah.
 
 - Jadwal acuan uji akurasi: https://bimasislam.kemenag.go.id/jadwalshalat (toleransi ±1 menit)
 - Pola arsitektur diambil dari `~/Developer/lessworry-mobile`
+
+## Deviasi dari desain (disengaja, dicatat untuk ditinjau ulang)
+
+| Bagian | Deviasi | Alasan |
+|---|---|---|
+| Watermark baris jadwal | SVG 561 KB (satu path) diganti PNG 10 KB hasil render Figma | Merender path sebesar itu 5× per layar adalah risiko jank yang persis diperingatkan di plan |
+| Ikon tile Menu | Pakai Material Icons, bukan ikon Figma | 5 dari 6 tile berstatus "Segera". Ikon aslinya diexport saat fiturnya dibangun |
+| Splash | Native splash (brand navy + mark), bukan layar Dart | Frame splash Figma (`1:44`) isinya copy app lain. Native splash menutup cold start tanpa flash |
+| Baris "Other" di Menu | Ditandai "Segera" | Feedback/Rate/Share/Support membuka target di luar app; wiring-nya di phase rilis |
+| Qibla | Masih "Segera" di Menu | Dibangun di phase-nya sendiri bersama `flutter_qiblah` |
+| Dark mode | Diturunkan dari navy brand board | Desain belum menyediakan varian gelap — **butuh review** |
