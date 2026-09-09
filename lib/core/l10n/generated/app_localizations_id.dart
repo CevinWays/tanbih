@@ -229,4 +229,31 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get errorUnexpected => 'Terjadi kesalahan tak terduga';
+
+  @override
+  String get suhoorLabel => 'Imsak';
+
+  @override
+  String get iftaarLabel => 'Berbuka';
+
+  @override
+  String get allPrayersTitle => 'Semua Waktu Shalat';
+
+  @override
+  String get notificationOn => 'Notifikasi aktif';
+
+  @override
+  String get notificationOff => 'Notifikasi mati';
+
+  @override
+  String get previousPrayer => 'Waktu sebelumnya';
+
+  @override
+  String get nextPrayerAction => 'Waktu berikutnya';
+
+  @override
+  String get openSettings => 'Buka pengaturan';
+
+  @override
+  String get openMenu => 'Buka menu';
 }

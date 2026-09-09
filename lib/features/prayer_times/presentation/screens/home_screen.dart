@@ -2,114 +2,203 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/di/injector.dart';
+import '../../../../core/enums/prayer_slot.dart';
 import '../../../../core/l10n/l10n_extension.dart';
 import '../../../../core/styles/styles.dart';
-import '../../../settings/presentation/bloc/locale_cubit.dart';
-import '../../../settings/presentation/bloc/theme_cubit.dart';
+import '../../../location/presentation/bloc/location_bloc.dart';
+import '../../../location/presentation/bloc/location_event.dart';
+import '../../../location/presentation/bloc/location_state.dart';
+import '../../domain/entities/daily_prayer_times.dart';
+import '../bloc/next_prayer_countdown_cubit.dart';
+import '../bloc/prayer_times_bloc.dart';
+import '../bloc/prayer_times_event.dart';
+import '../bloc/prayer_times_state.dart';
+import '../widgets/home_header.dart';
+import '../widgets/prayer_countdown_carousel.dart';
+import '../widgets/prayer_row_tile.dart';
+import '../widgets/suhoor_iftaar_card.dart';
 
-/// Placeholder shell for the Home screen.
-///
-/// Phase 1 only proves the wiring: theme tokens, localization, DI, and
-/// routing. The real layout (glassmorphism countdown carousel, prayer list,
-/// per-prayer theming) lands in Phase 4 from Figma nodes 1:66 / 2002:53285.
+/// The main screen: today's schedule for the current location.
 @RoutePage()
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    final locale = context.watch<LocaleCubit>().state;
-    final themeMode = context.watch<ThemeCubit>().state;
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (_) =>
+              sl<LocationBloc>()..add(const LocationStartupRequested()),
+        ),
+        BlocProvider(create: (_) => sl<PrayerTimesBloc>()),
+        BlocProvider(create: (_) => sl<NextPrayerCountdownCubit>()),
+      ],
+      child: const _HomeView(),
+    );
+  }
+}
 
+class _HomeView extends StatelessWidget {
+  const _HomeView();
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(AppSpacing.screenPadding),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Center(
-                child: Container(
-                  width: AppSpacing.countdownDiameter,
-                  height: AppSpacing.countdownDiameter,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    gradient: AppGradients.primary,
-                  ),
-                  child: Center(
-                    child: Text(
-                      l10n.appName,
-                      style: AppTextStyle.wordmark.copyWith(
-                        color: AppColors.textOnBrand,
-                      ),
-                    ),
-                  ),
+      // The location feed drives everything else: once a position resolves,
+      // the schedule is recomputed for it.
+      body: MultiBlocListener(
+        listeners: [
+          BlocListener<LocationBloc, LocationState>(
+            listenWhen: (previous, current) =>
+                current.location != null &&
+                previous.location != current.location,
+            listener: (context, state) {
+              final location = state.location!;
+              context.read<PrayerTimesBloc>().add(
+                PrayerTimesLoadRequested(
+                  latitude: location.latitude,
+                  longitude: location.longitude,
+                  timeZoneId: location.timeZoneId,
                 ),
-              ),
-              const SizedBox(height: AppSpacing.xxl),
-              Text(
-                l10n.appTagline,
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
-              const SizedBox(height: AppSpacing.xxxl),
-              _LanguageSwitcher(current: locale),
-              const SizedBox(height: AppSpacing.lg),
-              _ThemeSwitcher(current: themeMode),
-            ],
+              );
+            },
           ),
+          BlocListener<PrayerTimesBloc, PrayerTimesState>(
+            listenWhen: (previous, current) =>
+                current.times != null && previous.times != current.times,
+            listener: (context, state) =>
+                context.read<NextPrayerCountdownCubit>().track(state.times!),
+          ),
+        ],
+        child: const _HomeBody(),
+      ),
+    );
+  }
+}
+
+class _HomeBody extends StatelessWidget {
+  const _HomeBody();
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final locationState = context.watch<LocationBloc>().state;
+    final prayerState = context.watch<PrayerTimesBloc>().state;
+    final countdown = context.watch<NextPrayerCountdownCubit>().state;
+
+    final times = prayerState.times;
+
+    return ColoredBox(
+      color: AppColors.surfaceLight,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            HomeHeader(
+              locationLabel:
+                  locationState.location?.displayName ?? l10n.locationUnknown,
+              isRefreshingLocation: locationState.isRefreshing,
+              date: prayerState.selectedDate,
+              hijriDate: times?.hijriDate,
+              onLocationTap: () => context.read<LocationBloc>().add(
+                const LocationRefreshRequested(),
+              ),
+              child: PrayerCountdownCarousel(
+                entries: times?.prayerEntries ?? const [],
+                nextSlot: countdown.slot,
+                remaining: countdown.remaining,
+              ),
+            ),
+            const SizedBox(height: AppSpacing.xxl),
+            switch (prayerState.status) {
+              PrayerTimesStatus.success => _Schedule(
+                times: times!,
+                currentSlot: _currentSlot(times, countdown.slot),
+              ),
+              PrayerTimesStatus.failure => _ScheduleMessage(
+                message: prayerState.failure?.message.isNotEmpty ?? false
+                    ? prayerState.failure!.message
+                    : l10n.errorCalculation,
+              ),
+              PrayerTimesStatus.loading ||
+              PrayerTimesStatus.initial => const Padding(
+                padding: EdgeInsets.all(AppSpacing.xxxl),
+                child: CircularProgressIndicator(),
+              ),
+            },
+            const SizedBox(height: AppSpacing.huge),
+          ],
         ),
       ),
     );
   }
 }
 
-class _LanguageSwitcher extends StatelessWidget {
-  const _LanguageSwitcher({required this.current});
+/// The prayer in effect right now — the one just before the countdown's
+/// target.
+///
+/// Derived from the countdown rather than from `DateTime.now()` so it
+/// advances on the same tick the countdown does, and so nothing here reads
+/// the clock directly.
+PrayerSlot? _currentSlot(DailyPrayerTimes times, PrayerSlot? nextSlot) {
+  final prayers = times.prayerEntries;
+  if (nextSlot == null) return prayers.isEmpty ? null : prayers.last.slot;
 
-  final Locale? current;
+  final index = prayers.indexWhere((e) => e.slot == nextSlot);
+  return index <= 0 ? null : prayers[index - 1].slot;
+}
+
+class _Schedule extends StatelessWidget {
+  const _Schedule({required this.times, this.currentSlot});
+
+  final DailyPrayerTimes times;
+  final PrayerSlot? currentSlot;
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    return SegmentedButton<String>(
-      segments: [
-        ButtonSegment(value: 'system', label: Text(l10n.languageFollowSystem)),
-        ButtonSegment(value: 'id', label: Text(l10n.languageIndonesian)),
-        ButtonSegment(value: 'en', label: Text(l10n.languageEnglish)),
-      ],
-      selected: {current?.languageCode ?? 'system'},
-      showSelectedIcon: false,
-      onSelectionChanged: (selection) {
-        final code = selection.first;
-        context.read<LocaleCubit>().setLocale(
-          code == 'system' ? null : Locale(code),
-        );
-      },
+    final imsak = times.entryFor(PrayerSlot.imsak);
+    final maghrib = times.entryFor(PrayerSlot.maghrib);
+
+    return SizedBox(
+      width: AppSpacing.contentWidth,
+      child: Column(
+        children: [
+          if (imsak != null && maghrib != null)
+            SuhoorIftaarCard(suhoor: imsak.time, iftaar: maghrib.time),
+          const SizedBox(height: AppSpacing.xl),
+          // Only the prayers: imsak already has its own card above, and
+          // sunrise is shown on the All Prayer screen rather than here.
+          for (final entry in times.prayerEntries) ...[
+            PrayerRowTile(
+              entry: entry,
+              highlighted: entry.slot == currentSlot,
+              // Per-prayer notification switching arrives with the
+              // notification feature; the control is inert until then.
+              notificationEnabled: true,
+            ),
+            const SizedBox(height: AppSpacing.lg),
+          ],
+        ],
+      ),
     );
   }
 }
 
-class _ThemeSwitcher extends StatelessWidget {
-  const _ThemeSwitcher({required this.current});
+class _ScheduleMessage extends StatelessWidget {
+  const _ScheduleMessage({required this.message});
 
-  final ThemeMode current;
+  final String message;
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    return SegmentedButton<ThemeMode>(
-      segments: [
-        ButtonSegment(value: ThemeMode.system, label: Text(l10n.themeSystem)),
-        ButtonSegment(value: ThemeMode.light, label: Text(l10n.themeLight)),
-        ButtonSegment(value: ThemeMode.dark, label: Text(l10n.themeDark)),
-      ],
-      selected: {current},
-      showSelectedIcon: false,
-      onSelectionChanged: (selection) =>
-          context.read<ThemeCubit>().setThemeMode(selection.first),
+    return Padding(
+      padding: const EdgeInsets.all(AppSpacing.xxxl),
+      child: Text(
+        message,
+        textAlign: TextAlign.center,
+        style: Theme.of(context).textTheme.bodyMedium,
+      ),
     );
   }
 }

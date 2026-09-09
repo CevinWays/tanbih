@@ -122,11 +122,34 @@ abstract final class AppTextStyle {
     color: Colors.white,
   );
 
+  /// Prayer name in the schedule list.
+  static const TextStyle rowLabel = TextStyle(
+    fontFamily: fontBody,
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: AppColors.textPrimary,
+  );
+
+  /// Small caption on the gradient header (dates, location).
+  static const TextStyle onHeaderCaption = TextStyle(
+    fontFamily: fontBody,
+    fontSize: 12,
+    fontWeight: FontWeight.w500,
+    color: Colors.white,
+  );
+
+  static const TextStyle onHeaderLabel = TextStyle(
+    fontFamily: fontBody,
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: Colors.white,
+  );
+
   /// Prayer time in the schedule list — tabular so digits do not jitter as
   /// the countdown ticks.
   static const TextStyle prayerTime = TextStyle(
     fontFamily: fontBody,
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: FontWeight.w600,
     fontFeatures: [FontFeature.tabularFigures()],
     color: AppColors.textPrimary,

@@ -87,5 +87,14 @@
   "errorNoInternet": "No internet connection",
   "errorNoInternetBody": "Prayer times work fine offline. Some features such as city search need a connection.",
   "errorCalculation": "Could not calculate prayer times",
-  "errorUnexpected": "Something went wrong"
+  "errorUnexpected": "Something went wrong",
+  "suhoorLabel": "Suhoor",
+  "iftaarLabel": "Iftar",
+  "allPrayersTitle": "All Prayer Times",
+  "notificationOn": "Notification on",
+  "notificationOff": "Notification off",
+  "previousPrayer": "Previous prayer",
+  "nextPrayerAction": "Next prayer",
+  "openSettings": "Open settings",
+  "openMenu": "Open menu"
 }

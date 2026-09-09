@@ -28,4 +28,17 @@ abstract final class AppSpacing {
 
   /// Diameter of the circular countdown in the Home carousel.
   static const double countdownDiameter = 180;
+
+  /// Inner ring inside the countdown circle.
+  static const double countdownRingDiameter = 161;
+
+  /// Height of the gradient header on Home, and the radius of its bottom
+  /// corners. Taken from the Figma frame.
+  static const double headerHeight = 332;
+  static const double headerRadius = 40;
+  static const double headerBorder = 10;
+
+  /// Content column width on Home. The design centres a fixed-width column
+  /// rather than stretching to the screen edges.
+  static const double contentWidth = 306;
 }

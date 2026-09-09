@@ -523,6 +523,60 @@ abstract class AppLocalizations {
   /// In id, this message translates to:
   /// **'Terjadi kesalahan tak terduga'**
   String get errorUnexpected;
+
+  /// No description provided for @suhoorLabel.
+  ///
+  /// In id, this message translates to:
+  /// **'Imsak'**
+  String get suhoorLabel;
+
+  /// No description provided for @iftaarLabel.
+  ///
+  /// In id, this message translates to:
+  /// **'Berbuka'**
+  String get iftaarLabel;
+
+  /// No description provided for @allPrayersTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Semua Waktu Shalat'**
+  String get allPrayersTitle;
+
+  /// No description provided for @notificationOn.
+  ///
+  /// In id, this message translates to:
+  /// **'Notifikasi aktif'**
+  String get notificationOn;
+
+  /// No description provided for @notificationOff.
+  ///
+  /// In id, this message translates to:
+  /// **'Notifikasi mati'**
+  String get notificationOff;
+
+  /// No description provided for @previousPrayer.
+  ///
+  /// In id, this message translates to:
+  /// **'Waktu sebelumnya'**
+  String get previousPrayer;
+
+  /// No description provided for @nextPrayerAction.
+  ///
+  /// In id, this message translates to:
+  /// **'Waktu berikutnya'**
+  String get nextPrayerAction;
+
+  /// No description provided for @openSettings.
+  ///
+  /// In id, this message translates to:
+  /// **'Buka pengaturan'**
+  String get openSettings;
+
+  /// No description provided for @openMenu.
+  ///
+  /// In id, this message translates to:
+  /// **'Buka menu'**
+  String get openMenu;
 }
 
 class _AppLocalizationsDelegate

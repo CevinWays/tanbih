@@ -231,4 +231,31 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get errorUnexpected => 'Something went wrong';
+
+  @override
+  String get suhoorLabel => 'Suhoor';
+
+  @override
+  String get iftaarLabel => 'Iftar';
+
+  @override
+  String get allPrayersTitle => 'All Prayer Times';
+
+  @override
+  String get notificationOn => 'Notification on';
+
+  @override
+  String get notificationOff => 'Notification off';
+
+  @override
+  String get previousPrayer => 'Previous prayer';
+
+  @override
+  String get nextPrayerAction => 'Next prayer';
+
+  @override
+  String get openSettings => 'Open settings';
+
+  @override
+  String get openMenu => 'Open menu';
 }

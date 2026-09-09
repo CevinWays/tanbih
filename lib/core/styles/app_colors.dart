@@ -20,8 +20,9 @@ abstract final class AppColors {
   static const Color textPrimaryDark = Color(0xFFF2F4F5);
   static const Color textSecondaryDark = Color(0xFFA8B0B5);
 
-  // Surfaces — light
-  static const Color surfaceLight = Color(0xFFF6FAFB);
+  // Surfaces — light. The page ground comes straight from the Figma Home
+  // frame; the brand gradient header sits on top of it.
+  static const Color surfaceLight = Color(0xFFE2F4F7);
   static const Color cardLight = Color(0xFFFFFFFF);
 
   // Surfaces — dark, taken from the brand board's navy ground
@@ -32,6 +33,10 @@ abstract final class AppColors {
   static const Color glassFill = Color(0x40FFFFFF); // rgba(255,255,255,0.25)
   static const Color glassBorder = Color(0x1AFFFFFF); // rgba(255,255,255,0.10)
   static const Color glassFillStrong = Color(0x80FFFFFF); // 0.50
+
+  /// Border drawn around the gradient header — a translucent mint that
+  /// softens where the header meets the page ground.
+  static const Color headerEdge = Color(0x4079C794); // rgba(121,199,148,0.25)
   static const Color glassBorderStrong = Color(0x40FFFFFF); // 0.25
 
   static const Color glassFillDark = Color(0x1FFFFFFF);
