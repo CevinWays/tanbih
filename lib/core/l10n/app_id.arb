@@ -104,5 +104,59 @@
   "menuShareApp": "Bagikan Aplikasi",
   "menuShareAppSubtitle": "Bantu temanmu jadi muslim yang lebih baik",
   "menuFinancialSupport": "Dukungan Dana",
-  "menuFinancialSupportSubtitle": "Siapa pun bisa mendukung dan jadi bagian dari sadaqah jariyah"
+  "menuFinancialSupportSubtitle": "Siapa pun bisa mendukung dan jadi bagian dari sadaqah jariyah",
+  "settingsCalculations": "Perhitungan",
+  "settingsTimes": "Waktu",
+  "settingsMethods": "Metode Perhitungan",
+  "settingsJuristicMethod": "Mazhab (Ashar)",
+  "settingsHigherLatitude": "Penyesuaian Lintang Tinggi",
+  "settingsRamadanIsha": "Sesuaikan Isya saat Ramadan",
+  "settingsRamadanIshaSubtitle": "Tambah 30 menit ke waktu Isya selama Ramadan pada metode Umm Al-Qura",
+  "settingsDst": "Penyesuaian Daylight Saving",
+  "settingsDstSubtitle": "Geser 1 jam untuk waktu musim panas (DST)",
+  "settingsJumuah": "Waktu Shalat Jumat",
+  "settingsJumuahSubtitle": "Isi waktu Jumat sesuai masjidmu",
+  "settingsManualAdjustments": "Koreksi Waktu Manual",
+  "settingsManualAdjustmentsSubtitle": "Geser waktu shalat secara manual",
+  "settingsImsakOffset": "Selisih Imsak",
+  "settingsImsakOffsetSubtitle": "Berapa menit sebelum Subuh",
+  "madhabShafi": "Syafi'i",
+  "madhabHanafi": "Hanafi",
+  "highLatMiddle": "Tengah Malam",
+  "highLatSeventh": "Sepertujuh Malam",
+  "highLatTwilight": "Sudut Senja",
+  "methodKemenag": "Kemenag RI",
+  "methodKemenagSubtitle": "Disarankan untuk Indonesia",
+  "methodMwl": "Muslim World League",
+  "methodEgyptian": "Otoritas Survei Mesir",
+  "methodKarachi": "Universitas Ilmu Islam, Karachi",
+  "methodUmmAlQura": "Universitas Umm Al-Qura, Makkah",
+  "methodDubai": "Dubai",
+  "methodMoonsighting": "Moonsighting Committee",
+  "methodIsna": "ISNA (Amerika Utara)",
+  "methodKuwait": "Kuwait",
+  "methodQatar": "Qatar",
+  "methodSingapore": "Singapura",
+  "methodTurkey": "Turki",
+  "methodTehran": "Tehran",
+  "valueNotSet": "Belum diatur",
+  "minutesShort": "{minutes} mnt",
+  "hijriOffsetTitle": "Koreksi Tanggal Hijriah",
+  "hijriOffsetSubtitle": "Geser tanggal Hijriah maju atau mundur",
+  "dayOffsetValue": "{days} hari",
+  "settingsResetAdjustments": "Kembalikan ke nol",
+  "@minutesShort": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "@dayOffsetValue": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  }
 }

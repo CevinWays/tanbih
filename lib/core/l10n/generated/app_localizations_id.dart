@@ -282,4 +282,130 @@ class AppLocalizationsId extends AppLocalizations {
   @override
   String get menuFinancialSupportSubtitle =>
       'Siapa pun bisa mendukung dan jadi bagian dari sadaqah jariyah';
+
+  @override
+  String get settingsCalculations => 'Perhitungan';
+
+  @override
+  String get settingsTimes => 'Waktu';
+
+  @override
+  String get settingsMethods => 'Metode Perhitungan';
+
+  @override
+  String get settingsJuristicMethod => 'Mazhab (Ashar)';
+
+  @override
+  String get settingsHigherLatitude => 'Penyesuaian Lintang Tinggi';
+
+  @override
+  String get settingsRamadanIsha => 'Sesuaikan Isya saat Ramadan';
+
+  @override
+  String get settingsRamadanIshaSubtitle =>
+      'Tambah 30 menit ke waktu Isya selama Ramadan pada metode Umm Al-Qura';
+
+  @override
+  String get settingsDst => 'Penyesuaian Daylight Saving';
+
+  @override
+  String get settingsDstSubtitle => 'Geser 1 jam untuk waktu musim panas (DST)';
+
+  @override
+  String get settingsJumuah => 'Waktu Shalat Jumat';
+
+  @override
+  String get settingsJumuahSubtitle => 'Isi waktu Jumat sesuai masjidmu';
+
+  @override
+  String get settingsManualAdjustments => 'Koreksi Waktu Manual';
+
+  @override
+  String get settingsManualAdjustmentsSubtitle =>
+      'Geser waktu shalat secara manual';
+
+  @override
+  String get settingsImsakOffset => 'Selisih Imsak';
+
+  @override
+  String get settingsImsakOffsetSubtitle => 'Berapa menit sebelum Subuh';
+
+  @override
+  String get madhabShafi => 'Syafi\'i';
+
+  @override
+  String get madhabHanafi => 'Hanafi';
+
+  @override
+  String get highLatMiddle => 'Tengah Malam';
+
+  @override
+  String get highLatSeventh => 'Sepertujuh Malam';
+
+  @override
+  String get highLatTwilight => 'Sudut Senja';
+
+  @override
+  String get methodKemenag => 'Kemenag RI';
+
+  @override
+  String get methodKemenagSubtitle => 'Disarankan untuk Indonesia';
+
+  @override
+  String get methodMwl => 'Muslim World League';
+
+  @override
+  String get methodEgyptian => 'Otoritas Survei Mesir';
+
+  @override
+  String get methodKarachi => 'Universitas Ilmu Islam, Karachi';
+
+  @override
+  String get methodUmmAlQura => 'Universitas Umm Al-Qura, Makkah';
+
+  @override
+  String get methodDubai => 'Dubai';
+
+  @override
+  String get methodMoonsighting => 'Moonsighting Committee';
+
+  @override
+  String get methodIsna => 'ISNA (Amerika Utara)';
+
+  @override
+  String get methodKuwait => 'Kuwait';
+
+  @override
+  String get methodQatar => 'Qatar';
+
+  @override
+  String get methodSingapore => 'Singapura';
+
+  @override
+  String get methodTurkey => 'Turki';
+
+  @override
+  String get methodTehran => 'Tehran';
+
+  @override
+  String get valueNotSet => 'Belum diatur';
+
+  @override
+  String minutesShort(int minutes) {
+    return '$minutes mnt';
+  }
+
+  @override
+  String get hijriOffsetTitle => 'Koreksi Tanggal Hijriah';
+
+  @override
+  String get hijriOffsetSubtitle => 'Geser tanggal Hijriah maju atau mundur';
+
+  @override
+  String dayOffsetValue(int days) {
+    return '$days hari';
+  }
+
+  @override
+  String get settingsResetAdjustments => 'Kembalikan ke nol';
 }

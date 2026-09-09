@@ -71,6 +71,8 @@ import 'package:tanbih/features/prayer_times/domain/usecases/get_today_prayer_ti
     as _i378;
 import 'package:tanbih/features/prayer_times/domain/usecases/save_calculation_settings.dart'
     as _i105;
+import 'package:tanbih/features/prayer_times/presentation/bloc/calculation_settings_cubit.dart'
+    as _i324;
 import 'package:tanbih/features/prayer_times/presentation/bloc/monthly_schedule_cubit.dart'
     as _i678;
 import 'package:tanbih/features/prayer_times/presentation/bloc/next_prayer_countdown_cubit.dart'
@@ -172,6 +174,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i65.ThemeCubit>(
       () => _i65.ThemeCubit(gh<_i335.AppPreferencesLocalDataSource>()),
+    );
+    gh.lazySingleton<_i324.CalculationSettingsCubit>(
+      () => _i324.CalculationSettingsCubit(
+        gh<_i34.GetCalculationSettings>(),
+        gh<_i105.SaveCalculationSettings>(),
+      ),
     );
     gh.lazySingleton<_i431.LocaleCubit>(
       () => _i431.LocaleCubit(

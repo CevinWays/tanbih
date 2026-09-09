@@ -625,6 +625,246 @@ abstract class AppLocalizations {
   /// In id, this message translates to:
   /// **'Siapa pun bisa mendukung dan jadi bagian dari sadaqah jariyah'**
   String get menuFinancialSupportSubtitle;
+
+  /// No description provided for @settingsCalculations.
+  ///
+  /// In id, this message translates to:
+  /// **'Perhitungan'**
+  String get settingsCalculations;
+
+  /// No description provided for @settingsTimes.
+  ///
+  /// In id, this message translates to:
+  /// **'Waktu'**
+  String get settingsTimes;
+
+  /// No description provided for @settingsMethods.
+  ///
+  /// In id, this message translates to:
+  /// **'Metode Perhitungan'**
+  String get settingsMethods;
+
+  /// No description provided for @settingsJuristicMethod.
+  ///
+  /// In id, this message translates to:
+  /// **'Mazhab (Ashar)'**
+  String get settingsJuristicMethod;
+
+  /// No description provided for @settingsHigherLatitude.
+  ///
+  /// In id, this message translates to:
+  /// **'Penyesuaian Lintang Tinggi'**
+  String get settingsHigherLatitude;
+
+  /// No description provided for @settingsRamadanIsha.
+  ///
+  /// In id, this message translates to:
+  /// **'Sesuaikan Isya saat Ramadan'**
+  String get settingsRamadanIsha;
+
+  /// No description provided for @settingsRamadanIshaSubtitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Tambah 30 menit ke waktu Isya selama Ramadan pada metode Umm Al-Qura'**
+  String get settingsRamadanIshaSubtitle;
+
+  /// No description provided for @settingsDst.
+  ///
+  /// In id, this message translates to:
+  /// **'Penyesuaian Daylight Saving'**
+  String get settingsDst;
+
+  /// No description provided for @settingsDstSubtitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Geser 1 jam untuk waktu musim panas (DST)'**
+  String get settingsDstSubtitle;
+
+  /// No description provided for @settingsJumuah.
+  ///
+  /// In id, this message translates to:
+  /// **'Waktu Shalat Jumat'**
+  String get settingsJumuah;
+
+  /// No description provided for @settingsJumuahSubtitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Isi waktu Jumat sesuai masjidmu'**
+  String get settingsJumuahSubtitle;
+
+  /// No description provided for @settingsManualAdjustments.
+  ///
+  /// In id, this message translates to:
+  /// **'Koreksi Waktu Manual'**
+  String get settingsManualAdjustments;
+
+  /// No description provided for @settingsManualAdjustmentsSubtitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Geser waktu shalat secara manual'**
+  String get settingsManualAdjustmentsSubtitle;
+
+  /// No description provided for @settingsImsakOffset.
+  ///
+  /// In id, this message translates to:
+  /// **'Selisih Imsak'**
+  String get settingsImsakOffset;
+
+  /// No description provided for @settingsImsakOffsetSubtitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Berapa menit sebelum Subuh'**
+  String get settingsImsakOffsetSubtitle;
+
+  /// No description provided for @madhabShafi.
+  ///
+  /// In id, this message translates to:
+  /// **'Syafi\'i'**
+  String get madhabShafi;
+
+  /// No description provided for @madhabHanafi.
+  ///
+  /// In id, this message translates to:
+  /// **'Hanafi'**
+  String get madhabHanafi;
+
+  /// No description provided for @highLatMiddle.
+  ///
+  /// In id, this message translates to:
+  /// **'Tengah Malam'**
+  String get highLatMiddle;
+
+  /// No description provided for @highLatSeventh.
+  ///
+  /// In id, this message translates to:
+  /// **'Sepertujuh Malam'**
+  String get highLatSeventh;
+
+  /// No description provided for @highLatTwilight.
+  ///
+  /// In id, this message translates to:
+  /// **'Sudut Senja'**
+  String get highLatTwilight;
+
+  /// No description provided for @methodKemenag.
+  ///
+  /// In id, this message translates to:
+  /// **'Kemenag RI'**
+  String get methodKemenag;
+
+  /// No description provided for @methodKemenagSubtitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Disarankan untuk Indonesia'**
+  String get methodKemenagSubtitle;
+
+  /// No description provided for @methodMwl.
+  ///
+  /// In id, this message translates to:
+  /// **'Muslim World League'**
+  String get methodMwl;
+
+  /// No description provided for @methodEgyptian.
+  ///
+  /// In id, this message translates to:
+  /// **'Otoritas Survei Mesir'**
+  String get methodEgyptian;
+
+  /// No description provided for @methodKarachi.
+  ///
+  /// In id, this message translates to:
+  /// **'Universitas Ilmu Islam, Karachi'**
+  String get methodKarachi;
+
+  /// No description provided for @methodUmmAlQura.
+  ///
+  /// In id, this message translates to:
+  /// **'Universitas Umm Al-Qura, Makkah'**
+  String get methodUmmAlQura;
+
+  /// No description provided for @methodDubai.
+  ///
+  /// In id, this message translates to:
+  /// **'Dubai'**
+  String get methodDubai;
+
+  /// No description provided for @methodMoonsighting.
+  ///
+  /// In id, this message translates to:
+  /// **'Moonsighting Committee'**
+  String get methodMoonsighting;
+
+  /// No description provided for @methodIsna.
+  ///
+  /// In id, this message translates to:
+  /// **'ISNA (Amerika Utara)'**
+  String get methodIsna;
+
+  /// No description provided for @methodKuwait.
+  ///
+  /// In id, this message translates to:
+  /// **'Kuwait'**
+  String get methodKuwait;
+
+  /// No description provided for @methodQatar.
+  ///
+  /// In id, this message translates to:
+  /// **'Qatar'**
+  String get methodQatar;
+
+  /// No description provided for @methodSingapore.
+  ///
+  /// In id, this message translates to:
+  /// **'Singapura'**
+  String get methodSingapore;
+
+  /// No description provided for @methodTurkey.
+  ///
+  /// In id, this message translates to:
+  /// **'Turki'**
+  String get methodTurkey;
+
+  /// No description provided for @methodTehran.
+  ///
+  /// In id, this message translates to:
+  /// **'Tehran'**
+  String get methodTehran;
+
+  /// No description provided for @valueNotSet.
+  ///
+  /// In id, this message translates to:
+  /// **'Belum diatur'**
+  String get valueNotSet;
+
+  /// No description provided for @minutesShort.
+  ///
+  /// In id, this message translates to:
+  /// **'{minutes} mnt'**
+  String minutesShort(int minutes);
+
+  /// No description provided for @hijriOffsetTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Koreksi Tanggal Hijriah'**
+  String get hijriOffsetTitle;
+
+  /// No description provided for @hijriOffsetSubtitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Geser tanggal Hijriah maju atau mundur'**
+  String get hijriOffsetSubtitle;
+
+  /// No description provided for @dayOffsetValue.
+  ///
+  /// In id, this message translates to:
+  /// **'{days} hari'**
+  String dayOffsetValue(int days);
+
+  /// No description provided for @settingsResetAdjustments.
+  ///
+  /// In id, this message translates to:
+  /// **'Kembalikan ke nol'**
+  String get settingsResetAdjustments;
 }
 
 class _AppLocalizationsDelegate

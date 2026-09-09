@@ -11,6 +11,7 @@ import '../../../location/presentation/bloc/location_bloc.dart';
 import '../../../location/presentation/bloc/location_event.dart';
 import '../../../location/presentation/bloc/location_state.dart';
 import '../../domain/entities/daily_prayer_times.dart';
+import '../bloc/calculation_settings_cubit.dart';
 import '../bloc/next_prayer_countdown_cubit.dart';
 import '../bloc/prayer_times_bloc.dart';
 import '../bloc/prayer_times_event.dart';
@@ -62,6 +63,16 @@ class _HomeView extends StatelessWidget {
               );
             },
           ),
+          // Settings live in their own app-wide cubit, so the schedule
+          // recomputes as soon as one changes — the settings screens do not
+          // need to know who depends on them.
+          BlocListener<CalculationSettingsCubit, CalculationSettingsState>(
+            listenWhen: (previous, current) =>
+                previous.settings != current.settings,
+            listener: (context, state) => context.read<PrayerTimesBloc>().add(
+              PrayerTimesSettingsChanged(state.settings),
+            ),
+          ),
           BlocListener<PrayerTimesBloc, PrayerTimesState>(
             listenWhen: (previous, current) =>
                 current.times != null && previous.times != current.times,
@@ -101,6 +112,7 @@ class _HomeBody extends StatelessWidget {
               onLocationTap: () => context.read<LocationBloc>().add(
                 const LocationRefreshRequested(),
               ),
+              onSettingsTap: () => context.router.push(const SettingsRoute()),
               onMenuTap: () => context.router.push(const MenuRoute()),
               onDateTap: () => context.router.push(const AllPrayerRoute()),
               child: PrayerCountdownCarousel(
