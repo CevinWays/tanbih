@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:tanbih/core/error/exceptions.dart';
 import 'package:tanbih/core/error/failures.dart';
+import 'package:tanbih/core/services/app_context.dart';
 import 'package:tanbih/features/prayer_times/data/datasources/adhan_calculator_data_source.dart';
 import 'package:tanbih/features/prayer_times/data/datasources/calculation_settings_local_data_source.dart';
 import 'package:tanbih/features/prayer_times/data/datasources/hijri_data_source.dart';
@@ -20,6 +21,7 @@ void main() {
   late MockCalculator calculator;
   late MockHijri hijri;
   late MockSettings settingsSource;
+  late AppContext appContext;
   late PrayerTimesRepositoryImpl repository;
 
   const ramadan = HijriDate(
@@ -45,7 +47,13 @@ void main() {
     calculator = MockCalculator();
     hijri = MockHijri();
     settingsSource = MockSettings();
-    repository = PrayerTimesRepositoryImpl(calculator, hijri, settingsSource);
+    appContext = AppContext();
+    repository = PrayerTimesRepositoryImpl(
+      calculator,
+      hijri,
+      settingsSource,
+      appContext,
+    );
 
     when(
       () => hijri.convert(
@@ -132,8 +140,8 @@ void main() {
       );
     });
 
-    test('uses the language pushed in for Hijri month names', () async {
-      repository.setLanguageCode('en');
+    test('uses the ambient language for Hijri month names', () async {
+      appContext.languageCode = 'en';
 
       await repository.getDailyTimes(
         latitude: 0,

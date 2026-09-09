@@ -11,6 +11,7 @@ import 'package:timezone/timezone.dart' as tz;
 
 import 'app.dart';
 import 'core/di/injector.dart';
+import 'core/services/app_context.dart';
 
 /// Single startup path.
 ///
@@ -20,8 +21,11 @@ import 'core/di/injector.dart';
 Future<void> bootstrap() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await _initTimeZone();
+  final timeZoneId = await _initTimeZone();
   await configureDependencies();
+
+  // The data layer reads the device zone from here; see AppContext.
+  sl<AppContext>().deviceTimeZoneId = timeZoneId;
 
   final talker = sl<Talker>();
   Bloc.observer = TalkerBlocObserver(talker: talker);
@@ -39,21 +43,23 @@ Future<void> bootstrap() async {
   runApp(TanbihApp());
 }
 
-/// Loads the tz database and pins the local zone to the device's zone.
+/// Loads the tz database, pins the local zone, and returns its IANA name.
 ///
 /// Every scheduled notification is built as a `TZDateTime` in this zone, so
 /// DST transitions and timezone changes shift the schedule correctly instead
 /// of silently drifting.
-Future<void> _initTimeZone() async {
+Future<String> _initTimeZone() async {
   tz_data.initializeTimeZones();
   try {
     final info = await FlutterTimezone.getLocalTimezone();
     tz.setLocalLocation(tz.getLocation(info.identifier));
+    return info.identifier;
   } catch (_) {
     // Unknown or unmappable zone: tz defaults to UTC, which would shift every
     // prayer time. Fall back to the device's current UTC offset instead.
-    final offset = DateTime.now().timeZoneOffset;
-    tz.setLocalLocation(tz.getLocation(_zoneNameForOffset(offset)));
+    final fallback = _zoneNameForOffset(DateTime.now().timeZoneOffset);
+    tz.setLocalLocation(tz.getLocation(fallback));
+    return fallback;
   }
 }
 

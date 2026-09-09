@@ -56,6 +56,7 @@ dependencies:
   intl: ^0.20.2
   talker_flutter: ^5.0.0
   talker_bloc_logger: ^5.0.0
+  bloc_concurrency: ^0.3.0
 
 dev_dependencies:
   flutter_test:

@@ -12,6 +12,7 @@
 
 import 'package:connectivity_plus/connectivity_plus.dart' as _i895;
 import 'package:dio/dio.dart' as _i361;
+import 'package:flutter/services.dart' as _i281;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart'
     as _i163;
 import 'package:get_it/get_it.dart' as _i174;
@@ -22,7 +23,34 @@ import 'package:talker_flutter/talker_flutter.dart' as _i207;
 import 'package:tanbih/core/di/register_module.dart' as _i986;
 import 'package:tanbih/core/network/network_info.dart' as _i598;
 import 'package:tanbih/core/routes/app_router.dart' as _i208;
+import 'package:tanbih/core/services/app_context.dart' as _i596;
 import 'package:tanbih/core/services/clock.dart' as _i457;
+import 'package:tanbih/features/location/data/datasources/city_search_local_data_source.dart'
+    as _i33;
+import 'package:tanbih/features/location/data/datasources/city_search_remote_data_source.dart'
+    as _i1028;
+import 'package:tanbih/features/location/data/datasources/geocoding_data_source.dart'
+    as _i1013;
+import 'package:tanbih/features/location/data/datasources/geolocator_location_data_source.dart'
+    as _i420;
+import 'package:tanbih/features/location/data/datasources/location_local_data_source.dart'
+    as _i334;
+import 'package:tanbih/features/location/data/repositories/location_repository_impl.dart'
+    as _i206;
+import 'package:tanbih/features/location/domain/repositories/location_repository.dart'
+    as _i790;
+import 'package:tanbih/features/location/domain/usecases/ensure_location_permission.dart'
+    as _i188;
+import 'package:tanbih/features/location/domain/usecases/get_cached_location.dart'
+    as _i1039;
+import 'package:tanbih/features/location/domain/usecases/get_current_location.dart'
+    as _i628;
+import 'package:tanbih/features/location/domain/usecases/search_city.dart'
+    as _i729;
+import 'package:tanbih/features/location/domain/usecases/set_manual_city.dart'
+    as _i702;
+import 'package:tanbih/features/location/presentation/bloc/location_bloc.dart'
+    as _i605;
 import 'package:tanbih/features/prayer_times/data/datasources/adhan_calculator_data_source.dart'
     as _i237;
 import 'package:tanbih/features/prayer_times/data/datasources/calculation_settings_local_data_source.dart'
@@ -73,40 +101,45 @@ extension GetItInjectableX on _i174.GetIt {
       () => registerModule.localNotifications,
     );
     gh.lazySingleton<_i501.AudioPlayer>(() => registerModule.audioPlayer);
+    gh.lazySingleton<_i596.AppContext>(() => _i596.AppContext());
     gh.lazySingleton<_i457.Clock>(() => const _i457.SystemClock());
     gh.lazySingleton<_i237.AdhanCalculatorDataSource>(
       () => const _i237.AdhanCalculatorDataSourceImpl(),
     );
+    gh.lazySingleton<_i1013.GeocodingDataSource>(
+      () => const _i1013.GeocodingDataSourceImpl(),
+    );
     gh.lazySingleton<_i361.Dio>(() => registerModule.dio(gh<_i207.Talker>()));
     gh.lazySingleton<_i259.HijriDataSource>(() => _i259.HijriDataSourceImpl());
+    gh.lazySingleton<_i420.GeolocatorLocationDataSource>(
+      () => const _i420.GeolocatorLocationDataSourceImpl(),
+    );
     gh.lazySingleton<_i647.CalculationSettingsLocalDataSource>(
       () => _i647.CalculationSettingsLocalDataSourceImpl(
         gh<_i460.SharedPreferences>(),
       ),
+    );
+    gh.lazySingleton<_i33.CitySearchLocalDataSource>(
+      () => _i33.CitySearchLocalDataSourceImpl(gh<_i281.AssetBundle>()),
+    );
+    gh.lazySingleton<_i334.LocationLocalDataSource>(
+      () => _i334.LocationLocalDataSourceImpl(gh<_i460.SharedPreferences>()),
     );
     gh.lazySingleton<_i335.AppPreferencesLocalDataSource>(
       () => _i335.AppPreferencesLocalDataSourceImpl(
         gh<_i460.SharedPreferences>(),
       ),
     );
-    gh.lazySingleton<_i598.NetworkInfo>(
-      () => _i598.NetworkInfoImpl(gh<_i895.Connectivity>()),
-    );
-    gh.factory<_i913.NextPrayerCountdownCubit>(
-      () => _i913.NextPrayerCountdownCubit(gh<_i457.Clock>()),
-    );
     gh.lazySingleton<_i652.PrayerTimesRepository>(
       () => _i1064.PrayerTimesRepositoryImpl(
         gh<_i237.AdhanCalculatorDataSource>(),
         gh<_i259.HijriDataSource>(),
         gh<_i647.CalculationSettingsLocalDataSource>(),
+        gh<_i596.AppContext>(),
       ),
     );
-    gh.lazySingleton<_i431.LocaleCubit>(
-      () => _i431.LocaleCubit(gh<_i335.AppPreferencesLocalDataSource>()),
-    );
-    gh.lazySingleton<_i65.ThemeCubit>(
-      () => _i65.ThemeCubit(gh<_i335.AppPreferencesLocalDataSource>()),
+    gh.lazySingleton<_i598.NetworkInfo>(
+      () => _i598.NetworkInfoImpl(gh<_i895.Connectivity>()),
     );
     gh.factory<_i34.GetCalculationSettings>(
       () => _i34.GetCalculationSettings(gh<_i652.PrayerTimesRepository>()),
@@ -120,10 +153,28 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i105.SaveCalculationSettings>(
       () => _i105.SaveCalculationSettings(gh<_i652.PrayerTimesRepository>()),
     );
+    gh.lazySingleton<_i1028.CitySearchRemoteDataSource>(
+      () => _i1028.CitySearchRemoteDataSourceImpl(
+        gh<_i361.Dio>(),
+        gh<_i598.NetworkInfo>(),
+      ),
+    );
+    gh.factory<_i913.NextPrayerCountdownCubit>(
+      () => _i913.NextPrayerCountdownCubit(gh<_i457.Clock>()),
+    );
     gh.factory<_i378.GetTodayPrayerTimes>(
       () => _i378.GetTodayPrayerTimes(
         gh<_i652.PrayerTimesRepository>(),
         gh<_i457.Clock>(),
+      ),
+    );
+    gh.lazySingleton<_i65.ThemeCubit>(
+      () => _i65.ThemeCubit(gh<_i335.AppPreferencesLocalDataSource>()),
+    );
+    gh.lazySingleton<_i431.LocaleCubit>(
+      () => _i431.LocaleCubit(
+        gh<_i335.AppPreferencesLocalDataSource>(),
+        gh<_i596.AppContext>(),
       ),
     );
     gh.factory<_i267.PrayerTimesBloc>(
@@ -132,6 +183,40 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i34.GetCalculationSettings>(),
         gh<_i105.SaveCalculationSettings>(),
         gh<_i457.Clock>(),
+      ),
+    );
+    gh.lazySingleton<_i790.LocationRepository>(
+      () => _i206.LocationRepositoryImpl(
+        gh<_i420.GeolocatorLocationDataSource>(),
+        gh<_i1013.GeocodingDataSource>(),
+        gh<_i1028.CitySearchRemoteDataSource>(),
+        gh<_i33.CitySearchLocalDataSource>(),
+        gh<_i334.LocationLocalDataSource>(),
+        gh<_i457.Clock>(),
+        gh<_i596.AppContext>(),
+      ),
+    );
+    gh.factory<_i188.EnsureLocationPermission>(
+      () => _i188.EnsureLocationPermission(gh<_i790.LocationRepository>()),
+    );
+    gh.factory<_i1039.GetCachedLocation>(
+      () => _i1039.GetCachedLocation(gh<_i790.LocationRepository>()),
+    );
+    gh.factory<_i628.GetCurrentLocation>(
+      () => _i628.GetCurrentLocation(gh<_i790.LocationRepository>()),
+    );
+    gh.factory<_i729.SearchCity>(
+      () => _i729.SearchCity(gh<_i790.LocationRepository>()),
+    );
+    gh.factory<_i702.SetManualCity>(
+      () => _i702.SetManualCity(gh<_i790.LocationRepository>()),
+    );
+    gh.factory<_i605.LocationBloc>(
+      () => _i605.LocationBloc(
+        gh<_i628.GetCurrentLocation>(),
+        gh<_i1039.GetCachedLocation>(),
+        gh<_i702.SetManualCity>(),
+        gh<_i729.SearchCity>(),
       ),
     );
     return this;

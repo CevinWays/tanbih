@@ -2,6 +2,7 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:tanbih/core/services/app_context.dart';
 import 'package:tanbih/features/settings/data/datasources/app_preferences_local_data_source.dart';
 import 'package:tanbih/features/settings/presentation/bloc/locale_cubit.dart';
 import 'package:tanbih/features/settings/presentation/bloc/theme_cubit.dart';
@@ -10,9 +11,11 @@ class MockPrefs extends Mock implements AppPreferencesLocalDataSource {}
 
 void main() {
   late MockPrefs prefs;
+  late AppContext appContext;
 
   setUp(() {
     prefs = MockPrefs();
+    appContext = AppContext();
     when(() => prefs.setLocaleCode(any())).thenAnswer((_) async {});
     when(() => prefs.setThemeModeName(any())).thenAnswer((_) async {});
   });
@@ -20,18 +23,18 @@ void main() {
   group('LocaleCubit', () {
     test('starts as null (follow system) when nothing is stored', () {
       when(() => prefs.getLocaleCode()).thenReturn(null);
-      expect(LocaleCubit(prefs).state, isNull);
+      expect(LocaleCubit(prefs, appContext).state, isNull);
     });
 
     test('restores the stored locale', () {
       when(() => prefs.getLocaleCode()).thenReturn('en');
-      expect(LocaleCubit(prefs).state, const Locale('en'));
+      expect(LocaleCubit(prefs, appContext).state, const Locale('en'));
     });
 
     blocTest<LocaleCubit, Locale?>(
       'setLocale emits and persists the language code',
       setUp: () => when(() => prefs.getLocaleCode()).thenReturn(null),
-      build: () => LocaleCubit(prefs),
+      build: () => LocaleCubit(prefs, appContext),
       act: (cubit) => cubit.setLocale(const Locale('en')),
       expect: () => [const Locale('en')],
       verify: (_) => verify(() => prefs.setLocaleCode('en')).called(1),
@@ -40,11 +43,46 @@ void main() {
     blocTest<LocaleCubit, Locale?>(
       'followSystem clears the stored override',
       setUp: () => when(() => prefs.getLocaleCode()).thenReturn('en'),
-      build: () => LocaleCubit(prefs),
+      build: () => LocaleCubit(prefs, appContext),
       act: (cubit) => cubit.followSystem(),
       expect: () => [null],
       verify: (_) => verify(() => prefs.setLocaleCode(null)).called(1),
     );
+
+    test('pushes the language into AppContext for the data layer', () async {
+      when(() => prefs.getLocaleCode()).thenReturn(null);
+      final cubit = LocaleCubit(prefs, appContext);
+
+      await cubit.setLocale(const Locale('en'));
+      expect(appContext.languageCode, 'en');
+
+      await cubit.setLocale(const Locale('id'));
+      expect(appContext.languageCode, 'id');
+    });
+
+    test('applies the language even when persisting it fails', () async {
+      when(() => prefs.getLocaleCode()).thenReturn(null);
+      when(() => prefs.setLocaleCode(any())).thenThrow(Exception('disk full'));
+      final cubit = LocaleCubit(prefs, appContext);
+
+      await expectLater(
+        cubit.setLocale(const Locale('en')),
+        throwsA(isA<Exception>()),
+      );
+
+      // The UI already switched, so the data layer must have switched too.
+      expect(appContext.languageCode, 'en');
+      expect(cubit.state, const Locale('en'));
+    });
+
+    test('an unsupported system language falls back to Indonesian', () {
+      when(() => prefs.getLocaleCode()).thenReturn(null);
+      appContext.languageCode = 'xx';
+
+      LocaleCubit(prefs, appContext).followSystem();
+
+      expect(['id', 'en'], contains(appContext.languageCode));
+    });
 
     test('ships Indonesian first so it is the fallback locale', () {
       expect(LocaleCubit.supported.first, const Locale('id'));

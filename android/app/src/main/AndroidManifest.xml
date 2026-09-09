@@ -1,6 +1,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Prayer times are computed from the device position. Coarse accuracy
+         is enough: a kilometre of error moves a prayer time by well under a
+         minute. Background location is deliberately NOT requested — the
+         schedule is rebuilt when the app is opened, never while it is away. -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <!-- The device may have no GPS hardware (a tablet on Wi-Fi); network
+         positioning still works, so this must not filter the app out. -->
+    <uses-feature
+        android:name="android.hardware.location.gps"
+        android:required="false" />
+
     <application
-        android:label="tanbih"
+        android:label="Tanbih"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

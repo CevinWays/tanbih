@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../core/error/exceptions.dart';
+import '../../../../core/services/app_context.dart';
 import '../../../../core/error/failures.dart';
 import '../../domain/entities/calculation_settings.dart';
 import '../../domain/entities/daily_prayer_times.dart';
@@ -16,19 +17,13 @@ class PrayerTimesRepositoryImpl implements PrayerTimesRepository {
     this._calculator,
     this._hijri,
     this._settingsSource,
+    this._appContext,
   );
 
   final AdhanCalculatorDataSource _calculator;
   final HijriDataSource _hijri;
   final CalculationSettingsLocalDataSource _settingsSource;
-
-  /// Language used for Hijri month names.
-  ///
-  /// Held here rather than read from `BuildContext`, which the data layer has
-  /// no access to. `LocaleCubit` pushes changes in via [setLanguageCode].
-  String _languageCode = 'id';
-
-  void setLanguageCode(String code) => _languageCode = code;
+  final AppContext _appContext;
 
   @override
   Future<Either<Failure, DailyPrayerTimes>> getDailyTimes({
@@ -127,7 +122,7 @@ class PrayerTimesRepositoryImpl implements PrayerTimesRepository {
     final hijriDate = _hijri.convert(
       date: date,
       offsetDays: settings.hijriOffsetDays,
-      languageCode: _languageCode,
+      languageCode: _appContext.languageCode,
     );
 
     return _calculator.calculate(
