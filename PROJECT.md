@@ -77,7 +77,30 @@ Jangan diimplement mentah.
 
 | Model | Versi Android | Catatan |
 |---|---|---|
-| _(belum diisi)_ | | Isi setelah device pertama tercolok — perilaku alarm & DND beda antar OEM |
+| POCO X6 Pro 5G (`2311DRK48G`, codename `duchamp`) | **Android 16 (API 36)**, HyperOS 3.0 (`OS3.0.302.0.WNLIDXM`) | adb id `AUZT6T5X7TCAHUX4`. Timezone `Asia/Jakarta`, locale `en-US` |
+
+Device ini kebetulan kombinasi terberat yang bisa didapat: **Xiaomi/HyperOS**
+(OEM paling agresif membunuh background) di **Android 16** (aturan exact alarm
+dan foreground service paling ketat). Kalau adzan bunyi di sini, di HP lain
+hampir pasti aman.
+
+### Yang sudah terverifikasi di device ini
+
+| | Bukti |
+|---|---|
+| Akurasi jadwal | ≤1 menit vs jadwal Kemenag Kota Malang. GPS jatuh di Kabupaten Malang, jadi sebagian selisih itu beda titik, bukan algoritma |
+| Timezone | Dikalibrasi di Mac UTC+8, benar di HP UTC+7 |
+| Penjadwalan | 35 alarm = 7 hari × 5 waktu, `RTC_WAKEUP`, `window=0` |
+| Exact alarm | `exactAllowReason=policy_permission` — `USE_EXACT_ALARM` dihormati tanpa prompt |
+| Channel adzan | `mSound=android.resource://com.cevin.tanbih/raw/adhan_short` |
+| Bunyi adzan | Dikonfirmasi terdengar saat notifikasi muncul |
+
+### Catatan khas HyperOS
+
+`Geolocator.isLocationServiceEnabled()` mengembalikan **false** padahal
+`cmd location is-location-enabled` = true dan `location_mode` = 3. Dulu ini
+dipakai sebagai gate sebelum meminta posisi, dan memblokir semua fix. Sekarang
+hanya dipakai *setelah* percobaan gagal, untuk menyusun pesan error.
 
 ## Sumber referensi
 
