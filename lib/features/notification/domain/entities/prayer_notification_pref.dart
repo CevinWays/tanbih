@@ -8,7 +8,7 @@ class PrayerNotificationPref extends Equatable {
   const PrayerNotificationPref({
     required this.slot,
     this.enabled = true,
-    this.sound = NotificationSound.defaultTone,
+    this.sound = NotificationSound.adhanShort,
     this.preReminderMinutes = 0,
     this.vibrate = true,
   });

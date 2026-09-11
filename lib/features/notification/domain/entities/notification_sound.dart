@@ -13,8 +13,8 @@ enum NotificationSound {
 
   /// A short adhan clip bundled in `res/raw`.
   ///
-  /// The asset arrives with the audio phase; until then this option is not
-  /// offered in the UI.
+  /// Thirty seconds exactly, cut on a phrase boundary — see
+  /// assets/audio/CREDITS.md.
   adhanShort;
 
   String get storageKey => name;

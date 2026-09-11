@@ -87,6 +87,26 @@ void main() {
     });
   });
 
+  group('the bundled adhan clip', () {
+    test('is the default prayer sound — it is why the app exists', () {
+      expect(
+        const NotificationSettings().prefFor(PrayerSlot.maghrib).sound,
+        NotificationSound.adhanShort,
+      );
+    });
+
+    test('maps to the raw resource that is actually bundled', () {
+      // A channel pointing at a missing resource fails silently: the
+      // notification arrives with no sound and nothing explains why.
+      expect(NotificationSound.adhanShort.rawResource, 'adhan_short');
+    });
+
+    test('silent and default carry no raw resource', () {
+      expect(NotificationSound.silent.rawResource, isNull);
+      expect(NotificationSound.defaultTone.rawResource, isNull);
+    });
+  });
+
   group('isEnabledFor', () {
     test('the master switch overrides per-prayer settings', () {
       const settings = NotificationSettings(masterEnabled: false);

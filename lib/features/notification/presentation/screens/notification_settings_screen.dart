@@ -169,9 +169,8 @@ class _PrayerRow extends StatelessWidget {
                         await OptionPickerSheet.show<NotificationSound>(
                           context: context,
                           title: l10n.notificationSound,
-                          // The adhan clip ships with the audio phase; do
-                          // not offer a sound whose asset is not there yet.
                           options: const [
+                            NotificationSound.adhanShort,
                             NotificationSound.defaultTone,
                             NotificationSound.silent,
                           ],
