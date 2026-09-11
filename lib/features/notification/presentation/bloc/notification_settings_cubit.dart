@@ -5,6 +5,7 @@ import 'package:injectable/injectable.dart';
 import '../../../../core/enums/prayer_slot.dart';
 import '../../../../core/error/failures.dart';
 import '../../domain/entities/prayer_notification_pref.dart';
+import '../../../adhan_audio/domain/adhan_alarm_port.dart';
 import '../../domain/repositories/notification_repository.dart';
 
 enum NotificationSettingsStatus { initial, loading, success, failure }
@@ -68,10 +69,11 @@ class NotificationSettingsState extends Equatable {
 /// scheduler listens to this, so there must be exactly one of it.
 @lazySingleton
 class NotificationSettingsCubit extends Cubit<NotificationSettingsState> {
-  NotificationSettingsCubit(this._repository)
+  NotificationSettingsCubit(this._repository, this._adhanAlarms)
     : super(const NotificationSettingsState());
 
   final NotificationRepository _repository;
+  final AdhanAlarmPort _adhanAlarms;
 
   Future<void> load() async {
     emit(state.copyWith(status: NotificationSettingsStatus.loading));
@@ -109,6 +111,23 @@ class NotificationSettingsCubit extends Cubit<NotificationSettingsState> {
     final exact = await _repository.canScheduleExactAlarms();
     emit(state.copyWith(canScheduleExactAlarms: exact.getOrElse(() => false)));
   }
+
+  Future<void> setFullAdhanEnabled(bool enabled) =>
+      _update(state.settings.copyWith(fullAdhanEnabled: enabled));
+
+  /// Plays through the native service, the same path a real prayer takes, so
+  /// a preview that works proves the real thing works.
+  Future<void> previewFullAdhan({required String label, String? body}) =>
+      _adhanAlarms.playNow(label: label, body: body);
+
+  Future<void> stopFullAdhan() => _adhanAlarms.stop();
+
+  /// Debug builds only — see [AdhanAlarmPort.scheduleTestAlarm].
+  ///
+  /// Replaces the armed window, so the schedule is rebuilt afterwards by the
+  /// usual sync when settings or location next change.
+  Future<void> scheduleTestAdhan({required String label}) =>
+      _adhanAlarms.scheduleTestAlarm(seconds: 20, label: label);
 
   Future<void> setMasterEnabled(bool enabled) =>
       _update(state.settings.copyWith(masterEnabled: enabled));

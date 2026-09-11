@@ -471,4 +471,20 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get themeTitle => 'Tema Aplikasi';
+
+  @override
+  String get fullAdhanTitle => 'Adzan Penuh';
+
+  @override
+  String get fullAdhanSubtitle =>
+      'Putar adzan lengkap saat waktu shalat masuk, walau aplikasi tertutup';
+
+  @override
+  String get fullAdhanPreview => 'Coba Adzan';
+
+  @override
+  String get fullAdhanPreviewSubtitle => 'Putar adzan sekarang';
+
+  @override
+  String get fullAdhanStop => 'Hentikan';
 }

@@ -985,6 +985,36 @@ abstract class AppLocalizations {
   /// In id, this message translates to:
   /// **'Tema Aplikasi'**
   String get themeTitle;
+
+  /// No description provided for @fullAdhanTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Adzan Penuh'**
+  String get fullAdhanTitle;
+
+  /// No description provided for @fullAdhanSubtitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Putar adzan lengkap saat waktu shalat masuk, walau aplikasi tertutup'**
+  String get fullAdhanSubtitle;
+
+  /// No description provided for @fullAdhanPreview.
+  ///
+  /// In id, this message translates to:
+  /// **'Coba Adzan'**
+  String get fullAdhanPreview;
+
+  /// No description provided for @fullAdhanPreviewSubtitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Putar adzan sekarang'**
+  String get fullAdhanPreviewSubtitle;
+
+  /// No description provided for @fullAdhanStop.
+  ///
+  /// In id, this message translates to:
+  /// **'Hentikan'**
+  String get fullAdhanStop;
 }
 
 class _AppLocalizationsDelegate

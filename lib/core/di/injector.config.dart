@@ -23,10 +23,13 @@ import 'package:talker_flutter/talker_flutter.dart' as _i207;
 import 'package:tanbih/core/di/register_module.dart' as _i986;
 import 'package:tanbih/core/network/network_info.dart' as _i598;
 import 'package:tanbih/core/routes/app_router.dart' as _i208;
+import 'package:tanbih/core/services/adhan_alarm_channel.dart' as _i341;
 import 'package:tanbih/core/services/app_context.dart' as _i596;
 import 'package:tanbih/core/services/clock.dart' as _i457;
 import 'package:tanbih/core/services/notification_service.dart' as _i251;
 import 'package:tanbih/core/services/prayer_schedule_coordinator.dart' as _i969;
+import 'package:tanbih/features/adhan_audio/domain/adhan_alarm_port.dart'
+    as _i155;
 import 'package:tanbih/features/location/data/datasources/city_search_local_data_source.dart'
     as _i33;
 import 'package:tanbih/features/location/data/datasources/city_search_remote_data_source.dart'
@@ -120,6 +123,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i457.Clock>(() => const _i457.SystemClock());
     gh.lazySingleton<_i237.AdhanCalculatorDataSource>(
       () => const _i237.AdhanCalculatorDataSourceImpl(),
+    );
+    gh.lazySingleton<_i155.AdhanAlarmPort>(
+      () => _i341.AdhanAlarmChannel(gh<_i207.Talker>()),
     );
     gh.lazySingleton<_i1013.GeocodingDataSource>(
       () => const _i1013.GeocodingDataSourceImpl(),
@@ -240,9 +246,16 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i596.AppContext>(),
       ),
     );
-    gh.lazySingleton<_i1031.NotificationSettingsCubit>(
-      () =>
-          _i1031.NotificationSettingsCubit(gh<_i390.NotificationRepository>()),
+    gh.lazySingleton<_i969.PrayerScheduleCoordinator>(
+      () => _i969.PrayerScheduleCoordinator(
+        gh<_i812.GetPrayerTimesRange>(),
+        gh<_i34.GetCalculationSettings>(),
+        gh<_i390.NotificationRepository>(),
+        gh<_i251.NotificationService>(),
+        gh<_i155.AdhanAlarmPort>(),
+        gh<_i457.Clock>(),
+        gh<_i596.AppContext>(),
+      ),
     );
     gh.factory<_i188.EnsureLocationPermission>(
       () => _i188.EnsureLocationPermission(gh<_i790.LocationRepository>()),
@@ -259,14 +272,10 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i702.SetManualCity>(
       () => _i702.SetManualCity(gh<_i790.LocationRepository>()),
     );
-    gh.lazySingleton<_i969.PrayerScheduleCoordinator>(
-      () => _i969.PrayerScheduleCoordinator(
-        gh<_i812.GetPrayerTimesRange>(),
-        gh<_i34.GetCalculationSettings>(),
+    gh.lazySingleton<_i1031.NotificationSettingsCubit>(
+      () => _i1031.NotificationSettingsCubit(
         gh<_i390.NotificationRepository>(),
-        gh<_i251.NotificationService>(),
-        gh<_i457.Clock>(),
-        gh<_i596.AppContext>(),
+        gh<_i155.AdhanAlarmPort>(),
       ),
     );
     gh.lazySingleton<_i605.LocationBloc>(

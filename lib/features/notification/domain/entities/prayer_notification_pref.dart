@@ -93,6 +93,7 @@ class FajrAlarmPref extends Equatable {
 class NotificationSettings extends Equatable {
   const NotificationSettings({
     this.masterEnabled = true,
+    this.fullAdhanEnabled = true,
     this.prefs = const {},
     this.fajrAlarm = const FajrAlarmPref(),
   });
@@ -100,6 +101,13 @@ class NotificationSettings extends Equatable {
   /// Master switch. Off means nothing is scheduled at all, whatever the
   /// per-prayer settings say.
   final bool masterEnabled;
+
+  /// Play the full adhan through the native player at prayer time.
+  ///
+  /// On by default: it is the reason this app exists. When it is on, the
+  /// visible notification is forced silent — otherwise the 30-second clip
+  /// and the full recitation start together.
+  final bool fullAdhanEnabled;
 
   final Map<PrayerSlot, PrayerNotificationPref> prefs;
   final FajrAlarmPref fajrAlarm;
@@ -122,11 +130,13 @@ class NotificationSettings extends Equatable {
 
   NotificationSettings copyWith({
     bool? masterEnabled,
+    bool? fullAdhanEnabled,
     Map<PrayerSlot, PrayerNotificationPref>? prefs,
     FajrAlarmPref? fajrAlarm,
   }) {
     return NotificationSettings(
       masterEnabled: masterEnabled ?? this.masterEnabled,
+      fullAdhanEnabled: fullAdhanEnabled ?? this.fullAdhanEnabled,
       prefs: prefs ?? this.prefs,
       fajrAlarm: fajrAlarm ?? this.fajrAlarm,
     );
@@ -140,5 +150,10 @@ class NotificationSettings extends Equatable {
   }
 
   @override
-  List<Object?> get props => [masterEnabled, prefs, fajrAlarm];
+  List<Object?> get props => [
+    masterEnabled,
+    fullAdhanEnabled,
+    prefs,
+    fajrAlarm,
+  ];
 }

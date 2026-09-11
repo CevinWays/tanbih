@@ -1,5 +1,6 @@
 import '../../../../core/enums/prayer_slot.dart';
 import '../../../prayer_times/domain/entities/daily_prayer_times.dart';
+import '../entities/notification_sound.dart';
 import '../entities/prayer_notification_pref.dart';
 import '../entities/scheduled_notification.dart';
 
@@ -43,7 +44,12 @@ class NotificationPlanner {
               kind: ScheduledKind.prayer,
               at: entry.time,
               day: day.date,
-              sound: pref.sound,
+              // With full playback on, the native player carries the sound;
+              // leaving the channel audible would start the 30-second clip
+              // and the full recitation at the same instant.
+              sound: settings.fullAdhanEnabled
+                  ? NotificationSound.silent
+                  : pref.sound,
               vibrate: pref.vibrate,
             ),
           );

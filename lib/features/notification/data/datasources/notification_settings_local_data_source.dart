@@ -48,6 +48,7 @@ class NotificationSettingsLocalDataSourceImpl
 
   static Map<String, dynamic> _toJson(NotificationSettings s) => {
     'master_enabled': s.masterEnabled,
+    'full_adhan_enabled': s.fullAdhanEnabled,
     'prefs': {
       for (final entry in s.prefs.entries)
         entry.key.name: {
@@ -90,6 +91,7 @@ class NotificationSettingsLocalDataSourceImpl
 
     return NotificationSettings(
       masterEnabled: json['master_enabled'] as bool? ?? true,
+      fullAdhanEnabled: json['full_adhan_enabled'] as bool? ?? true,
       prefs: prefs,
       fajrAlarm: FajrAlarmPref(
         enabled: rawAlarm['enabled'] as bool? ?? false,

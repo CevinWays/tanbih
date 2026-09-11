@@ -264,6 +264,71 @@ void main() {
     });
   });
 
+  group('full adhan playback', () {
+    test('silences the visible notification so the two do not overlap', () {
+      // The native player carries the recitation. Leaving the channel
+      // audible would start the 30-second clip and the full adhan at the
+      // same instant.
+      final plan = planner.plan(
+        days: [dayAt(DateTime(2026, 9, 7))],
+        settings: const NotificationSettings(),
+        now: beforeDawn,
+      );
+
+      expect(
+        plan
+            .where((n) => n.kind == ScheduledKind.prayer)
+            .map((n) => n.sound)
+            .toSet(),
+        {NotificationSound.silent},
+      );
+    });
+
+    test('with it off, the chosen per-prayer sound is used', () {
+      final plan = planner.plan(
+        days: [dayAt(DateTime(2026, 9, 7))],
+        settings: const NotificationSettings(fullAdhanEnabled: false).withPref(
+          const PrayerNotificationPref(
+            slot: PrayerSlot.maghrib,
+            sound: NotificationSound.adhanShort,
+          ),
+        ),
+        now: beforeDawn,
+      );
+
+      expect(
+        plan
+            .firstWhere(
+              (n) =>
+                  n.slot == PrayerSlot.maghrib &&
+                  n.kind == ScheduledKind.prayer,
+            )
+            .sound,
+        NotificationSound.adhanShort,
+      );
+    });
+
+    test('does not silence the pre-reminder', () {
+      // The heads-up fires before the adhan, so it still needs to be heard.
+      final plan = planner.plan(
+        days: [dayAt(DateTime(2026, 9, 7))],
+        settings: const NotificationSettings().withPref(
+          const PrayerNotificationPref(
+            slot: PrayerSlot.maghrib,
+            preReminderMinutes: 15,
+            sound: NotificationSound.defaultTone,
+          ),
+        ),
+        now: beforeDawn,
+      );
+
+      expect(
+        plan.firstWhere((n) => n.kind == ScheduledKind.preReminder).sound,
+        NotificationSound.defaultTone,
+      );
+    });
+  });
+
   group('the pending ceiling', () {
     test('is never exceeded', () {
       final plan = planner.plan(

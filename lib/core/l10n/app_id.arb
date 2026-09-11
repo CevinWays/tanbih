@@ -188,5 +188,10 @@
   "locationRetry": "Coba lagi",
   "permissionIntroTitle": "Izinkan notifikasi",
   "permissionIntroBody": "Tanbih perlu izin notifikasi untuk mengingatkanmu saat waktu shalat masuk. Tanpa ini, adzan dan pengingat tidak akan muncul sama sekali.",
-  "themeTitle": "Tema Aplikasi"
+  "themeTitle": "Tema Aplikasi",
+  "fullAdhanTitle": "Adzan Penuh",
+  "fullAdhanSubtitle": "Putar adzan lengkap saat waktu shalat masuk, walau aplikasi tertutup",
+  "fullAdhanPreview": "Coba Adzan",
+  "fullAdhanPreviewSubtitle": "Putar adzan sekarang",
+  "fullAdhanStop": "Hentikan"
 }

@@ -473,4 +473,20 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get themeTitle => 'App Theme';
+
+  @override
+  String get fullAdhanTitle => 'Full Adhan';
+
+  @override
+  String get fullAdhanSubtitle =>
+      'Play the complete adhan at prayer time, even when the app is closed';
+
+  @override
+  String get fullAdhanPreview => 'Try the Adhan';
+
+  @override
+  String get fullAdhanPreviewSubtitle => 'Play the adhan now';
+
+  @override
+  String get fullAdhanStop => 'Stop';
 }

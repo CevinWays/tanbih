@@ -31,6 +31,13 @@
         android:name="android.permission.SCHEDULE_EXACT_ALARM"
         android:maxSdkVersion="32" />
 
+    <!-- Full adhan playback runs in a foreground service so it survives the
+         app being swapped away; Android kills a background player in
+         seconds. -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission
+        android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
+
     <application
         android:label="Tanbih"
         android:name="${applicationName}"
@@ -79,6 +86,31 @@
         <receiver
             android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver"
             android:exported="false" />
+
+        <!-- Plays the full adhan. Started from an alarm broadcast, so it
+             never touches Flutter. -->
+        <service
+            android:name=".audio.AdhanPlaybackService"
+            android:exported="false"
+            android:foregroundServiceType="mediaPlayback" />
+
+        <!-- Fired at a prayer time; hands straight to the service while the
+             exact alarm's allowlist window is still open. -->
+        <receiver
+            android:name=".alarm.AdhanAlarmReceiver"
+            android:exported="false" />
+
+        <!-- Re-arms adhan alarms after a reboot or an app update. -->
+        <receiver
+            android:name=".alarm.BootReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON" />
+            </intent-filter>
+        </receiver>
     </application>
     <!-- Required to query activities that can process text, see:
          https://developer.android.com/training/package-visibility and

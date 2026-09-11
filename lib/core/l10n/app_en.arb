@@ -164,5 +164,10 @@
   "locationRetry": "Try again",
   "permissionIntroTitle": "Allow notifications",
   "permissionIntroBody": "Tanbih needs notification permission to remind you when a prayer time begins. Without it, the adhan and reminders will not appear at all.",
-  "themeTitle": "App Theme"
+  "themeTitle": "App Theme",
+  "fullAdhanTitle": "Full Adhan",
+  "fullAdhanSubtitle": "Play the complete adhan at prayer time, even when the app is closed",
+  "fullAdhanPreview": "Try the Adhan",
+  "fullAdhanPreviewSubtitle": "Play the adhan now",
+  "fullAdhanStop": "Stop"
 }

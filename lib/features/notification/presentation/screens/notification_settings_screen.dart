@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -60,6 +61,26 @@ class NotificationSettingsScreen extends StatelessWidget {
               onChanged: cubit.setMasterEnabled,
             ),
 
+            SettingTile.toggle(
+              title: l10n.fullAdhanTitle,
+              subtitle: l10n.fullAdhanSubtitle,
+              value: settings.fullAdhanEnabled,
+              onChanged: settings.masterEnabled
+                  ? cubit.setFullAdhanEnabled
+                  : null,
+            ),
+            if (settings.fullAdhanEnabled && settings.masterEnabled)
+              SettingTile.navigation(
+                title: l10n.fullAdhanPreview,
+                subtitle: l10n.fullAdhanPreviewSubtitle,
+                // Preview announces itself as a preview: a notification
+                // titled with a prayer name would read as a real adhan.
+                onTap: () => cubit.previewFullAdhan(
+                  label: l10n.fullAdhanPreview,
+                  body: l10n.fullAdhanPreviewSubtitle,
+                ),
+              ),
+
             SettingSectionHeader(title: l10n.notificationPerPrayer),
 
             for (final slot in NotificationSettings.notifiable)
@@ -68,6 +89,7 @@ class NotificationSettingsScreen extends StatelessWidget {
                   slot: slot,
                   pref: settings.prefFor(slot),
                   enabled: settings.masterEnabled,
+                  fullAdhan: settings.fullAdhanEnabled,
                   l10n: l10n,
                 ),
 
@@ -107,6 +129,13 @@ class NotificationSettingsScreen extends StatelessWidget {
                 },
               ),
 
+            if (kDebugMode)
+              SettingTile.navigation(
+                title: 'Test scheduled adhan (20s)',
+                subtitle: 'Arms a real alarm, then background the app',
+                onTap: () => cubit.scheduleTestAdhan(label: l10n.prayerMaghrib),
+              ),
+
             const SizedBox(height: AppSpacing.sm),
             SettingTile.navigation(
               title: l10n.notificationTest,
@@ -126,12 +155,18 @@ class _PrayerRow extends StatelessWidget {
     required this.slot,
     required this.pref,
     required this.enabled,
+    required this.fullAdhan,
     required this.l10n,
   });
 
   final PrayerSlot slot;
   final PrayerNotificationPref pref;
   final bool enabled;
+
+  /// When the native player carries the sound, the per-prayer sound picker
+  /// would be choosing a tone that never plays.
+  final bool fullAdhan;
+
   final AppLocalizations l10n;
 
   @override
@@ -161,28 +196,30 @@ class _PrayerRow extends StatelessWidget {
               ),
               if (pref.enabled && enabled) ...[
                 const Divider(height: AppSpacing.xl),
-                _InlinePicker(
-                  label: l10n.notificationSound,
-                  value: _soundLabel(pref.sound, l10n),
-                  onTap: () async {
-                    final choice =
-                        await OptionPickerSheet.show<NotificationSound>(
-                          context: context,
-                          title: l10n.notificationSound,
-                          options: const [
-                            NotificationSound.adhanShort,
-                            NotificationSound.defaultTone,
-                            NotificationSound.silent,
-                          ],
-                          selected: pref.sound,
-                          labelOf: (s) => _soundLabel(s, l10n),
-                        );
-                    if (choice != null) {
-                      await cubit.setPref(pref.copyWith(sound: choice));
-                    }
-                  },
-                ),
-                const SizedBox(height: AppSpacing.sm),
+                if (!fullAdhan) ...[
+                  _InlinePicker(
+                    label: l10n.notificationSound,
+                    value: _soundLabel(pref.sound, l10n),
+                    onTap: () async {
+                      final choice =
+                          await OptionPickerSheet.show<NotificationSound>(
+                            context: context,
+                            title: l10n.notificationSound,
+                            options: const [
+                              NotificationSound.adhanShort,
+                              NotificationSound.defaultTone,
+                              NotificationSound.silent,
+                            ],
+                            selected: pref.sound,
+                            labelOf: (s) => _soundLabel(s, l10n),
+                          );
+                      if (choice != null) {
+                        await cubit.setPref(pref.copyWith(sound: choice));
+                      }
+                    },
+                  ),
+                  const SizedBox(height: AppSpacing.sm),
+                ],
                 _InlinePicker(
                   label: l10n.preReminderTitle,
                   value: pref.hasPreReminder

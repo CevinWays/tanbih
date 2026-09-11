@@ -2,6 +2,7 @@ import 'dart:ui' show Locale;
 
 import 'package:injectable/injectable.dart';
 
+import '../../features/adhan_audio/domain/adhan_alarm_port.dart';
 import '../../features/notification/domain/entities/prayer_notification_pref.dart';
 import '../../features/notification/domain/entities/scheduled_notification.dart';
 import '../../features/notification/domain/repositories/notification_repository.dart';
@@ -46,6 +47,7 @@ class PrayerScheduleCoordinator {
     this._getCalculationSettings,
     this._notifications,
     this._service,
+    this._adhanAlarms,
     this._clock,
     this._appContext,
   );
@@ -54,6 +56,7 @@ class PrayerScheduleCoordinator {
   final GetCalculationSettings _getCalculationSettings;
   final NotificationRepository _notifications;
   final NotificationService _service;
+  final AdhanAlarmPort _adhanAlarms;
   final Clock _clock;
   final AppContext _appContext;
 
@@ -93,6 +96,7 @@ class PrayerScheduleCoordinator {
 
     if (!settings.masterEnabled) {
       await _service.cancelAll();
+      await _adhanAlarms.cancelAll();
       _remember(latitude, longitude);
       return const ScheduleResult.skipped();
     }
@@ -142,6 +146,24 @@ class PrayerScheduleCoordinator {
       bodyOf: (n) => _bodyFor(n, l10n),
     );
 
+    // The native player is armed from the same plan, so the two can never
+    // describe different times. Only the prayer entries get an adhan: a
+    // pre-reminder or a wake-up alarm calling the adhan would be wrong.
+    if (settings.fullAdhanEnabled) {
+      await _adhanAlarms.replaceAll([
+        for (final n in plan)
+          if (n.kind == ScheduledKind.prayer)
+            ScheduledAdhan(
+              id: n.id,
+              slot: n.slot,
+              at: n.at,
+              label: n.slot.label(l10n),
+            ),
+      ]);
+    } else {
+      await _adhanAlarms.cancelAll();
+    }
+
     _remember(latitude, longitude);
 
     return ScheduleResult(
@@ -151,7 +173,10 @@ class PrayerScheduleCoordinator {
   }
 
   /// Clears everything. Used when the user turns notifications off.
-  Future<void> cancelAll() => _service.cancelAll();
+  Future<void> cancelAll() async {
+    await _service.cancelAll();
+    await _adhanAlarms.cancelAll();
+  }
 
   void _remember(double latitude, double longitude) {
     _lastLatitude = latitude;
