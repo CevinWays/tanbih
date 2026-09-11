@@ -20,7 +20,7 @@ flutter_native_splash:
 
   # The wordmark sits in the branding slot the system provides. Two files
   # because the letters have to invert: navy on the light ground, white on
-  # the dark one.
+  # the dark one. Pre-Android-12 draws it at its natural proportions.
   branding: assets/images/wordmark_on_light.png
   branding_dark: assets/images/wordmark_on_dark.png
   branding_mode: bottom
@@ -34,8 +34,13 @@ flutter_native_splash:
     image_dark: assets/images/splash_mark.png
     icon_background_color: "#E2F4F7"
     icon_background_color_dark: "#131C2E"
-    branding: assets/images/wordmark_on_light.png
-    branding_dark: assets/images/wordmark_on_dark.png
+    # Android 12+ fits the branding image into a fixed 200x80dp box. The
+    # wordmark is 4.2:1, so filling that 2.5:1 box stretched the letters
+    # vertically. These variants are the same wordmark centred on a 2.5:1
+    # canvas, so its aspect already matches the slot and nothing is
+    # distorted.
+    branding: assets/images/wordmark_boxed_light.png
+    branding_dark: assets/images/wordmark_boxed_dark.png
 
   android: true
   ios: false
