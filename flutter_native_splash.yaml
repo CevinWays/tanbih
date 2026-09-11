@@ -1,16 +1,41 @@
-# Cold-start splash. Matches the brand board: the mark on the navy ground,
-# so there is no colour jump between the system splash and the app.
+# Cold-start splash.
 #
-# The Figma splash frame (node 1:44) carries another app's copy — "Prayer
-# Reminder / Bringing you closer to Allah" — which is deliberately not used.
+# Follows the system theme so there is no colour jump into the app: the light
+# background is the exact ground Home uses, the dark one is the brand navy.
+# A single fixed colour meant a phone in light mode saw a dark splash and then
+# a pale app, which read as a flash of the wrong screen.
+#
+# The Figma splash frame (node 1:44) is deliberately not used. It carries
+# another app's name and tagline, its magenta and orange are nowhere in the
+# Tanbih palette, and since Android 12 the system draws the splash itself —
+# it allows a background colour, one icon, and a small branding image, not
+# arbitrary artwork. Showing that illustration would mean a second splash
+# after the system one, with a colour jump between them.
 flutter_native_splash:
-  color: "#131C2E"
-  image: assets/images/logo_mark_foreground.png
+  color: "#E2F4F7"
+  color_dark: "#131C2E"
+
+  image: assets/images/splash_mark.png
+  image_dark: assets/images/splash_mark.png
+
+  # The wordmark sits in the branding slot the system provides. Two files
+  # because the letters have to invert: navy on the light ground, white on
+  # the dark one.
+  branding: assets/images/wordmark_on_light.png
+  branding_dark: assets/images/wordmark_on_dark.png
+  branding_mode: bottom
 
   android_12:
-    color: "#131C2E"
-    image: assets/images/logo_mark_foreground.png
-    icon_background_color: "#131C2E"
+    color: "#E2F4F7"
+    color_dark: "#131C2E"
+    # Android 12+ masks this to a circle over roughly two thirds of the
+    # frame, so the asset is padded rather than filling its canvas.
+    image: assets/images/splash_mark.png
+    image_dark: assets/images/splash_mark.png
+    icon_background_color: "#E2F4F7"
+    icon_background_color_dark: "#131C2E"
+    branding: assets/images/wordmark_on_light.png
+    branding_dark: assets/images/wordmark_on_dark.png
 
   android: true
   ios: false
