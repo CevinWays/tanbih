@@ -15,5 +15,26 @@ class AppRouter extends RootStackRouter {
   @override
   List<AutoRoute> get routes => [
     AutoRoute(path: RouteName.splash, page: HomeRoute.page, initial: true),
+    AutoRoute(path: RouteName.allPrayer, page: AllPrayerRoute.page),
+    AutoRoute(path: RouteName.menu, page: MenuRoute.page),
+    AutoRoute(path: RouteName.settings, page: SettingsRoute.page),
+    AutoRoute(
+      path: RouteName.prayerTimesSettings,
+      page: PrayerTimesSettingsRoute.page,
+    ),
+    AutoRoute(
+      path: RouteName.manualAdjustments,
+      page: ManualAdjustmentsRoute.page,
+    ),
+    AutoRoute(
+      path: RouteName.locationSettings,
+      page: LocationSettingsRoute.page,
+    ),
+    AutoRoute(path: RouteName.cityPicker, page: CityPickerRoute.page),
+    AutoRoute(path: RouteName.hijriSettings, page: HijriSettingsRoute.page),
+    AutoRoute(
+      path: RouteName.notificationSettings,
+      page: NotificationSettingsRoute.page,
+    ),
   ];
 }

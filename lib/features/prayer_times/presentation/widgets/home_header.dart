@@ -64,7 +64,7 @@ class HomeHeader extends StatelessWidget {
         bottom: false,
         child: Padding(
           padding: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.lg,
+            horizontal: AppSpacing.md,
             vertical: AppSpacing.sm,
           ),
           child: Column(
@@ -83,7 +83,6 @@ class HomeHeader extends StatelessWidget {
                     semanticLabel: l10n.openSettings,
                     onPressed: onSettingsTap,
                   ),
-                  const SizedBox(width: AppSpacing.md),
                   _HeaderAction(
                     assetName: 'menu',
                     semanticLabel: l10n.openMenu,
@@ -193,11 +192,17 @@ class _HeaderAction extends StatelessWidget {
       label: semanticLabel,
       child: InkResponse(
         onTap: onPressed,
-        radius: AppSpacing.xl,
-        child: SvgPicture.asset(
-          'assets/icons/$assetName.svg',
-          width: 24,
-          height: 24,
+        radius: AppSpacing.xxl,
+        child: SizedBox(
+          width: AppSpacing.minTouchTarget,
+          height: AppSpacing.minTouchTarget,
+          child: Center(
+            child: SvgPicture.asset(
+              'assets/icons/$assetName.svg',
+              width: 24,
+              height: 24,
+            ),
+          ),
         ),
       ),
     );

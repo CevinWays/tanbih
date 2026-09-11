@@ -122,8 +122,14 @@ class NotificationSettingsCubit extends Cubit<NotificationSettingsState> {
   Future<void> setFajrAlarm(FajrAlarmPref alarm) =>
       _update(state.settings.copyWith(fajrAlarm: alarm));
 
-  Future<void> sendTestNotification() async {
-    final result = await _repository.sendTestNotification();
+  /// Fires a sample using the sound configured for [slot], so what the user
+  /// hears is what the real reminder will play.
+  Future<void> sendTestNotification({
+    PrayerSlot slot = PrayerSlot.dhuhr,
+  }) async {
+    final result = await _repository.sendTestNotification(
+      state.settings.prefFor(slot).sound,
+    );
     result.fold((failure) => emit(state.copyWith(failure: failure)), (_) {});
   }
 

@@ -470,4 +470,7 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get permissionIntroBody =>
       'Tanbih needs notification permission to remind you when a prayer time begins. Without it, the adhan and reminders will not appear at all.';
+
+  @override
+  String get themeTitle => 'App Theme';
 }

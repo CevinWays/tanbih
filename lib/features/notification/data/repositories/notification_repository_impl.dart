@@ -4,6 +4,7 @@ import 'package:injectable/injectable.dart';
 import '../../../../core/error/exceptions.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../core/services/notification_service.dart';
+import '../../domain/entities/notification_sound.dart';
 import '../../domain/entities/prayer_notification_pref.dart';
 import '../../domain/repositories/notification_repository.dart';
 import '../datasources/notification_settings_local_data_source.dart';
@@ -76,11 +77,14 @@ class NotificationRepositoryImpl implements NotificationRepository {
   }
 
   @override
-  Future<Either<Failure, Unit>> sendTestNotification() async {
+  Future<Either<Failure, Unit>> sendTestNotification(
+    NotificationSound sound,
+  ) async {
     try {
       await _service.showNow(
         title: 'Tanbih',
         body: 'Contoh notifikasi waktu shalat',
+        sound: sound,
       );
       return const Right(unit);
     } on Object catch (e) {

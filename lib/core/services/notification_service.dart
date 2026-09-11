@@ -40,7 +40,16 @@ abstract class NotificationService {
 
   Future<int> pendingCount();
 
-  Future<void> showNow({required String title, required String body});
+  /// Posts immediately, through the channel for [sound].
+  ///
+  /// The sound is passed in rather than fixed so a test notification plays
+  /// what the user actually configured — testing the default tone while the
+  /// user has chosen the adhan would prove nothing about their setup.
+  Future<void> showNow({
+    required String title,
+    required String body,
+    required NotificationSound sound,
+  });
 }
 
 @LazySingleton(as: NotificationService)
@@ -206,7 +215,11 @@ class NotificationServiceImpl implements NotificationService {
       (await _plugin.pendingNotificationRequests()).length;
 
   @override
-  Future<void> showNow({required String title, required String body}) async {
+  Future<void> showNow({
+    required String title,
+    required String body,
+    required NotificationSound sound,
+  }) async {
     await initialize();
     await _plugin.show(
       id: 0,
@@ -220,7 +233,7 @@ class NotificationServiceImpl implements NotificationService {
           slot: PrayerSlot.dhuhr,
           kind: ScheduledKind.prayer,
           at: DateTime.now(),
-          sound: NotificationSound.defaultTone,
+          sound: sound,
           vibrate: true,
         ),
       ),

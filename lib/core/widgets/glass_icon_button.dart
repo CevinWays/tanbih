@@ -53,11 +53,16 @@ class GlassIconButton extends StatelessWidget {
             child: InkWell(
               onTap: onPressed,
               customBorder: const CircleBorder(),
-              child: Padding(
-                padding: const EdgeInsets.all(7),
-                child: flipHorizontally
-                    ? Transform.flip(flipX: true, child: icon)
-                    : icon,
+              child: SizedBox(
+                // The design draws a 26dp button; the target underneath it
+                // is padded out to the 48dp floor.
+                width: AppSpacing.minTouchTarget,
+                height: AppSpacing.minTouchTarget,
+                child: Center(
+                  child: flipHorizontally
+                      ? Transform.flip(flipX: true, child: icon)
+                      : icon,
+                ),
               ),
             ),
           ),

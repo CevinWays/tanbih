@@ -979,6 +979,12 @@ abstract class AppLocalizations {
   /// In id, this message translates to:
   /// **'Tanbih perlu izin notifikasi untuk mengingatkanmu saat waktu shalat masuk. Tanpa ini, adzan dan pengingat tidak akan muncul sama sekali.'**
   String get permissionIntroBody;
+
+  /// No description provided for @themeTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Tema Aplikasi'**
+  String get themeTitle;
 }
 
 class _AppLocalizationsDelegate

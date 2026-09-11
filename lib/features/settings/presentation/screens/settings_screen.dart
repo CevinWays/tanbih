@@ -61,13 +61,13 @@ class SettingsScreen extends StatelessWidget {
           subtitle: l10n.settingsHijriSubtitle,
           onTap: () => context.router.push(const HijriSettingsRoute()),
         ),
-        SettingTile.toggle(
-          title: l10n.settingsDarkMode,
-          subtitle: l10n.settingsTheme,
-          value: themeMode == ThemeMode.dark,
-          onChanged: (value) => context.read<ThemeCubit>().setThemeMode(
-            value ? ThemeMode.dark : ThemeMode.light,
-          ),
+        // A binary switch cannot express "follow the system", which is the
+        // default. On a phone in dark mode it read as off while the app was
+        // plainly dark — so this is a three-way choice, like Language.
+        SettingTile.navigation(
+          title: l10n.themeTitle,
+          value: _themeLabel(l10n, themeMode),
+          onTap: () => _pickTheme(context, l10n, themeMode),
         ),
         SettingTile.navigation(
           title: l10n.settingsLanguage,
@@ -76,6 +76,30 @@ class SettingsScreen extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  static String _themeLabel(AppLocalizations l10n, ThemeMode mode) =>
+      switch (mode) {
+        ThemeMode.light => l10n.themeLight,
+        ThemeMode.dark => l10n.themeDark,
+        ThemeMode.system => l10n.themeSystem,
+      };
+
+  Future<void> _pickTheme(
+    BuildContext context,
+    AppLocalizations l10n,
+    ThemeMode current,
+  ) async {
+    final cubit = context.read<ThemeCubit>();
+
+    final choice = await OptionPickerSheet.show<ThemeMode>(
+      context: context,
+      title: l10n.themeTitle,
+      options: ThemeMode.values,
+      selected: current,
+      labelOf: (mode) => _themeLabel(l10n, mode),
+    );
+    if (choice != null) await cubit.setThemeMode(choice);
   }
 
   static String _languageLabel(AppLocalizations l10n, Locale? locale) =>

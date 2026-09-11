@@ -39,13 +39,23 @@ class PrayerRowTile extends StatelessWidget {
     return GlassCard(
       radius: AppSpacing.radiusSm + 2,
       backgroundImage: _watermark,
-      fill: highlighted ? AppColors.glassFill : AppColors.glassFillStrong,
+      // The prayer in effect is tinted with the brand colour rather than a
+      // lighter white, so the highlight reads on both themes. Everything
+      // else leaves the fill to the card, which follows the theme.
+      fill: highlighted ? AppColors.brandSolid.withValues(alpha: 0.22) : null,
       child: Row(
         children: [
+          // The exported glyphs are a single dark colour, which disappears
+          // against a dark card. Tint them with the theme's text colour so
+          // they stay visible in both themes.
           SvgPicture.asset(
             'assets/icons/${entry.slot.iconAsset}.svg',
             width: 20,
             height: 20,
+            colorFilter: ColorFilter.mode(
+              DefaultTextStyle.of(context).style.color ?? AppColors.textPrimary,
+              BlendMode.srcIn,
+            ),
           ),
           const SizedBox(width: AppSpacing.xs + 1),
           Expanded(
@@ -87,13 +97,19 @@ class _NotificationToggle extends StatelessWidget {
           '${enabled ? l10n.notificationOn : l10n.notificationOff}',
       child: InkResponse(
         onTap: onPressed,
-        radius: AppSpacing.xl,
-        child: SvgPicture.asset(
-          enabled
-              ? 'assets/icons/speaker_on.svg'
-              : 'assets/icons/speaker_muted.svg',
-          width: 24,
-          height: 24,
+        radius: AppSpacing.xxl,
+        child: SizedBox(
+          width: AppSpacing.minTouchTarget,
+          height: AppSpacing.minTouchTarget,
+          child: Center(
+            child: SvgPicture.asset(
+              enabled
+                  ? 'assets/icons/speaker_on.svg'
+                  : 'assets/icons/speaker_muted.svg',
+              width: 24,
+              height: 24,
+            ),
+          ),
         ),
       ),
     );

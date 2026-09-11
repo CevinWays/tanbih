@@ -187,5 +187,6 @@
   "locationFailedTitle": "Lokasi belum bisa didapat",
   "locationRetry": "Coba lagi",
   "permissionIntroTitle": "Izinkan notifikasi",
-  "permissionIntroBody": "Tanbih perlu izin notifikasi untuk mengingatkanmu saat waktu shalat masuk. Tanpa ini, adzan dan pengingat tidak akan muncul sama sekali."
+  "permissionIntroBody": "Tanbih perlu izin notifikasi untuk mengingatkanmu saat waktu shalat masuk. Tanpa ini, adzan dan pengingat tidak akan muncul sama sekali.",
+  "themeTitle": "Tema Aplikasi"
 }

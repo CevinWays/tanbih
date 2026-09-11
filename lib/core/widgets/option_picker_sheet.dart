@@ -33,7 +33,7 @@ class OptionPickerSheet<T> extends StatelessWidget {
   }) {
     return showModalBottomSheet<T>(
       context: context,
-      backgroundColor: AppColors.surfaceLight,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       showDragHandle: true,
       isScrollControlled: true,
       shape: const RoundedRectangleBorder(

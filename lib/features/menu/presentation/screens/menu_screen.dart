@@ -20,7 +20,6 @@ class MenuScreen extends StatelessWidget {
     final l10n = context.l10n;
 
     return Scaffold(
-      backgroundColor: AppColors.surfaceLight,
       body: Column(
         children: [
           _MenuHeader(title: l10n.menuTitle),

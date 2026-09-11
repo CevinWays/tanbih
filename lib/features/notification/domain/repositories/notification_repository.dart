@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/error/failures.dart';
+import '../entities/notification_sound.dart';
 import '../entities/prayer_notification_pref.dart';
 
 abstract class NotificationRepository {
@@ -21,6 +22,7 @@ abstract class NotificationRepository {
   /// Opens the system screen for granting exact alarms.
   Future<Either<Failure, Unit>> openExactAlarmSettings();
 
-  /// Posts a notification immediately, so the user can hear what they chose.
-  Future<Either<Failure, Unit>> sendTestNotification();
+  /// Posts a notification immediately, using [sound], so the user can hear
+  /// exactly what their settings will produce.
+  Future<Either<Failure, Unit>> sendTestNotification(NotificationSound sound);
 }

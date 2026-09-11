@@ -60,7 +60,6 @@ class _AllPrayerView extends StatelessWidget {
     final locationState = context.watch<LocationBloc>().state;
 
     return Scaffold(
-      backgroundColor: AppColors.surfaceLight,
       body: Column(
         children: [
           _Header(

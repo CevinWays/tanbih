@@ -4,6 +4,12 @@ import 'app_colors.dart';
 
 /// Typography tokens.
 ///
+/// Styles that sit inside cards deliberately carry no colour. The theme's
+/// text colours differ between light and dark, and pinning one here painted
+/// dark text onto dark surfaces — legible in the designs, unreadable on a
+/// phone in dark mode. Only styles drawn on the brand gradient, where the
+/// ground is the same in both themes, set a colour explicitly.
+///
 /// Two families, per the brand board:
 /// * **Outfit** — wordmark and headings. Shipped as a variable font, so the
 ///   weight is selected with [FontVariation] rather than [FontWeight] alone;
@@ -33,7 +39,6 @@ abstract final class AppTextStyle {
     height: 1.2,
     fontWeight: FontWeight.w700,
     fontVariations: _wght(700),
-    color: AppColors.textPrimary,
   );
 
   static final TextStyle h2 = TextStyle(
@@ -42,7 +47,6 @@ abstract final class AppTextStyle {
     height: 1.25,
     fontWeight: FontWeight.w600,
     fontVariations: _wght(600),
-    color: AppColors.textPrimary,
   );
 
   static final TextStyle h3 = TextStyle(
@@ -51,7 +55,6 @@ abstract final class AppTextStyle {
     height: 1.3,
     fontWeight: FontWeight.w600,
     fontVariations: _wght(600),
-    color: AppColors.textPrimary,
   );
 
   // ---- Body (Poppins) ----
@@ -61,7 +64,6 @@ abstract final class AppTextStyle {
     fontSize: 16,
     height: 1.45,
     fontWeight: FontWeight.w400,
-    color: AppColors.textPrimary,
   );
 
   static const TextStyle bodyMedium = TextStyle(
@@ -69,7 +71,6 @@ abstract final class AppTextStyle {
     fontSize: 14,
     height: 1.45,
     fontWeight: FontWeight.w400,
-    color: AppColors.textPrimary,
   );
 
   static const TextStyle bodySmall = TextStyle(
@@ -77,7 +78,6 @@ abstract final class AppTextStyle {
     fontSize: 13,
     height: 1.4,
     fontWeight: FontWeight.w400,
-    color: AppColors.textSecondary,
   );
 
   static const TextStyle label = TextStyle(
@@ -85,7 +85,6 @@ abstract final class AppTextStyle {
     fontSize: 13,
     height: 1.4,
     fontWeight: FontWeight.w500,
-    color: AppColors.textSecondary,
   );
 
   static const TextStyle button = TextStyle(
@@ -127,7 +126,6 @@ abstract final class AppTextStyle {
     fontFamily: fontBody,
     fontSize: 14,
     fontWeight: FontWeight.w500,
-    color: AppColors.textPrimary,
   );
 
   /// Small caption on the gradient header (dates, location).
@@ -152,6 +150,5 @@ abstract final class AppTextStyle {
     fontSize: 14,
     fontWeight: FontWeight.w600,
     fontFeatures: [FontFeature.tabularFigures()],
-    color: AppColors.textPrimary,
   );
 }

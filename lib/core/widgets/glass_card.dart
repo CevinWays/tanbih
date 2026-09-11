@@ -19,7 +19,7 @@ class GlassCard extends StatelessWidget {
       vertical: 13,
     ),
     this.radius = AppSpacing.radiusMd,
-    this.fill = AppColors.glassFillStrong,
+    this.fill,
     this.border,
     this.borderWidth = 0,
     this.blur = AppSpacing.glassBlur,
@@ -30,7 +30,13 @@ class GlassCard extends StatelessWidget {
   final Widget child;
   final EdgeInsetsGeometry padding;
   final double radius;
-  final Color fill;
+
+  /// Overrides the theme-appropriate frosted fill.
+  ///
+  /// Left null, the card picks a light or dark translucency to match the
+  /// theme — a fixed white fill turned every card into a pale slab on a dark
+  /// screen, and the text on it into near-invisible dark-on-light.
+  final Color? fill;
   final Color? border;
   final double borderWidth;
   final double blur;
@@ -44,6 +50,9 @@ class GlassCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final shape = BorderRadius.circular(radius);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final resolvedFill =
+        fill ?? (isDark ? AppColors.glassFillDark : AppColors.glassFillStrong);
 
     return RepaintBoundary(
       child: ClipRRect(
@@ -52,7 +61,7 @@ class GlassCard extends StatelessWidget {
           filter: ImageFilter.blur(sigmaX: blur, sigmaY: blur),
           child: DecoratedBox(
             decoration: BoxDecoration(
-              color: fill,
+              color: resolvedFill,
               borderRadius: shape,
               border: border == null
                   ? null

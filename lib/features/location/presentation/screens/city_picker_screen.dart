@@ -43,7 +43,6 @@ class _CityPickerScreenState extends State<CityPickerScreen> {
     final l10n = context.l10n;
 
     return Scaffold(
-      backgroundColor: AppColors.surfaceLight,
       appBar: AppBar(title: Text(l10n.locationChooseManually)),
       body: Column(
         children: [

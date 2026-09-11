@@ -123,8 +123,11 @@ class _PrayerCountdownCarouselState extends State<PrayerCountdownCarousel> {
 
     return SizedBox(
       height: AppSpacing.countdownDiameter,
+      // Space the chevrons against the edges rather than using fixed gaps.
+      // The gaps in the design assume a 26dp button; padding those out to a
+      // reachable 48dp made a fixed-gap row overflow the screen.
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           GlassIconButton(
             assetName: 'chevron_right',
@@ -132,7 +135,6 @@ class _PrayerCountdownCarouselState extends State<PrayerCountdownCarousel> {
             flipHorizontally: true,
             onPressed: _page > 0 ? () => _step(-1) : null,
           ),
-          const SizedBox(width: AppSpacing.huge),
           SizedBox(
             width: AppSpacing.countdownDiameter,
             height: AppSpacing.countdownDiameter,
@@ -152,7 +154,6 @@ class _PrayerCountdownCarouselState extends State<PrayerCountdownCarousel> {
               },
             ),
           ),
-          const SizedBox(width: AppSpacing.huge),
           GlassIconButton(
             assetName: 'chevron_right',
             semanticLabel: l10n.nextPrayerAction,

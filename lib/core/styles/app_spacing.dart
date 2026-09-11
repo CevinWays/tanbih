@@ -20,6 +20,14 @@ abstract final class AppSpacing {
   static const double radiusXl = 24;
   static const double radiusPill = 100;
 
+  /// Minimum touch target.
+  ///
+  /// Material and WCAG both put the floor at 48dp. The icons in this design
+  /// are drawn at 20-24dp, so they need padding around them to be reachable
+  /// — a 24dp target is hard to hit with a thumb and was, in testing, hard
+  /// to hit at all.
+  static const double minTouchTarget = 48;
+
   /// Blur sigma for glassmorphism, matching Figma's `backdrop-blur: 25px`.
   ///
   /// Expensive on low-end Android — keep to roughly three instances per

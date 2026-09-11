@@ -468,4 +468,7 @@ class AppLocalizationsId extends AppLocalizations {
   @override
   String get permissionIntroBody =>
       'Tanbih perlu izin notifikasi untuk mengingatkanmu saat waktu shalat masuk. Tanpa ini, adzan dan pengingat tidak akan muncul sama sekali.';
+
+  @override
+  String get themeTitle => 'Tema Aplikasi';
 }
