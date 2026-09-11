@@ -33,7 +33,7 @@ class SettingTile extends StatelessWidget {
     value: value,
     enabled: enabled,
     onTap: onTap,
-    trailing: const Icon(Icons.chevron_right, color: AppColors.textSecondary),
+    trailing: const _ThemedChevron(),
   );
 
   /// Toggle row. Tapping anywhere on the row flips it, not just the switch —
@@ -100,6 +100,21 @@ class SettingTile extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+/// Chevron that follows the theme's text colour.
+///
+/// A fixed grey was invisible against a dark card.
+class _ThemedChevron extends StatelessWidget {
+  const _ThemedChevron();
+
+  @override
+  Widget build(BuildContext context) {
+    return Icon(
+      Icons.chevron_right,
+      color: DefaultTextStyle.of(context).style.color?.withValues(alpha: 0.6),
     );
   }
 }

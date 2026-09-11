@@ -276,7 +276,12 @@ class _InlinePicker extends StatelessWidget {
         children: [
           Expanded(child: Text(label, style: AppTextStyle.bodySmall)),
           Text(value, style: AppTextStyle.rowLabel),
-          const Icon(Icons.chevron_right, color: AppColors.textSecondary),
+          Icon(
+            Icons.chevron_right,
+            color: DefaultTextStyle.of(
+              context,
+            ).style.color?.withValues(alpha: 0.6),
+          ),
         ],
       ),
     );

@@ -3,14 +3,21 @@ package com.cevin.tanbih
 import com.cevin.tanbih.alarm.AdhanAlarm
 import com.cevin.tanbih.alarm.AdhanAlarmScheduler
 import com.cevin.tanbih.audio.AdhanPlaybackService
+import com.cevin.tanbih.compass.CompassStreamHandler
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
+import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodChannel
 
 class MainActivity : FlutterActivity() {
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
+
+        EventChannel(
+            flutterEngine.dartExecutor.binaryMessenger,
+            COMPASS_CHANNEL,
+        ).setStreamHandler(CompassStreamHandler(applicationContext))
 
         MethodChannel(
             flutterEngine.dartExecutor.binaryMessenger,
@@ -91,6 +98,7 @@ class MainActivity : FlutterActivity() {
 
     private companion object {
         const val CHANNEL = "com.cevin.tanbih/adhan_alarm"
+        const val COMPASS_CHANNEL = "com.cevin.tanbih/compass"
 
         /** Kept clear of the scheduler's derived ids. */
         const val TEST_ALARM_ID = 999999

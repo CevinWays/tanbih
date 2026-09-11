@@ -26,6 +26,7 @@ import 'package:tanbih/core/routes/app_router.dart' as _i208;
 import 'package:tanbih/core/services/adhan_alarm_channel.dart' as _i341;
 import 'package:tanbih/core/services/app_context.dart' as _i596;
 import 'package:tanbih/core/services/clock.dart' as _i457;
+import 'package:tanbih/core/services/compass_channel.dart' as _i120;
 import 'package:tanbih/core/services/notification_service.dart' as _i251;
 import 'package:tanbih/core/services/prayer_schedule_coordinator.dart' as _i969;
 import 'package:tanbih/features/adhan_audio/domain/adhan_alarm_port.dart'
@@ -92,6 +93,9 @@ import 'package:tanbih/features/prayer_times/presentation/bloc/next_prayer_count
     as _i913;
 import 'package:tanbih/features/prayer_times/presentation/bloc/prayer_times_bloc.dart'
     as _i267;
+import 'package:tanbih/features/qibla/domain/compass_port.dart' as _i475;
+import 'package:tanbih/features/qibla/presentation/bloc/qibla_cubit.dart'
+    as _i348;
 import 'package:tanbih/features/settings/data/datasources/app_preferences_local_data_source.dart'
     as _i335;
 import 'package:tanbih/features/settings/presentation/bloc/locale_cubit.dart'
@@ -121,6 +125,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i501.AudioPlayer>(() => registerModule.audioPlayer);
     gh.lazySingleton<_i596.AppContext>(() => _i596.AppContext());
     gh.lazySingleton<_i457.Clock>(() => const _i457.SystemClock());
+    gh.lazySingleton<_i475.CompassPort>(() => const _i120.CompassChannel());
     gh.lazySingleton<_i237.AdhanCalculatorDataSource>(
       () => const _i237.AdhanCalculatorDataSourceImpl(),
     );
@@ -197,6 +202,12 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i378.GetTodayPrayerTimes(
         gh<_i652.PrayerTimesRepository>(),
         gh<_i457.Clock>(),
+      ),
+    );
+    gh.factory<_i348.QiblaCubit>(
+      () => _i348.QiblaCubit(
+        gh<_i652.PrayerTimesRepository>(),
+        gh<_i475.CompassPort>(),
       ),
     );
     gh.lazySingleton<_i65.ThemeCubit>(

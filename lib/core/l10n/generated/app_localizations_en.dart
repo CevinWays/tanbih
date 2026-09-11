@@ -489,4 +489,30 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get fullAdhanStop => 'Stop';
+
+  @override
+  String get qiblaTitle => 'Qibla Direction';
+
+  @override
+  String get qiblaFacing => 'You\'re facing Makkah';
+
+  @override
+  String get qiblaTurn => 'Turn until the marker points straight up';
+
+  @override
+  String qiblaBearing(int degrees) {
+    return '$degrees° from north';
+  }
+
+  @override
+  String get qiblaNoSensor => 'This phone has no compass sensor';
+
+  @override
+  String qiblaNoSensorBody(int degrees) {
+    return 'The direction still works: face $degrees° from north, measured clockwise.';
+  }
+
+  @override
+  String get qiblaCalibrate =>
+      'Move the phone in a figure of eight to calibrate the compass';
 }

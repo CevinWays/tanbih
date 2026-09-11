@@ -487,4 +487,30 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get fullAdhanStop => 'Hentikan';
+
+  @override
+  String get qiblaTitle => 'Arah Kiblat';
+
+  @override
+  String get qiblaFacing => 'Kamu menghadap Makkah';
+
+  @override
+  String get qiblaTurn => 'Putar HP sampai penanda lurus ke atas';
+
+  @override
+  String qiblaBearing(int degrees) {
+    return '$degrees° dari utara';
+  }
+
+  @override
+  String get qiblaNoSensor => 'HP ini tidak punya sensor kompas';
+
+  @override
+  String qiblaNoSensorBody(int degrees) {
+    return 'Arah kiblat tetap bisa dipakai: hadapkan $degrees° dari utara, diukur searah jarum jam.';
+  }
+
+  @override
+  String get qiblaCalibrate =>
+      'Gerakkan HP membentuk angka 8 untuk mengkalibrasi kompas';
 }

@@ -1015,6 +1015,48 @@ abstract class AppLocalizations {
   /// In id, this message translates to:
   /// **'Hentikan'**
   String get fullAdhanStop;
+
+  /// No description provided for @qiblaTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Arah Kiblat'**
+  String get qiblaTitle;
+
+  /// No description provided for @qiblaFacing.
+  ///
+  /// In id, this message translates to:
+  /// **'Kamu menghadap Makkah'**
+  String get qiblaFacing;
+
+  /// No description provided for @qiblaTurn.
+  ///
+  /// In id, this message translates to:
+  /// **'Putar HP sampai penanda lurus ke atas'**
+  String get qiblaTurn;
+
+  /// No description provided for @qiblaBearing.
+  ///
+  /// In id, this message translates to:
+  /// **'{degrees}° dari utara'**
+  String qiblaBearing(int degrees);
+
+  /// No description provided for @qiblaNoSensor.
+  ///
+  /// In id, this message translates to:
+  /// **'HP ini tidak punya sensor kompas'**
+  String get qiblaNoSensor;
+
+  /// No description provided for @qiblaNoSensorBody.
+  ///
+  /// In id, this message translates to:
+  /// **'Arah kiblat tetap bisa dipakai: hadapkan {degrees}° dari utara, diukur searah jarum jam.'**
+  String qiblaNoSensorBody(int degrees);
+
+  /// No description provided for @qiblaCalibrate.
+  ///
+  /// In id, this message translates to:
+  /// **'Gerakkan HP membentuk angka 8 untuk mengkalibrasi kompas'**
+  String get qiblaCalibrate;
 }
 
 class _AppLocalizationsDelegate

@@ -193,5 +193,26 @@
   "fullAdhanSubtitle": "Putar adzan lengkap saat waktu shalat masuk, walau aplikasi tertutup",
   "fullAdhanPreview": "Coba Adzan",
   "fullAdhanPreviewSubtitle": "Putar adzan sekarang",
-  "fullAdhanStop": "Hentikan"
+  "fullAdhanStop": "Hentikan",
+  "qiblaTitle": "Arah Kiblat",
+  "qiblaFacing": "Kamu menghadap Makkah",
+  "qiblaTurn": "Putar HP sampai penanda lurus ke atas",
+  "qiblaBearing": "{degrees}° dari utara",
+  "qiblaNoSensor": "HP ini tidak punya sensor kompas",
+  "qiblaNoSensorBody": "Arah kiblat tetap bisa dipakai: hadapkan {degrees}° dari utara, diukur searah jarum jam.",
+  "qiblaCalibrate": "Gerakkan HP membentuk angka 8 untuk mengkalibrasi kompas",
+  "@qiblaBearing": {
+    "placeholders": {
+      "degrees": {
+        "type": "int"
+      }
+    }
+  },
+  "@qiblaNoSensorBody": {
+    "placeholders": {
+      "degrees": {
+        "type": "int"
+      }
+    }
+  }
 }

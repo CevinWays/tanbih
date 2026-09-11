@@ -88,6 +88,20 @@ class PrayerTimesRepositoryImpl implements PrayerTimesRepository {
   }
 
   @override
+  Future<Either<Failure, double>> getQiblaBearing({
+    required double latitude,
+    required double longitude,
+  }) async {
+    try {
+      return Right(
+        _calculator.qiblaDirection(latitude: latitude, longitude: longitude),
+      );
+    } on Object catch (e) {
+      return Left(QiblaFailure(message: e.toString()));
+    }
+  }
+
+  @override
   Future<Either<Failure, CalculationSettings>> getSettings() async {
     try {
       return Right(_settingsSource.read());

@@ -32,6 +32,15 @@ abstract class PrayerTimesRepository {
     required CalculationSettings settings,
   });
 
+  /// Qibla bearing in degrees clockwise from **true** north.
+  ///
+  /// Lives here because it comes from the same astronomical package as the
+  /// prayer times, and that package is confined to one data source.
+  Future<Either<Failure, double>> getQiblaBearing({
+    required double latitude,
+    required double longitude,
+  });
+
   Future<Either<Failure, CalculationSettings>> getSettings();
 
   Future<Either<Failure, Unit>> saveSettings(CalculationSettings settings);

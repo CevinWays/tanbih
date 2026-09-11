@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/l10n/generated/app_localizations.dart';
 import '../../../../core/l10n/l10n_extension.dart';
+import '../../../../core/routes/app_router.gr.dart';
 import '../../../../core/styles/styles.dart';
 import '../widgets/menu_section.dart';
 import '../widgets/menu_tile.dart';
@@ -59,7 +60,11 @@ class _GeneralGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final items = <MenuTileData>[
-      MenuTileData(icon: Icons.explore_outlined, label: l10n.menuQibla),
+      MenuTileData(
+        icon: Icons.explore_outlined,
+        label: l10n.menuQibla,
+        onTap: () => context.router.push(const QiblaRoute()),
+      ),
       MenuTileData(icon: Icons.menu_book_outlined, label: l10n.menuDuas),
       MenuTileData(icon: Icons.list_alt_outlined, label: l10n.menuPrayerGuide),
       MenuTileData(icon: Icons.water_drop_outlined, label: l10n.menuWuduGuide),

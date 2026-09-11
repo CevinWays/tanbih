@@ -52,7 +52,6 @@ class MenuTile extends StatelessWidget {
               data.label,
               textAlign: TextAlign.center,
               style: AppTextStyle.bodySmall.copyWith(
-                color: AppColors.textPrimary,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -98,7 +97,12 @@ class MenuRow extends StatelessWidget {
               ),
             ),
             if (enabled)
-              const Icon(Icons.chevron_right, color: AppColors.textSecondary)
+              Icon(
+                Icons.chevron_right,
+                color: DefaultTextStyle.of(
+                  context,
+                ).style.color?.withValues(alpha: 0.6),
+              )
             else
               _ComingBadge(label: comingSoonLabel),
           ],

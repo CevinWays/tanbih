@@ -169,5 +169,12 @@
   "fullAdhanSubtitle": "Play the complete adhan at prayer time, even when the app is closed",
   "fullAdhanPreview": "Try the Adhan",
   "fullAdhanPreviewSubtitle": "Play the adhan now",
-  "fullAdhanStop": "Stop"
+  "fullAdhanStop": "Stop",
+  "qiblaTitle": "Qibla Direction",
+  "qiblaFacing": "You're facing Makkah",
+  "qiblaTurn": "Turn until the marker points straight up",
+  "qiblaBearing": "{degrees}° from north",
+  "qiblaNoSensor": "This phone has no compass sensor",
+  "qiblaNoSensorBody": "The direction still works: face {degrees}° from north, measured clockwise.",
+  "qiblaCalibrate": "Move the phone in a figure of eight to calibrate the compass"
 }
