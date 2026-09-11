@@ -161,5 +161,7 @@
   "permissionGrant": "Allow",
   "permissionFix": "Fix",
   "locationFailedTitle": "Could not get your location",
-  "locationRetry": "Try again"
+  "locationRetry": "Try again",
+  "permissionIntroTitle": "Allow notifications",
+  "permissionIntroBody": "Tanbih needs notification permission to remind you when a prayer time begins. Without it, the adhan and reminders will not appear at all."
 }

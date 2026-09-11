@@ -967,6 +967,18 @@ abstract class AppLocalizations {
   /// In id, this message translates to:
   /// **'Coba lagi'**
   String get locationRetry;
+
+  /// No description provided for @permissionIntroTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Izinkan notifikasi'**
+  String get permissionIntroTitle;
+
+  /// No description provided for @permissionIntroBody.
+  ///
+  /// In id, this message translates to:
+  /// **'Tanbih perlu izin notifikasi untuk mengingatkanmu saat waktu shalat masuk. Tanpa ini, adzan dan pengingat tidak akan muncul sama sekali.'**
+  String get permissionIntroBody;
 }
 
 class _AppLocalizationsDelegate

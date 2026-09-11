@@ -16,6 +16,13 @@ abstract class AppPreferencesLocalDataSource {
 
   bool getOnboardingCompleted();
   Future<void> setOnboardingCompleted(bool value);
+
+  /// Whether the notification rationale has already been shown once.
+  ///
+  /// Android only surfaces its permission dialog a limited number of times,
+  /// and nagging on every launch is the fastest way to get denied for good.
+  bool getNotificationPromptShown();
+  Future<void> setNotificationPromptShown(bool value);
 }
 
 @LazySingleton(as: AppPreferencesLocalDataSource)
@@ -28,6 +35,7 @@ class AppPreferencesLocalDataSourceImpl
   static const String _keyLocale = 'app.locale';
   static const String _keyThemeMode = 'app.theme_mode';
   static const String _keyOnboarding = 'app.onboarding_completed';
+  static const String _keyNotificationPrompt = 'app.notification_prompt_shown';
 
   @override
   String? getLocaleCode() => _prefs.getString(_keyLocale);
@@ -54,4 +62,12 @@ class AppPreferencesLocalDataSourceImpl
   @override
   Future<void> setOnboardingCompleted(bool value) =>
       _prefs.setBool(_keyOnboarding, value);
+
+  @override
+  bool getNotificationPromptShown() =>
+      _prefs.getBool(_keyNotificationPrompt) ?? false;
+
+  @override
+  Future<void> setNotificationPromptShown(bool value) =>
+      _prefs.setBool(_keyNotificationPrompt, value);
 }

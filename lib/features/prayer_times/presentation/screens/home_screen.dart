@@ -11,6 +11,8 @@ import '../../../../core/widgets/glass_card.dart';
 import '../../../location/presentation/bloc/location_bloc.dart';
 import '../../../location/presentation/bloc/location_event.dart';
 import '../../../location/presentation/bloc/location_state.dart';
+import '../../../onboarding/presentation/widgets/startup_permission_gate.dart';
+import '../../../settings/data/datasources/app_preferences_local_data_source.dart';
 import '../../domain/entities/daily_prayer_times.dart';
 import '../bloc/calculation_settings_cubit.dart';
 import '../bloc/next_prayer_countdown_cubit.dart';
@@ -34,7 +36,10 @@ class HomeScreen extends StatelessWidget {
         BlocProvider(create: (_) => sl<PrayerTimesBloc>()),
         BlocProvider(create: (_) => sl<NextPrayerCountdownCubit>()),
       ],
-      child: const _HomeView(),
+      child: StartupPermissionGate(
+        preferences: sl<AppPreferencesLocalDataSource>(),
+        child: const _HomeView(),
+      ),
     );
   }
 }
