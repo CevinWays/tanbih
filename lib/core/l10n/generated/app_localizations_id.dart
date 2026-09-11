@@ -455,4 +455,10 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get permissionFix => 'Perbaiki';
+
+  @override
+  String get locationFailedTitle => 'Lokasi belum bisa didapat';
+
+  @override
+  String get locationRetry => 'Coba lagi';
 }

@@ -37,15 +37,16 @@ class PrayerCountdownCarousel extends StatefulWidget {
 }
 
 class _PrayerCountdownCarouselState extends State<PrayerCountdownCarousel> {
-  late final PageController _controller;
-  late int _page;
-
-  @override
-  void initState() {
-    super.initState();
-    _page = _initialPage;
-    _controller = PageController(initialPage: _page);
-  }
+  /// Created only once there is something to page through.
+  ///
+  /// The schedule arrives after the first build, so on startup this widget
+  /// renders an empty placeholder with no PageView at all. Creating the
+  /// controller eagerly meant it had no clients when the countdown target
+  /// finally appeared, and the jump to the next prayer silently did nothing
+  /// — the carousel sat on a prayer that had already passed. Building it
+  /// when the entries land lets `initialPage` do the work instead.
+  PageController? _controller;
+  int _page = 0;
 
   int get _initialPage {
     final index = widget.entries.indexWhere((e) => e.slot == widget.nextSlot);
@@ -55,33 +56,50 @@ class _PrayerCountdownCarouselState extends State<PrayerCountdownCarousel> {
   @override
   void didUpdateWidget(PrayerCountdownCarousel oldWidget) {
     super.didUpdateWidget(oldWidget);
-    // Follow the countdown when it rolls over to the next prayer, but only
-    // while the user is sitting on the page that just expired — never yank
-    // the view out from under someone who is browsing.
-    if (widget.nextSlot != oldWidget.nextSlot &&
+    if (widget.nextSlot == oldWidget.nextSlot) return;
+
+    // The schedule and the countdown arrive on separate frames, so the first
+    // build has no target yet and lands on page zero. Once a target appears,
+    // move to it — otherwise the carousel sits on a prayer that has already
+    // passed, which is exactly what it did on the first device run.
+    final hadNoTarget = oldWidget.nextSlot == null;
+
+    // After that, follow a rollover only while the user is sitting on the
+    // page that just expired; never yank the view away from someone who is
+    // browsing other prayers.
+    final sittingOnExpired =
         _page ==
-            oldWidget.entries.indexWhere((e) => e.slot == oldWidget.nextSlot)) {
-      final target = _initialPage;
-      if (target != _page && _controller.hasClients) {
-        _controller.animateToPage(
-          target,
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeOut,
-        );
-      }
+        oldWidget.entries.indexWhere((e) => e.slot == oldWidget.nextSlot);
+
+    if (!hadNoTarget && !sittingOnExpired) return;
+
+    final target = _initialPage;
+    if (target == _page) return;
+
+    final controller = _controller;
+    if (controller == null || !controller.hasClients) {
+      // No viewport yet: remember the target so the PageView is built on it.
+      setState(() => _page = target);
+      return;
     }
+
+    controller.animateToPage(
+      target,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+    );
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    _controller?.dispose();
     super.dispose();
   }
 
   void _step(int delta) {
     final target = (_page + delta).clamp(0, widget.entries.length - 1);
     if (target == _page) return;
-    _controller.animateToPage(
+    _controller?.animateToPage(
       target,
       duration: const Duration(milliseconds: 250),
       curve: Curves.easeOut,
@@ -94,6 +112,13 @@ class _PrayerCountdownCarouselState extends State<PrayerCountdownCarousel> {
 
     if (widget.entries.isEmpty) {
       return const SizedBox(height: AppSpacing.countdownDiameter);
+    }
+
+    // First build with real entries: start on the prayer being counted down
+    // to rather than on whatever happens to be first.
+    if (_controller == null) {
+      _page = _initialPage;
+      _controller = PageController(initialPage: _page);
     }
 
     return SizedBox(
@@ -113,6 +138,7 @@ class _PrayerCountdownCarouselState extends State<PrayerCountdownCarousel> {
             height: AppSpacing.countdownDiameter,
             child: PageView.builder(
               controller: _controller,
+              key: ValueKey(widget.entries.length),
               itemCount: widget.entries.length,
               onPageChanged: (page) => setState(() => _page = page),
               itemBuilder: (context, index) {

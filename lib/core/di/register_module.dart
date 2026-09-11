@@ -1,5 +1,6 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/services.dart' show AssetBundle, rootBundle;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:injectable/injectable.dart';
 import 'package:just_audio/just_audio.dart';
@@ -21,6 +22,13 @@ abstract class RegisterModule {
 
   @lazySingleton
   Connectivity get connectivity => Connectivity();
+
+  /// Reads bundled assets — currently the offline city list.
+  ///
+  /// Registered rather than referenced directly so tests can swap in a fake
+  /// bundle instead of touching the real one.
+  @lazySingleton
+  AssetBundle get assetBundle => rootBundle;
 
   @lazySingleton
   FlutterLocalNotificationsPlugin get localNotifications =>

@@ -183,5 +183,7 @@
   "soundAdhanShort": "Adzan singkat",
   "fajrAlarmMinutesTitle": "Berapa lama sebelum Subuh",
   "permissionGrant": "Izinkan",
-  "permissionFix": "Perbaiki"
+  "permissionFix": "Perbaiki",
+  "locationFailedTitle": "Lokasi belum bisa didapat",
+  "locationRetry": "Coba lagi"
 }

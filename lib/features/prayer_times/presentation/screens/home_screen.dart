@@ -7,6 +7,7 @@ import '../../../../core/enums/prayer_slot.dart';
 import '../../../../core/l10n/l10n_extension.dart';
 import '../../../../core/routes/app_router.gr.dart';
 import '../../../../core/styles/styles.dart';
+import '../../../../core/widgets/glass_card.dart';
 import '../../../location/presentation/bloc/location_bloc.dart';
 import '../../../location/presentation/bloc/location_event.dart';
 import '../../../location/presentation/bloc/location_state.dart';
@@ -99,7 +100,7 @@ class _HomeBody extends StatelessWidget {
     final times = prayerState.times;
 
     return ColoredBox(
-      color: AppColors.surfaceLight,
+      color: Theme.of(context).scaffoldBackgroundColor,
       child: SingleChildScrollView(
         child: Column(
           children: [
@@ -122,22 +123,26 @@ class _HomeBody extends StatelessWidget {
               ),
             ),
             const SizedBox(height: AppSpacing.xxl),
-            switch (prayerState.status) {
-              PrayerTimesStatus.success => _Schedule(
-                times: times!,
-                currentSlot: _currentSlot(times, countdown.slot),
-              ),
-              PrayerTimesStatus.failure => _ScheduleMessage(
-                message: prayerState.failure?.message.isNotEmpty ?? false
-                    ? prayerState.failure!.message
-                    : l10n.errorCalculation,
-              ),
-              PrayerTimesStatus.loading ||
-              PrayerTimesStatus.initial => const Padding(
-                padding: EdgeInsets.all(AppSpacing.xxxl),
-                child: CircularProgressIndicator(),
-              ),
-            },
+            if (!locationState.hasLocation &&
+                locationState.status == LocationStatus.failure)
+              _LocationFailedCard(state: locationState)
+            else
+              switch (prayerState.status) {
+                PrayerTimesStatus.success => _Schedule(
+                  times: times!,
+                  currentSlot: _currentSlot(times, countdown.slot),
+                ),
+                PrayerTimesStatus.failure => _ScheduleMessage(
+                  message: prayerState.failure?.message.isNotEmpty ?? false
+                      ? prayerState.failure!.message
+                      : l10n.errorCalculation,
+                ),
+                PrayerTimesStatus.loading ||
+                PrayerTimesStatus.initial => const Padding(
+                  padding: EdgeInsets.all(AppSpacing.xxxl),
+                  child: CircularProgressIndicator(),
+                ),
+              },
             const SizedBox(height: AppSpacing.huge),
           ],
         ),
@@ -158,6 +163,62 @@ PrayerSlot? _currentSlot(DailyPrayerTimes times, PrayerSlot? nextSlot) {
 
   final index = prayers.indexWhere((e) => e.slot == nextSlot);
   return index <= 0 ? null : prayers[index - 1].slot;
+}
+
+/// Shown when the location could not be resolved and there is no cached one.
+///
+/// Without this the screen spins forever: nothing further is coming, and the
+/// user is given no way to act.
+class _LocationFailedCard extends StatelessWidget {
+  const _LocationFailedCard({required this.state});
+
+  final LocationState state;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final message = state.isPermanentlyDenied
+        ? l10n.locationPermissionDeniedForever
+        : (state.failure?.message.isNotEmpty ?? false
+              ? state.failure!.message
+              : l10n.locationFailedTitle);
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xl),
+      child: SizedBox(
+        width: AppSpacing.contentWidth,
+        child: GlassCard(
+          radius: AppSpacing.radiusMd,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(l10n.locationFailedTitle, style: AppTextStyle.rowLabel),
+              const SizedBox(height: AppSpacing.xxs),
+              Text(message, style: AppTextStyle.bodySmall),
+              const SizedBox(height: AppSpacing.sm),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(
+                    onPressed: () => context.read<LocationBloc>().add(
+                      const LocationRefreshRequested(),
+                    ),
+                    child: Text(l10n.locationRetry),
+                  ),
+                  const SizedBox(width: AppSpacing.sm),
+                  FilledButton(
+                    onPressed: () =>
+                        context.router.push(const CityPickerRoute()),
+                    child: Text(l10n.locationChooseManually),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 class _Schedule extends StatelessWidget {

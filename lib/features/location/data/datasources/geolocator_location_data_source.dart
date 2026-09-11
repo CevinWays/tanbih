@@ -53,12 +53,11 @@ class GeolocatorLocationDataSourceImpl implements GeolocatorLocationDataSource {
   Future<Position> current() async {
     await ensurePermission();
 
-    if (!await isServiceEnabled()) {
-      throw const LocationException(
-        message: 'Layanan lokasi perangkat tidak aktif',
-      );
-    }
-
+    // `isLocationServiceEnabled` is deliberately NOT used as a gate here.
+    // On HyperOS it reports false while the OS itself reports location as
+    // enabled, which blocked every fix on the test device. Ask for the
+    // position and let the attempt decide; the service check is only used
+    // afterwards, to phrase the failure correctly.
     try {
       return await Geolocator.getCurrentPosition(
         locationSettings: const LocationSettings(
@@ -70,6 +69,13 @@ class GeolocatorLocationDataSourceImpl implements GeolocatorLocationDataSource {
       // A timeout is reported separately so the repository can fall back to
       // the cached location rather than pushing the user to manual entry.
       final isTimeout = e.toString().toLowerCase().contains('time');
+
+      if (!isTimeout && !await isServiceEnabled()) {
+        throw const LocationException(
+          message: 'Layanan lokasi perangkat tidak aktif',
+        );
+      }
+
       throw LocationException(message: e.toString(), isTimeout: isTimeout);
     }
   }

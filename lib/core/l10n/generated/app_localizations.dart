@@ -955,6 +955,18 @@ abstract class AppLocalizations {
   /// In id, this message translates to:
   /// **'Perbaiki'**
   String get permissionFix;
+
+  /// No description provided for @locationFailedTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Lokasi belum bisa didapat'**
+  String get locationFailedTitle;
+
+  /// No description provided for @locationRetry.
+  ///
+  /// In id, this message translates to:
+  /// **'Coba lagi'**
+  String get locationRetry;
 }
 
 class _AppLocalizationsDelegate

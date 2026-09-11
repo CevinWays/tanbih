@@ -457,4 +457,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get permissionFix => 'Fix';
+
+  @override
+  String get locationFailedTitle => 'Could not get your location';
+
+  @override
+  String get locationRetry => 'Try again';
 }

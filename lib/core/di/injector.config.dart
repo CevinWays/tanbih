@@ -111,6 +111,7 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i207.Talker>(() => registerModule.talker);
     gh.lazySingleton<_i895.Connectivity>(() => registerModule.connectivity);
+    gh.lazySingleton<_i281.AssetBundle>(() => registerModule.assetBundle);
     gh.lazySingleton<_i163.FlutterLocalNotificationsPlugin>(
       () => registerModule.localNotifications,
     );

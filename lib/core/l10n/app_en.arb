@@ -159,5 +159,7 @@
   "soundAdhanShort": "Short adhan",
   "fajrAlarmMinutesTitle": "How long before Fajr",
   "permissionGrant": "Allow",
-  "permissionFix": "Fix"
+  "permissionFix": "Fix",
+  "locationFailedTitle": "Could not get your location",
+  "locationRetry": "Try again"
 }
