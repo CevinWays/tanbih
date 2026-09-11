@@ -117,3 +117,35 @@ hanya dipakai *setelah* percobaan gagal, untuk menyusun pesan error.
 | Baris "Other" di Menu | Ditandai "Segera" | Feedback/Rate/Share/Support membuka target di luar app; wiring-nya di phase rilis |
 | Qibla | Masih "Segera" di Menu | Dibangun di phase-nya sendiri bersama `flutter_qiblah` |
 | Dark mode | Diturunkan dari navy brand board | Desain belum menyediakan varian gelap — **butuh review** |
+
+## Phase 8 (Silent Settings) — ditunda, keputusan sudah dikunci
+
+Dikerjakan setelah Phase 9 (Qibla) dan Phase 10 (polish rilis), supaya ada
+versi yang bisa dirilis ke internal testing tanpa bergantung padanya. Alasan
+penundaan: friksi izinnya paling tinggi dan ia satu-satunya fitur yang kalau
+bug bisa **meninggalkan HP pengguna senyap permanen**.
+
+Keputusan yang sudah diambil:
+
+| Aspek | Keputusan | Alasan |
+|---|---|---|
+| Mekanisme | `setInterruptionFilter(INTERRUPTION_FILTER_ALARMS)` — **bukan** ringer mode | Hanya satu nilai yang diubah, jadi pemulihannya bersih. Alarm dan adzan (`USAGE_ALARM`) tetap lolos. Ringer mode menyentuh volume sistem dan lebih sering dibatasi HyperOS |
+| Mulai senyap | Default `startOffsetMinutes = 3`, yaitu **setelah adzan selesai** | Menghindari balapan antara senyap dan adzan di instan yang sama. Yang perlu hening itu shalatnya, bukan adzannya |
+
+Catatan implementasi yang sudah dipastikan sebelum mulai:
+
+- `ACCESS_NOTIFICATION_POLICY` **bukan** runtime permission — tidak ada dialog.
+  User harus menyalakannya manual di Settings → Special app access → Do Not
+  Disturb access. Kita hanya bisa deep-link ke
+  `ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS`. `permission_handler` tidak bisa
+- **Dua alarm per waktu** (masuk senyap + pulihkan). Tidak boleh pakai timer
+  in-app: app akan dibunuh di antara keduanya
+- Window senyap dipendekkan jadi **2 hari** (bukan 7), diperpanjang tiap app
+  dibuka — kalau 7 hari, bertambah 70 alarm di atas 65 yang sudah ada
+- Mode sebelumnya disimpan di SharedPreferences **native**, supaya receiver
+  pemulihan tetap tahu tujuannya walau app sudah mati
+- Saat app dibuka: kalau state bilang "kami menyenyapkan" tapi waktu pulih
+  sudah lewat → pulihkan seketika. Ini jaring pengaman untuk force-stop, yang
+  membatalkan semua alarm
+- `setInterruptionFilter` **belum pernah diuji di HyperOS**. Ada kemungkinan
+  nyata Xiaomi membatasinya; itu harus diuji lebih dulu sebelum membangun UI-nya
