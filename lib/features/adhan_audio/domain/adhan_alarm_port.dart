@@ -1,13 +1,14 @@
 import '../../../core/enums/prayer_slot.dart';
+import 'adhan_variant.dart';
 
 /// One full-adhan playback the native layer should arm.
 class ScheduledAdhan {
-  const ScheduledAdhan({
+  ScheduledAdhan({
     required this.id,
     required this.slot,
     required this.at,
     required this.label,
-  });
+  }) : variant = AdhanVariant.forSlot(slot);
 
   final int id;
   final PrayerSlot slot;
@@ -15,6 +16,9 @@ class ScheduledAdhan {
 
   /// Shown on the playback notification, already localized.
   final String label;
+
+  /// Fajr takes a different recording from the rest — see [AdhanVariant].
+  final AdhanVariant variant;
 }
 
 /// The app's side of the native adhan alarm.

@@ -35,7 +35,9 @@ class AdhanAlarmChannel implements AdhanAlarmPort {
             'id': alarm.id,
             'triggerAtMillis': alarm.at.millisecondsSinceEpoch,
             'label': alarm.label,
-            'asset': null,
+            // Sent per alarm so Fajr can carry its own recording without
+            // the native side needing to know anything about prayers.
+            'asset': _assetPathFor(alarm),
           },
       ],
     });
@@ -63,6 +65,11 @@ class AdhanAlarmChannel implements AdhanAlarmPort {
     required int seconds,
     required String label,
   }) => _invoke('scheduleTestAlarm', {'seconds': seconds, 'label': label});
+
+  /// Native reads assets from inside the APK, where Flutter packs them
+  /// under `flutter_assets/`.
+  String _assetPathFor(ScheduledAdhan alarm) =>
+      'flutter_assets/${alarm.variant.fullAsset}';
 
   Future<T?> _invoke<T>(
     String method, [

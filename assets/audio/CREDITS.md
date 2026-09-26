@@ -30,6 +30,33 @@ Sumber: Ogg Vorbis 154 detik, stereo 44.1 kHz, ~63 kbps, puncak −2,2 dBFS.
 
 Dikerjakan dengan `oggdec`/`oggenc` (vorbis-tools) dan Python stdlib.
 
+## Yang masih kurang: adzan Subuh
+
+Adzan Subuh berbeda dari adzan waktu lain. Setelah *hayya 'alal falah* ada
+tambahan **tatswib** — الصلاة خير من النوم, *"shalat lebih baik daripada
+tidur"* — dibaca dua kali, dan hanya ada di Subuh. Memutar adzan biasa saat
+Subuh terdengar salah bagi siapa pun yang terbiasa mendengarnya.
+
+Rekaman yang kita bundel sekarang **adzan biasa, bukan Subuh**. Diperiksa
+dengan memecah rekaman berdasarkan jeda: terdeteksi 12 frasa, yang cocok
+dengan struktur adzan biasa (takbir 4× jadi 2 frasa, syahadat 2+2, hayya 2+2,
+takbir 2×, tahlil). Kalau ada tatswib, jumlahnya sekitar 14.
+
+Sampai ada rekaman bertatswib yang lisensinya jelas, Subuh memutar rekaman
+yang sama. Ini dinyatakan di kode lewat `AdhanVariant.usesFallbackRecording`,
+bukan dibiarkan jadi kebetulan.
+
+### Sumber yang sudah dicari dan hasilnya
+
+| Sumber | Hasil |
+|---|---|
+| Wikimedia Commons | Tidak ada adzan Subuh sama sekali |
+| Internet Archive | Banyak, **tidak satu pun menyatakan lisensi**. Isinya rekaman qari terkenal yang diunggah orang lain — kemungkinan besar berhak cipta |
+| Freesound (CC0) | Ada 26 rekaman adzan CC0, tapi semuanya rekaman lapangan: terekam dari kejauhan, ada suara AC dan suara kafe. Tidak layak dipakai sebagai adzan aplikasi |
+
+Jalan yang paling bersih: merekam sendiri, atau meminta izin ke masjid untuk
+memakai rekaman muadzinnya. Lisensinya jelas dan kualitasnya terkendali.
+
 ## Yang ditolak
 
 | File | Alasan |
