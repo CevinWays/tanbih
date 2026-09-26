@@ -176,5 +176,19 @@
   "qiblaBearing": "{degrees}° from north",
   "qiblaNoSensor": "This phone has no compass sensor",
   "qiblaNoSensorBody": "The direction still works: face {degrees}° from north, measured clockwise.",
-  "qiblaCalibrate": "Move the phone in a figure of eight to calibrate the compass"
+  "qiblaCalibrate": "Move the phone in a figure of eight to calibrate the compass",
+  "aboutTitle": "About",
+  "aboutVersion": "Version {version}",
+  "aboutTagline": "Prayer times & adhan reminder",
+  "aboutCreditsTitle": "Credits & Licences",
+  "aboutAdhanTitle": "Adhan recording",
+  "aboutAdhanBody": "\"Beautiful adhan\" by Adam-synagda, Wikimedia Commons. Dedicated to the public domain (CC0 1.0).",
+  "aboutFontsTitle": "Fonts",
+  "aboutFontsBody": "Outfit and Poppins, SIL Open Font License 1.1.",
+  "aboutCitiesTitle": "City data",
+  "aboutCitiesBody": "City coordinates come from OpenStreetMap © OpenStreetMap contributors, available under the Open Database License (ODbL).",
+  "aboutCalcTitle": "Prayer time calculation",
+  "aboutCalcBody": "Computed on this device using the Adhan library. Defaults follow the Kemenag RI method.",
+  "aboutPrivacyTitle": "Privacy",
+  "aboutPrivacyBody": "Your location is used only on this device to compute prayer times. It is never sent to any server."
 }

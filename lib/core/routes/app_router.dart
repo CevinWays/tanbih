@@ -37,5 +37,6 @@ class AppRouter extends RootStackRouter {
       page: NotificationSettingsRoute.page,
     ),
     AutoRoute(path: RouteName.qibla, page: QiblaRoute.page),
+    AutoRoute(path: RouteName.about, page: AboutRoute.page),
   ];
 }

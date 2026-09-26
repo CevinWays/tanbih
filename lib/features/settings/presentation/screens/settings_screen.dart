@@ -74,6 +74,10 @@ class SettingsScreen extends StatelessWidget {
           value: _languageLabel(l10n, locale),
           onTap: () => _pickLanguage(context, l10n, locale),
         ),
+        SettingTile.navigation(
+          title: l10n.aboutTitle,
+          onTap: () => context.router.push(const AboutRoute()),
+        ),
       ],
     );
   }

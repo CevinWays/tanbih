@@ -515,4 +515,52 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get qiblaCalibrate =>
       'Move the phone in a figure of eight to calibrate the compass';
+
+  @override
+  String get aboutTitle => 'About';
+
+  @override
+  String aboutVersion(String version) {
+    return 'Version $version';
+  }
+
+  @override
+  String get aboutTagline => 'Prayer times & adhan reminder';
+
+  @override
+  String get aboutCreditsTitle => 'Credits & Licences';
+
+  @override
+  String get aboutAdhanTitle => 'Adhan recording';
+
+  @override
+  String get aboutAdhanBody =>
+      '\"Beautiful adhan\" by Adam-synagda, Wikimedia Commons. Dedicated to the public domain (CC0 1.0).';
+
+  @override
+  String get aboutFontsTitle => 'Fonts';
+
+  @override
+  String get aboutFontsBody => 'Outfit and Poppins, SIL Open Font License 1.1.';
+
+  @override
+  String get aboutCitiesTitle => 'City data';
+
+  @override
+  String get aboutCitiesBody =>
+      'City coordinates come from OpenStreetMap © OpenStreetMap contributors, available under the Open Database License (ODbL).';
+
+  @override
+  String get aboutCalcTitle => 'Prayer time calculation';
+
+  @override
+  String get aboutCalcBody =>
+      'Computed on this device using the Adhan library. Defaults follow the Kemenag RI method.';
+
+  @override
+  String get aboutPrivacyTitle => 'Privacy';
+
+  @override
+  String get aboutPrivacyBody =>
+      'Your location is used only on this device to compute prayer times. It is never sent to any server.';
 }

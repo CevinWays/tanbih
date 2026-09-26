@@ -513,4 +513,52 @@ class AppLocalizationsId extends AppLocalizations {
   @override
   String get qiblaCalibrate =>
       'Gerakkan HP membentuk angka 8 untuk mengkalibrasi kompas';
+
+  @override
+  String get aboutTitle => 'Tentang';
+
+  @override
+  String aboutVersion(String version) {
+    return 'Versi $version';
+  }
+
+  @override
+  String get aboutTagline => 'Pengingat shalat & adzan';
+
+  @override
+  String get aboutCreditsTitle => 'Kredit & Lisensi';
+
+  @override
+  String get aboutAdhanTitle => 'Rekaman adzan';
+
+  @override
+  String get aboutAdhanBody =>
+      '\"Beautiful adhan\" oleh Adam-synagda, Wikimedia Commons. Didedikasikan ke domain publik (CC0 1.0).';
+
+  @override
+  String get aboutFontsTitle => 'Font';
+
+  @override
+  String get aboutFontsBody => 'Outfit dan Poppins, SIL Open Font License 1.1.';
+
+  @override
+  String get aboutCitiesTitle => 'Data kota';
+
+  @override
+  String get aboutCitiesBody =>
+      'Koordinat kota berasal dari OpenStreetMap © kontributor OpenStreetMap, tersedia di bawah Open Database License (ODbL).';
+
+  @override
+  String get aboutCalcTitle => 'Perhitungan waktu shalat';
+
+  @override
+  String get aboutCalcBody =>
+      'Dihitung di perangkat memakai pustaka Adhan. Default mengikuti metode Kemenag RI.';
+
+  @override
+  String get aboutPrivacyTitle => 'Privasi';
+
+  @override
+  String get aboutPrivacyBody =>
+      'Lokasi hanya dipakai di perangkat ini untuk menghitung waktu shalat. Lokasi tidak pernah dikirim ke server mana pun.';
 }

@@ -214,5 +214,26 @@
         "type": "int"
       }
     }
+  },
+  "aboutTitle": "Tentang",
+  "aboutVersion": "Versi {version}",
+  "aboutTagline": "Pengingat shalat & adzan",
+  "aboutCreditsTitle": "Kredit & Lisensi",
+  "aboutAdhanTitle": "Rekaman adzan",
+  "aboutAdhanBody": "\"Beautiful adhan\" oleh Adam-synagda, Wikimedia Commons. Didedikasikan ke domain publik (CC0 1.0).",
+  "aboutFontsTitle": "Font",
+  "aboutFontsBody": "Outfit dan Poppins, SIL Open Font License 1.1.",
+  "aboutCitiesTitle": "Data kota",
+  "aboutCitiesBody": "Koordinat kota berasal dari OpenStreetMap © kontributor OpenStreetMap, tersedia di bawah Open Database License (ODbL).",
+  "aboutCalcTitle": "Perhitungan waktu shalat",
+  "aboutCalcBody": "Dihitung di perangkat memakai pustaka Adhan. Default mengikuti metode Kemenag RI.",
+  "aboutPrivacyTitle": "Privasi",
+  "aboutPrivacyBody": "Lokasi hanya dipakai di perangkat ini untuk menghitung waktu shalat. Lokasi tidak pernah dikirim ke server mana pun.",
+  "@aboutVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
   }
 }

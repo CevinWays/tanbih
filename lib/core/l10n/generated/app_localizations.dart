@@ -1057,6 +1057,90 @@ abstract class AppLocalizations {
   /// In id, this message translates to:
   /// **'Gerakkan HP membentuk angka 8 untuk mengkalibrasi kompas'**
   String get qiblaCalibrate;
+
+  /// No description provided for @aboutTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Tentang'**
+  String get aboutTitle;
+
+  /// No description provided for @aboutVersion.
+  ///
+  /// In id, this message translates to:
+  /// **'Versi {version}'**
+  String aboutVersion(String version);
+
+  /// No description provided for @aboutTagline.
+  ///
+  /// In id, this message translates to:
+  /// **'Pengingat shalat & adzan'**
+  String get aboutTagline;
+
+  /// No description provided for @aboutCreditsTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Kredit & Lisensi'**
+  String get aboutCreditsTitle;
+
+  /// No description provided for @aboutAdhanTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Rekaman adzan'**
+  String get aboutAdhanTitle;
+
+  /// No description provided for @aboutAdhanBody.
+  ///
+  /// In id, this message translates to:
+  /// **'\"Beautiful adhan\" oleh Adam-synagda, Wikimedia Commons. Didedikasikan ke domain publik (CC0 1.0).'**
+  String get aboutAdhanBody;
+
+  /// No description provided for @aboutFontsTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Font'**
+  String get aboutFontsTitle;
+
+  /// No description provided for @aboutFontsBody.
+  ///
+  /// In id, this message translates to:
+  /// **'Outfit dan Poppins, SIL Open Font License 1.1.'**
+  String get aboutFontsBody;
+
+  /// No description provided for @aboutCitiesTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Data kota'**
+  String get aboutCitiesTitle;
+
+  /// No description provided for @aboutCitiesBody.
+  ///
+  /// In id, this message translates to:
+  /// **'Koordinat kota berasal dari OpenStreetMap © kontributor OpenStreetMap, tersedia di bawah Open Database License (ODbL).'**
+  String get aboutCitiesBody;
+
+  /// No description provided for @aboutCalcTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Perhitungan waktu shalat'**
+  String get aboutCalcTitle;
+
+  /// No description provided for @aboutCalcBody.
+  ///
+  /// In id, this message translates to:
+  /// **'Dihitung di perangkat memakai pustaka Adhan. Default mengikuti metode Kemenag RI.'**
+  String get aboutCalcBody;
+
+  /// No description provided for @aboutPrivacyTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Privasi'**
+  String get aboutPrivacyTitle;
+
+  /// No description provided for @aboutPrivacyBody.
+  ///
+  /// In id, this message translates to:
+  /// **'Lokasi hanya dipakai di perangkat ini untuk menghitung waktu shalat. Lokasi tidak pernah dikirim ke server mana pun.'**
+  String get aboutPrivacyBody;
 }
 
 class _AppLocalizationsDelegate
