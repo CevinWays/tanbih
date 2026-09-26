@@ -7,20 +7,48 @@ Tanda 🔴 = memblokir rilis. Tanda 🟡 = boleh menyusul, tapi jangan lama.
 
 ---
 
-## 1. Yang bisa merusak diam-diam
+## 1. R8 — sudah dikerjakan, sisa satu pembuktian
 
-Build release memangkas dan mengganti nama kode. Receiver dan service adzan
-dipanggil lewat nama dari `AndroidManifest.xml`, bukan dari kode Dart — kalau
-namanya diubah, Android tidak menemukannya. Aplikasi tetap jalan normal,
-jadwal tetap tampil, **adzan tidak pernah bunyi**, dan tidak ada error apa pun.
-Cuma muncul di release.
+**Koreksi dari versi pertama checklist ini.** Semula di sini tertulis bahwa
+R8 akan mengganti nama receiver dan service adzan sehingga Android tidak
+menemukannya. **Itu salah.** R8 membaca `AndroidManifest.xml` dan
+memperlakukan apa pun yang terdaftar di sana sebagai titik masuk yang tidak
+boleh diubah. Dibuktikan lewat `build/app/outputs/mapping/release/mapping.txt`:
 
-| | Kerjaan | Siapa |
+```
+AdhanAlarmReceiver    -> AdhanAlarmReceiver      (tetap)
+BootReceiver          -> BootReceiver            (tetap)
+AdhanPlaybackService  -> AdhanPlaybackService    (tetap)
+AdhanAlarmScheduler   -> B1.c                    (di-rename, tidak masalah)
+```
+
+Yang di-rename hanya kelas internal, dan itu tidak apa-apa karena cuma
+dipanggil dari kode Kotlin, bukan lewat nama.
+
+Risiko yang **nyata** ternyata di tempat lain: plugin notifikasi menyimpan
+daftar jadwalnya sebagai JSON lewat Gson, dan Gson memakai **nama field**
+sebagai kunci JSON. Kalau R8 mengganti nama field, kunci JSON ikut berubah.
+Dalam satu build tetap konsisten sehingga tidak kelihatan — kerusakannya
+muncul saat **update aplikasi**, waktu JSON tulisan versi lama dibaca versi
+baru yang menamai field berbeda. Semua notifikasi terjadwal hilang tanpa
+error, sampai user kebetulan membuka aplikasi lagi.
+
+| | Kerjaan | Status |
 |---|---|---|
-| 🔴 | Tulis aturan R8/ProGuard supaya nama receiver, service, dan boot receiver tidak diubah | repo |
-| 🔴 | Build release, pasang di HP, tekan tombol tes alarm 20 detik, pastikan adzan bunyi | repo + HP |
-| 🔴 | Tes juga notifikasi terjadwal di release (tunggu satu waktu shalat asli) | HP |
-| 🟡 | Pastikan baris debug "Test scheduled adhan" tidak muncul di release | repo |
+| ✅ | `proguard-rules.pro` dengan keep rules untuk `com.dexterous.**` dan Gson | selesai |
+| ✅ | `isMinifyEnabled` + `isShrinkResources` dinyatakan eksplisit di build.gradle.kts | selesai |
+| ✅ | Verifikasi lewat mapping.txt: nol kelas plugin notifikasi ter-rename | selesai |
+| 🔴 | Pasang build release di HP, tekan tes alarm 20 detik, pastikan adzan bunyi | butuh HP |
+| 🔴 | Pasang ulang APK yang sama **tanpa membuka aplikasi**, hitung alarm sebelum dan sesudah | butuh HP |
+| 🔴 | Tunggu satu waktu shalat asli di build release | butuh HP |
+
+Tes kedua itu yang paling berharga. Memasang ulang APK memicu
+`MY_PACKAGE_REPLACED` — jalur yang sama persis dengan pemulihan setelah
+reboot — jadi ia menguji baik penyimpanan native kita maupun penyimpanan
+Gson milik plugin, tanpa perlu me-reboot HP.
+
+Catatan: `adb shell am force-stop` **membatalkan semua alarm**. Jangan
+dipakai di tengah pengujian ini, nanti yang terukur bukan yang dimaksud.
 
 ## 2. Yang hanya bisa dikerjakan Cevin
 
