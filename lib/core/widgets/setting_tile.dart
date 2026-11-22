@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../styles/styles.dart';
+import 'themed_chevron.dart';
 import 'glass_card.dart';
 
 /// One settings row: title, optional explanation, and a trailing control.
@@ -33,7 +34,7 @@ class SettingTile extends StatelessWidget {
     value: value,
     enabled: enabled,
     onTap: onTap,
-    trailing: const _ThemedChevron(),
+    trailing: const ThemedChevron(),
   );
 
   /// Toggle row. Tapping anywhere on the row flips it, not just the switch —
@@ -107,18 +108,6 @@ class SettingTile extends StatelessWidget {
 /// Chevron that follows the theme's text colour.
 ///
 /// A fixed grey was invisible against a dark card.
-class _ThemedChevron extends StatelessWidget {
-  const _ThemedChevron();
-
-  @override
-  Widget build(BuildContext context) {
-    return Icon(
-      Icons.chevron_right,
-      color: DefaultTextStyle.of(context).style.color?.withValues(alpha: 0.6),
-    );
-  }
-}
-
 /// Section heading between groups of rows.
 class SettingSectionHeader extends StatelessWidget {
   const SettingSectionHeader({required this.title, super.key});

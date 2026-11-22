@@ -94,8 +94,12 @@ import 'package:tanbih/features/prayer_times/presentation/bloc/next_prayer_count
 import 'package:tanbih/features/prayer_times/presentation/bloc/prayer_times_bloc.dart'
     as _i267;
 import 'package:tanbih/features/qibla/domain/compass_port.dart' as _i475;
+import 'package:tanbih/features/qibla/domain/usecases/get_qibla_summary.dart'
+    as _i301;
 import 'package:tanbih/features/qibla/presentation/bloc/qibla_cubit.dart'
     as _i348;
+import 'package:tanbih/features/qibla/presentation/bloc/qibla_summary_cubit.dart'
+    as _i849;
 import 'package:tanbih/features/settings/data/datasources/app_preferences_local_data_source.dart'
     as _i335;
 import 'package:tanbih/features/settings/presentation/bloc/locale_cubit.dart'
@@ -189,6 +193,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i105.SaveCalculationSettings>(
       () => _i105.SaveCalculationSettings(gh<_i652.PrayerTimesRepository>()),
     );
+    gh.factory<_i301.GetQiblaSummary>(
+      () => _i301.GetQiblaSummary(gh<_i652.PrayerTimesRepository>()),
+    );
     gh.lazySingleton<_i1028.CitySearchRemoteDataSource>(
       () => _i1028.CitySearchRemoteDataSourceImpl(
         gh<_i361.Dio>(),
@@ -220,6 +227,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i65.ThemeCubit>(
       () => _i65.ThemeCubit(gh<_i335.AppPreferencesLocalDataSource>()),
+    );
+    gh.factory<_i849.QiblaSummaryCubit>(
+      () => _i849.QiblaSummaryCubit(gh<_i301.GetQiblaSummary>()),
     );
     gh.lazySingleton<_i324.CalculationSettingsCubit>(
       () => _i324.CalculationSettingsCubit(

@@ -12,6 +12,8 @@ import '../../../location/presentation/bloc/location_bloc.dart';
 import '../../../location/presentation/bloc/location_event.dart';
 import '../../../location/presentation/bloc/location_state.dart';
 import '../../../onboarding/presentation/widgets/startup_permission_gate.dart';
+import '../../../qibla/presentation/bloc/qibla_summary_cubit.dart';
+import '../../../qibla/presentation/widgets/qibla_summary_row.dart';
 import '../../../settings/data/datasources/app_preferences_local_data_source.dart';
 import '../../domain/entities/daily_prayer_times.dart';
 import '../bloc/calculation_settings_cubit.dart';
@@ -34,6 +36,22 @@ class HomeScreen extends StatelessWidget {
       providers: [
         BlocProvider(create: (_) => sl<PrayerTimesBloc>()),
         BlocProvider(create: (_) => sl<NextPrayerCountdownCubit>()),
+        BlocProvider(
+          create: (_) {
+            final cubit = sl<QiblaSummaryCubit>();
+            // Seeded from the current location as well as from the listener
+            // below: if the app-wide LocationBloc resolved before this
+            // screen mounted, the listener never fires.
+            final location = context.read<LocationBloc>().state.location;
+            if (location != null) {
+              cubit.load(
+                latitude: location.latitude,
+                longitude: location.longitude,
+              );
+            }
+            return cubit;
+          },
+        ),
       ],
       child: StartupPermissionGate(
         preferences: sl<AppPreferencesLocalDataSource>(),
@@ -65,6 +83,10 @@ class _HomeView extends StatelessWidget {
                   longitude: location.longitude,
                   timeZoneId: location.timeZoneId,
                 ),
+              );
+              context.read<QiblaSummaryCubit>().load(
+                latitude: location.latitude,
+                longitude: location.longitude,
               );
             },
           ),
@@ -145,7 +167,13 @@ class _HomeBody extends StatelessWidget {
               _LocationFailedCard(state: locationState)
             else
               switch (prayerState.status) {
-                PrayerTimesStatus.success => _Schedule(times: times!),
+                PrayerTimesStatus.success => Column(
+                  children: [
+                    _Schedule(times: times!),
+                    const SizedBox(height: AppSpacing.md),
+                    const _BodySection(child: QiblaSummaryRow()),
+                  ],
+                ),
                 PrayerTimesStatus.failure => _ScheduleMessage(
                   message: prayerState.failure?.message.isNotEmpty ?? false
                       ? prayerState.failure!.message

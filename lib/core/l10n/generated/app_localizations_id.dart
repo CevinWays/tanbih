@@ -248,6 +248,20 @@ class AppLocalizationsId extends AppLocalizations {
   String get scheduleCurrentPrayer => 'Waktu shalat saat ini';
 
   @override
+  String get qiblaShort => 'Kiblat';
+
+  @override
+  String qiblaSummaryValue(int degrees, String distance) {
+    return '$degrees° · $distance km ke Makkah';
+  }
+
+  @override
+  String get qiblaSummaryPending => 'Menghitung…';
+
+  @override
+  String get qiblaAtKaaba => 'Kamu di Makkah';
+
+  @override
   String get openSettings => 'Buka pengaturan';
 
   @override

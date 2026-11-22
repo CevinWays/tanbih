@@ -104,6 +104,21 @@
   "iftaarLabel": "Berbuka",
   "allPrayersTitle": "Semua Waktu Shalat",
   "scheduleCurrentPrayer": "Waktu shalat saat ini",
+  "qiblaShort": "Kiblat",
+  "qiblaSummaryValue": "{degrees}° · {distance} km ke Makkah",
+  "@qiblaSummaryValue": {
+    "description": "Baris ringkas kiblat di Home. Jarak sudah diformat sesuai locale sebelum masuk ke sini.",
+    "placeholders": {
+      "degrees": {
+        "type": "int"
+      },
+      "distance": {
+        "type": "String"
+      }
+    }
+  },
+  "qiblaSummaryPending": "Menghitung…",
+  "qiblaAtKaaba": "Kamu di Makkah",
   "openSettings": "Buka pengaturan",
   "openMenu": "Buka menu",
   "menuFeedback": "Masukan",

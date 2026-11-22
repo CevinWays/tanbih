@@ -554,6 +554,30 @@ abstract class AppLocalizations {
   /// **'Waktu shalat saat ini'**
   String get scheduleCurrentPrayer;
 
+  /// No description provided for @qiblaShort.
+  ///
+  /// In id, this message translates to:
+  /// **'Kiblat'**
+  String get qiblaShort;
+
+  /// Baris ringkas kiblat di Home. Jarak sudah diformat sesuai locale sebelum masuk ke sini.
+  ///
+  /// In id, this message translates to:
+  /// **'{degrees}° · {distance} km ke Makkah'**
+  String qiblaSummaryValue(int degrees, String distance);
+
+  /// No description provided for @qiblaSummaryPending.
+  ///
+  /// In id, this message translates to:
+  /// **'Menghitung…'**
+  String get qiblaSummaryPending;
+
+  /// No description provided for @qiblaAtKaaba.
+  ///
+  /// In id, this message translates to:
+  /// **'Kamu di Makkah'**
+  String get qiblaAtKaaba;
+
   /// No description provided for @openSettings.
   ///
   /// In id, this message translates to:

@@ -250,6 +250,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String get scheduleCurrentPrayer => 'Current prayer';
 
   @override
+  String get qiblaShort => 'Qibla';
+
+  @override
+  String qiblaSummaryValue(int degrees, String distance) {
+    return '$degrees° · $distance km to Makkah';
+  }
+
+  @override
+  String get qiblaSummaryPending => 'Calculating…';
+
+  @override
+  String get qiblaAtKaaba => 'You are at Makkah';
+
+  @override
   String get openSettings => 'Open settings';
 
   @override
