@@ -182,6 +182,12 @@ abstract class AppLocalizations {
   /// **'{minutes} menit'**
   String countdownMinutes(int minutes);
 
+  /// Dibacakan pembaca layar; angka jam dibaca sebagai kata.
+  ///
+  /// In id, this message translates to:
+  /// **'{prayer} dalam {duration}'**
+  String countdownSemantics(String prayer, String duration);
+
   /// No description provided for @prayerTimeNow.
   ///
   /// In id, this message translates to:
@@ -547,18 +553,6 @@ abstract class AppLocalizations {
   /// In id, this message translates to:
   /// **'Waktu shalat saat ini'**
   String get scheduleCurrentPrayer;
-
-  /// No description provided for @previousPrayer.
-  ///
-  /// In id, this message translates to:
-  /// **'Waktu sebelumnya'**
-  String get previousPrayer;
-
-  /// No description provided for @nextPrayerAction.
-  ///
-  /// In id, this message translates to:
-  /// **'Waktu berikutnya'**
-  String get nextPrayerAction;
 
   /// No description provided for @openSettings.
   ///

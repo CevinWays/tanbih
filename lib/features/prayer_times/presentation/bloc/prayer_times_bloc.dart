@@ -4,8 +4,9 @@ import 'package:injectable/injectable.dart';
 import '../../../../core/services/clock.dart';
 import '../../../../core/usecases/usecase.dart';
 import '../../domain/entities/calculation_settings.dart';
+import '../../domain/entities/daily_prayer_times.dart';
 import '../../domain/usecases/get_calculation_settings.dart';
-import '../../domain/usecases/get_prayer_times_for_date.dart';
+import '../../domain/usecases/get_prayer_times_range.dart';
 import '../../domain/usecases/prayer_times_params.dart';
 import '../../domain/usecases/save_calculation_settings.dart';
 import '../../../../core/error/failures.dart';
@@ -20,7 +21,7 @@ import 'prayer_times_state.dart';
 @injectable
 class PrayerTimesBloc extends Bloc<PrayerTimesEvent, PrayerTimesState> {
   PrayerTimesBloc(
-    this._getPrayerTimesForDate,
+    this._getPrayerTimesRange,
     this._getCalculationSettings,
     this._saveCalculationSettings,
     this._clock,
@@ -31,7 +32,7 @@ class PrayerTimesBloc extends Bloc<PrayerTimesEvent, PrayerTimesState> {
     on<PrayerTimesSettingsChanged>(_onSettingsChanged);
   }
 
-  final GetPrayerTimesForDate _getPrayerTimesForDate;
+  final GetPrayerTimesRange _getPrayerTimesRange;
   final GetCalculationSettings _getCalculationSettings;
   final SaveCalculationSettings _saveCalculationSettings;
   final Clock _clock;
@@ -146,15 +147,20 @@ class PrayerTimesBloc extends Bloc<PrayerTimesEvent, PrayerTimesState> {
     bool settingsReadFailed = false,
     Failure? carriedFailure,
   }) async {
-    final result = await _getPrayerTimesForDate(
-      PrayerTimesForDateParams(
+    // Three days, not one. The countdown has to look past both ends of the
+    // day — to tomorrow's Fajr after Isha, and back to yesterday's Isha for
+    // the progress ring — while the header keeps showing today.
+    final day = DateTime(date.year, date.month, date.day);
+    final result = await _getPrayerTimesRange(
+      PrayerTimesRangeParams(
         base: PrayerTimesParams(
           latitude: latitude,
           longitude: longitude,
           timeZoneId: timeZoneId,
           settings: settings,
         ),
-        date: date,
+        from: day.subtract(const Duration(days: 1)),
+        to: day.add(const Duration(days: 1)),
       ),
     );
 
@@ -166,15 +172,45 @@ class PrayerTimesBloc extends Bloc<PrayerTimesEvent, PrayerTimesState> {
           selectedDate: date,
           failure: failure,
         ),
-        (times) => state.copyWith(
-          status: PrayerTimesStatus.success,
-          times: times,
-          settings: settings,
-          selectedDate: date,
-          failure: carriedFailure,
-          clearFailure: carriedFailure == null && !settingsReadFailed,
-        ),
+        (window) {
+          final selected = _dayIn(window, day);
+          if (selected == null) {
+            return state.copyWith(
+              status: PrayerTimesStatus.failure,
+              settings: settings,
+              selectedDate: date,
+              failure: const CalculationFailure(),
+            );
+          }
+
+          return state.copyWith(
+            status: PrayerTimesStatus.success,
+            times: selected,
+            previousTimes: _dayIn(
+              window,
+              day.subtract(const Duration(days: 1)),
+            ),
+            nextTimes: _dayIn(window, day.add(const Duration(days: 1))),
+            settings: settings,
+            selectedDate: date,
+            failure: carriedFailure,
+            clearFailure: carriedFailure == null && !settingsReadFailed,
+          );
+        },
       ),
     );
+  }
+
+  /// The schedule for [day], matched on the calendar date rather than on
+  /// position, so a short or reordered range cannot silently mislabel a day.
+  static DailyPrayerTimes? _dayIn(List<DailyPrayerTimes> window, DateTime day) {
+    for (final times in window) {
+      if (times.date.year == day.year &&
+          times.date.month == day.month &&
+          times.date.day == day.day) {
+        return times;
+      }
+    }
+    return null;
   }
 }

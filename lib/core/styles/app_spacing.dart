@@ -67,9 +67,6 @@ abstract final class AppSpacing {
   /// Diameter of the circular countdown on Home.
   static const double countdownDiameter = 172;
 
-  /// Inner ring inside the countdown circle.
-  static const double countdownRingDiameter = 161;
-
   /// The frosted rim of the countdown circle.
   static const double countdownGlassBorder = 16;
 

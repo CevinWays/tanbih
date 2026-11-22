@@ -210,6 +210,14 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i475.CompassPort>(),
       ),
     );
+    gh.factory<_i267.PrayerTimesBloc>(
+      () => _i267.PrayerTimesBloc(
+        gh<_i812.GetPrayerTimesRange>(),
+        gh<_i34.GetCalculationSettings>(),
+        gh<_i105.SaveCalculationSettings>(),
+        gh<_i457.Clock>(),
+      ),
+    );
     gh.lazySingleton<_i65.ThemeCubit>(
       () => _i65.ThemeCubit(gh<_i335.AppPreferencesLocalDataSource>()),
     );
@@ -229,14 +237,6 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i955.NotificationRepositoryImpl(
         gh<_i1041.NotificationSettingsLocalDataSource>(),
         gh<_i251.NotificationService>(),
-      ),
-    );
-    gh.factory<_i267.PrayerTimesBloc>(
-      () => _i267.PrayerTimesBloc(
-        gh<_i710.GetPrayerTimesForDate>(),
-        gh<_i34.GetCalculationSettings>(),
-        gh<_i105.SaveCalculationSettings>(),
-        gh<_i457.Clock>(),
       ),
     );
     gh.factory<_i678.MonthlyScheduleCubit>(

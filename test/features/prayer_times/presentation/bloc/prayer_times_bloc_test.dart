@@ -12,14 +12,14 @@ import 'package:tanbih/features/prayer_times/domain/entities/daily_prayer_times.
 import 'package:tanbih/features/prayer_times/domain/entities/hijri_date.dart';
 import 'package:tanbih/features/prayer_times/domain/entities/prayer_time_entry.dart';
 import 'package:tanbih/features/prayer_times/domain/usecases/get_calculation_settings.dart';
-import 'package:tanbih/features/prayer_times/domain/usecases/get_prayer_times_for_date.dart';
+import 'package:tanbih/features/prayer_times/domain/usecases/get_prayer_times_range.dart';
 import 'package:tanbih/features/prayer_times/domain/usecases/prayer_times_params.dart';
 import 'package:tanbih/features/prayer_times/domain/usecases/save_calculation_settings.dart';
 import 'package:tanbih/features/prayer_times/presentation/bloc/prayer_times_bloc.dart';
 import 'package:tanbih/features/prayer_times/presentation/bloc/prayer_times_event.dart';
 import 'package:tanbih/features/prayer_times/presentation/bloc/prayer_times_state.dart';
 
-class MockGetPrayerTimesForDate extends Mock implements GetPrayerTimesForDate {}
+class MockGetPrayerTimesRange extends Mock implements GetPrayerTimesRange {}
 
 class MockGetCalculationSettings extends Mock
     implements GetCalculationSettings {}
@@ -28,7 +28,7 @@ class MockSaveCalculationSettings extends Mock
     implements SaveCalculationSettings {}
 
 void main() {
-  late MockGetPrayerTimesForDate getForDate;
+  late MockGetPrayerTimesRange getRange;
   late MockGetCalculationSettings getSettings;
   late MockSaveCalculationSettings saveSettings;
   late FakeClock clock;
@@ -62,14 +62,15 @@ void main() {
 
   setUpAll(() {
     registerFallbackValue(
-      PrayerTimesForDateParams(
+      PrayerTimesRangeParams(
         base: const PrayerTimesParams(
           latitude: 0,
           longitude: 0,
           timeZoneId: 'UTC',
           settings: CalculationSettings(),
         ),
-        date: DateTime(2026),
+        from: DateTime(2026),
+        to: DateTime(2026),
       ),
     );
     registerFallbackValue(const NoParams());
@@ -77,7 +78,7 @@ void main() {
   });
 
   setUp(() {
-    getForDate = MockGetPrayerTimesForDate();
+    getRange = MockGetPrayerTimesRange();
     getSettings = MockGetCalculationSettings();
     saveSettings = MockSaveCalculationSettings();
     clock = FakeClock(DateTime(2026, 9, 7, 10));
@@ -86,13 +87,25 @@ void main() {
       () => getSettings(any()),
     ).thenAnswer((_) async => const Right(CalculationSettings()));
     when(() => saveSettings(any())).thenAnswer((_) async => const Right(unit));
-    when(
-      () => getForDate(any()),
-    ).thenAnswer((_) async => Right(scheduleFor(today)));
+    // The bloc asks for a three-day window: the countdown has to see past
+    // both ends of the day it displays.
+    when(() => getRange(any())).thenAnswer((invocation) async {
+      final params =
+          invocation.positionalArguments.first as PrayerTimesRangeParams;
+      final days = <DailyPrayerTimes>[];
+      for (
+        var day = params.from;
+        !day.isAfter(params.to);
+        day = day.add(const Duration(days: 1))
+      ) {
+        days.add(scheduleFor(day));
+      }
+      return Right(days);
+    });
   });
 
   PrayerTimesBloc build() =>
-      PrayerTimesBloc(getForDate, getSettings, saveSettings, clock);
+      PrayerTimesBloc(getRange, getSettings, saveSettings, clock);
 
   group('load', () {
     blocTest<PrayerTimesBloc, PrayerTimesState>(
@@ -128,15 +141,43 @@ void main() {
       ),
       verify: (_) {
         final captured =
-            verify(() => getForDate(captureAny())).captured.single
-                as PrayerTimesForDateParams;
-        expect(captured.date, DateTime(2026, 9, 7));
+            verify(() => getRange(captureAny())).captured.single
+                as PrayerTimesRangeParams;
+        // A three-day window centred on the requested day.
+        expect(captured.from, DateTime(2026, 9, 6));
+        expect(captured.to, DateTime(2026, 9, 8));
       },
     );
 
     blocTest<PrayerTimesBloc, PrayerTimesState>(
+      'splits the window onto yesterday, today and tomorrow',
+      // The countdown needs both neighbours: tomorrow so it has something to
+      // count to after Isha, yesterday so the ring has a starting point for
+      // Fajr. Matched on the date rather than on list position.
+      build: build,
+      act: (bloc) => bloc.add(
+        const PrayerTimesLoadRequested(
+          latitude: jakartaLat,
+          longitude: jakartaLng,
+          timeZoneId: jakartaZone,
+        ),
+      ),
+      skip: 1,
+      expect: () => [
+        isA<PrayerTimesState>()
+            .having((s) => s.times?.date, 'today', DateTime(2026, 9, 7))
+            .having(
+              (s) => s.previousTimes?.date,
+              'yesterday',
+              DateTime(2026, 9, 6),
+            )
+            .having((s) => s.nextTimes?.date, 'tomorrow', DateTime(2026, 9, 8)),
+      ],
+    );
+
+    blocTest<PrayerTimesBloc, PrayerTimesState>(
       'surfaces a calculation failure',
-      setUp: () => when(() => getForDate(any())).thenAnswer(
+      setUp: () => when(() => getRange(any())).thenAnswer(
         (_) async => const Left(CalculationFailure(message: 'bad coords')),
       ),
       build: build,
@@ -196,9 +237,10 @@ void main() {
       act: (bloc) => bloc.add(PrayerTimesDateChanged(tomorrow)),
       verify: (_) {
         final captured =
-            verify(() => getForDate(captureAny())).captured.single
-                as PrayerTimesForDateParams;
-        expect(captured.date, tomorrow);
+            verify(() => getRange(captureAny())).captured.single
+                as PrayerTimesRangeParams;
+        expect(captured.from, tomorrow.subtract(const Duration(days: 1)));
+        expect(captured.to, tomorrow.add(const Duration(days: 1)));
         expect(captured.base.timeZoneId, jakartaZone);
       },
     );
@@ -212,7 +254,7 @@ void main() {
             .having((s) => s.selectedDate, 'selectedDate', tomorrow)
             .having((s) => s.status, 'status', PrayerTimesStatus.initial),
       ],
-      verify: (_) => verifyNever(() => getForDate(any())),
+      verify: (_) => verifyNever(() => getRange(any())),
     );
   });
 
@@ -239,8 +281,8 @@ void main() {
               saveSettings(const CalculationSettings(madhab: MadhabId.hanafi)),
         ).called(1);
         final captured =
-            verify(() => getForDate(captureAny())).captured.single
-                as PrayerTimesForDateParams;
+            verify(() => getRange(captureAny())).captured.single
+                as PrayerTimesRangeParams;
         expect(captured.base.settings.madhab, MadhabId.hanafi);
       },
     );
@@ -289,9 +331,11 @@ void main() {
       act: (bloc) => bloc.add(const PrayerTimesTodayRequested()),
       verify: (_) {
         final captured =
-            verify(() => getForDate(captureAny())).captured.single
-                as PrayerTimesForDateParams;
-        expect(captured.date, DateTime(2026, 9, 7));
+            verify(() => getRange(captureAny())).captured.single
+                as PrayerTimesRangeParams;
+        // A three-day window centred on the requested day.
+        expect(captured.from, DateTime(2026, 9, 6));
+        expect(captured.to, DateTime(2026, 9, 8));
       },
     );
   });

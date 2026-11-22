@@ -31,6 +31,7 @@
       }
     }
   },
+  "countdownSemantics": "{prayer} in {duration}",
   "prayerTimeNow": "It's time for prayer",
   "locationCurrent": "Current location",
   "locationTapToChange": "Tap to change location",
@@ -92,8 +93,6 @@
   "iftaarLabel": "Iftar",
   "allPrayersTitle": "All Prayer Times",
   "scheduleCurrentPrayer": "Current prayer",
-  "previousPrayer": "Previous prayer",
-  "nextPrayerAction": "Next prayer",
   "openSettings": "Open settings",
   "openMenu": "Open menu",
   "menuFeedback": "Feedback",

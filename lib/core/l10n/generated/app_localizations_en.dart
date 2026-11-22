@@ -55,6 +55,11 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String countdownSemantics(String prayer, String duration) {
+    return '$prayer in $duration';
+  }
+
+  @override
   String get prayerTimeNow => 'It\'s time for prayer';
 
   @override
@@ -243,12 +248,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get scheduleCurrentPrayer => 'Current prayer';
-
-  @override
-  String get previousPrayer => 'Previous prayer';
-
-  @override
-  String get nextPrayerAction => 'Next prayer';
 
   @override
   String get openSettings => 'Open settings';

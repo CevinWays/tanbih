@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tanbih/core/l10n/generated/app_localizations.dart';
 import 'package:tanbih/core/styles/styles.dart';
-import 'package:tanbih/core/widgets/glass_icon_button.dart';
+import 'package:tanbih/features/prayer_times/presentation/widgets/home_header.dart';
 
-/// Every tappable icon has to clear the 48dp floor.
+/// Every tappable control has to clear the 48dp floor.
 ///
 /// The design draws its icons at 20-24dp. Shipped that way, the header
 /// buttons were 24dp targets — hard to hit with a thumb, and on the test
@@ -15,22 +15,31 @@ void main() {
     localizationsDelegates: AppLocalizations.localizationsDelegates,
     supportedLocales: const [Locale('id'), Locale('en')],
     theme: AppTheme.light,
-    home: Scaffold(body: Center(child: child)),
+    home: Scaffold(body: child),
   );
 
-  testWidgets('the carousel chevron is at least 48dp', (tester) async {
+  testWidgets('the header action buttons are at least 48dp', (tester) async {
     await tester.pumpWidget(
       wrap(
-        const GlassIconButton(
-          assetName: 'chevron_right',
-          semanticLabel: 'next',
+        HomeHeader(
+          locationLabel: 'Malang',
+          date: DateTime(2026, 9, 7),
+          hijriDate: null,
+          onSettingsTap: () {},
+          onMenuTap: () {},
+          child: const SizedBox.shrink(),
         ),
       ),
     );
     await tester.pumpAndSettle();
 
-    final size = tester.getSize(find.byType(InkWell));
-    expect(size.width, greaterThanOrEqualTo(AppSpacing.minTouchTarget));
-    expect(size.height, greaterThanOrEqualTo(AppSpacing.minTouchTarget));
+    final buttons = find.byType(InkResponse);
+    expect(buttons, findsWidgets);
+
+    for (final element in buttons.evaluate()) {
+      final size = tester.getSize(find.byWidget(element.widget));
+      expect(size.width, greaterThanOrEqualTo(AppSpacing.minTouchTarget));
+      expect(size.height, greaterThanOrEqualTo(AppSpacing.minTouchTarget));
+    }
   });
 }

@@ -20,7 +20,7 @@ import '../bloc/prayer_times_bloc.dart';
 import '../bloc/prayer_times_event.dart';
 import '../bloc/prayer_times_state.dart';
 import '../widgets/home_header.dart';
-import '../widgets/prayer_countdown_carousel.dart';
+import '../widgets/prayer_countdown_hero.dart';
 import '../widgets/prayer_schedule_card.dart';
 
 /// The main screen: today's schedule for the current location.
@@ -82,7 +82,21 @@ class _HomeView extends StatelessWidget {
             listenWhen: (previous, current) =>
                 current.times != null && previous.times != current.times,
             listener: (context, state) =>
-                context.read<NextPrayerCountdownCubit>().track(state.times!),
+                context.read<NextPrayerCountdownCubit>().track(
+                  today: state.times!,
+                  yesterday: state.previousTimes,
+                  tomorrow: state.nextTimes,
+                ),
+          ),
+          // Past midnight with the app still open, the schedule on screen is
+          // yesterday's. The countdown notices first — it is the only thing
+          // here reading the clock — and asks for a fresh window.
+          BlocListener<NextPrayerCountdownCubit, CountdownState>(
+            listenWhen: (previous, current) =>
+                !previous.needsReload && current.needsReload,
+            listener: (context, _) => context.read<PrayerTimesBloc>().add(
+              const PrayerTimesTodayRequested(),
+            ),
           ),
         ],
         child: const _HomeBody(),
@@ -99,8 +113,11 @@ class _HomeBody extends StatelessWidget {
     final l10n = context.l10n;
     final locationState = context.watch<LocationBloc>().state;
     final prayerState = context.watch<PrayerTimesBloc>().state;
-    final countdown = context.watch<NextPrayerCountdownCubit>().state;
 
+    // Deliberately no watch on the countdown here. Reading it at this level
+    // rebuilt the header, the schedule and every row once a second, and
+    // re-recorded the hero's blur along with them. The hero and the row
+    // highlight subscribe to it themselves, further down.
     final times = prayerState.times;
 
     return ColoredBox(
@@ -120,22 +137,15 @@ class _HomeBody extends StatelessWidget {
               onSettingsTap: () => context.router.push(const SettingsRoute()),
               onMenuTap: () => context.router.push(const MenuRoute()),
               onDateTap: () => context.router.push(const AllPrayerRoute()),
-              child: PrayerCountdownCarousel(
-                entries: times?.prayerEntries ?? const [],
-                nextSlot: countdown.slot,
-                remaining: countdown.remaining,
-              ),
+              child: const PrayerCountdownHero(),
             ),
-            const SizedBox(height: AppSpacing.xxl),
+            const SizedBox(height: AppSpacing.xl),
             if (!locationState.hasLocation &&
                 locationState.status == LocationStatus.failure)
               _LocationFailedCard(state: locationState)
             else
               switch (prayerState.status) {
-                PrayerTimesStatus.success => _Schedule(
-                  times: times!,
-                  currentSlot: _currentSlot(times, countdown.slot),
-                ),
+                PrayerTimesStatus.success => _Schedule(times: times!),
                 PrayerTimesStatus.failure => _ScheduleMessage(
                   message: prayerState.failure?.message.isNotEmpty ?? false
                       ? prayerState.failure!.message
@@ -153,20 +163,6 @@ class _HomeBody extends StatelessWidget {
       ),
     );
   }
-}
-
-/// The prayer in effect right now — the one just before the countdown's
-/// target.
-///
-/// Derived from the countdown rather than from `DateTime.now()` so it
-/// advances on the same tick the countdown does, and so nothing here reads
-/// the clock directly.
-PrayerSlot? _currentSlot(DailyPrayerTimes times, PrayerSlot? nextSlot) {
-  final prayers = times.prayerEntries;
-  if (nextSlot == null) return prayers.isEmpty ? null : prayers.last.slot;
-
-  final index = prayers.indexWhere((e) => e.slot == nextSlot);
-  return index <= 0 ? null : prayers[index - 1].slot;
 }
 
 /// Shown when the location could not be resolved and there is no cached one.
@@ -221,10 +217,9 @@ class _LocationFailedCard extends StatelessWidget {
 }
 
 class _Schedule extends StatelessWidget {
-  const _Schedule({required this.times, this.currentSlot});
+  const _Schedule({required this.times});
 
   final DailyPrayerTimes times;
-  final PrayerSlot? currentSlot;
 
   @override
   Widget build(BuildContext context) {
@@ -232,13 +227,18 @@ class _Schedule extends StatelessWidget {
     final maghrib = times.entryFor(PrayerSlot.maghrib);
 
     return _BodySection(
-      child: PrayerScheduleCard(
-        // Only the prayers: imsak rides on the fasting row, and sunrise is
-        // shown on the All Prayer screen rather than here.
-        entries: times.prayerEntries,
-        currentSlot: currentSlot,
-        suhoor: imsak?.time,
-        iftaar: maghrib?.time,
+      // A narrow subscription: the highlight moves five times a day, so the
+      // list must not be rebuilt on the countdown's per-second ticks.
+      child: BlocSelector<NextPrayerCountdownCubit, CountdownState, PrayerSlot?>(
+        selector: (state) => state.currentSlot,
+        builder: (context, currentSlot) => PrayerScheduleCard(
+          // Only the prayers: imsak rides on the fasting row, and sunrise is
+          // shown on the All Prayer screen rather than here.
+          entries: times.prayerEntries,
+          currentSlot: currentSlot,
+          suhoor: imsak?.time,
+          iftaar: maghrib?.time,
+        ),
       ),
     );
   }

@@ -13,6 +13,8 @@ class PrayerTimesState extends Equatable {
   const PrayerTimesState({
     this.status = PrayerTimesStatus.initial,
     this.times,
+    this.previousTimes,
+    this.nextTimes,
     this.settings = const CalculationSettings(),
     this.selectedDate,
     this.latitude,
@@ -23,6 +25,17 @@ class PrayerTimesState extends Equatable {
 
   final PrayerTimesStatus status;
   final DailyPrayerTimes? times;
+
+  /// The days either side of [times].
+  ///
+  /// The countdown needs both: without tomorrow there is nothing to count to
+  /// after Isha, and without yesterday the progress ring has no starting
+  /// point for Fajr. They are carried rather than fetched on demand so the
+  /// displayed date can stay on today while the countdown looks past
+  /// midnight.
+  final DailyPrayerTimes? previousTimes;
+  final DailyPrayerTimes? nextTimes;
+
   final CalculationSettings settings;
 
   /// Day being displayed. Null until the first load resolves.
@@ -52,6 +65,8 @@ class PrayerTimesState extends Equatable {
   PrayerTimesState copyWith({
     PrayerTimesStatus? status,
     DailyPrayerTimes? times,
+    DailyPrayerTimes? previousTimes,
+    DailyPrayerTimes? nextTimes,
     CalculationSettings? settings,
     DateTime? selectedDate,
     double? latitude,
@@ -63,6 +78,8 @@ class PrayerTimesState extends Equatable {
     return PrayerTimesState(
       status: status ?? this.status,
       times: times ?? this.times,
+      previousTimes: previousTimes ?? this.previousTimes,
+      nextTimes: nextTimes ?? this.nextTimes,
       settings: settings ?? this.settings,
       selectedDate: selectedDate ?? this.selectedDate,
       latitude: latitude ?? this.latitude,
@@ -76,6 +93,8 @@ class PrayerTimesState extends Equatable {
   List<Object?> get props => [
     status,
     times,
+    previousTimes,
+    nextTimes,
     settings,
     selectedDate,
     latitude,

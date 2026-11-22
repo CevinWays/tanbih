@@ -29,15 +29,3 @@ extension PrayerSlotPresentation on PrayerSlot {
     PrayerSlot.isha => 'prayer_isha',
   };
 }
-
-/// Formats a duration the way the countdown does: "1 jam 33 menit", dropping
-/// the hour part once under an hour.
-String formatRemaining(AppLocalizations l10n, Duration remaining) {
-  final total = remaining.isNegative ? Duration.zero : remaining;
-  final hours = total.inHours;
-  final minutes = total.inMinutes.remainder(60);
-
-  return hours > 0
-      ? l10n.countdownHoursMinutes(hours, minutes)
-      : l10n.countdownMinutes(minutes);
-}

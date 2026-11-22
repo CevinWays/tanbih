@@ -31,6 +31,18 @@
       }
     }
   },
+  "countdownSemantics": "{prayer} dalam {duration}",
+  "@countdownSemantics": {
+    "description": "Dibacakan pembaca layar; angka jam dibaca sebagai kata.",
+    "placeholders": {
+      "prayer": {
+        "type": "String"
+      },
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
   "prayerTimeNow": "Sudah masuk waktu",
   "locationCurrent": "Lokasi saat ini",
   "locationTapToChange": "Ketuk untuk ubah lokasi",
@@ -92,8 +104,6 @@
   "iftaarLabel": "Berbuka",
   "allPrayersTitle": "Semua Waktu Shalat",
   "scheduleCurrentPrayer": "Waktu shalat saat ini",
-  "previousPrayer": "Waktu sebelumnya",
-  "nextPrayerAction": "Waktu berikutnya",
   "openSettings": "Buka pengaturan",
   "openMenu": "Buka menu",
   "menuFeedback": "Masukan",

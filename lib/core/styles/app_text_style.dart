@@ -105,14 +105,6 @@ abstract final class AppTextStyle {
     color: Colors.white,
   );
 
-  /// "1 hr & 33 min".
-  static const TextStyle countdownValue = TextStyle(
-    fontFamily: fontBody,
-    fontSize: 18,
-    fontWeight: FontWeight.w600,
-    color: AppColors.textPrimary,
-  );
-
   /// The ticking digits — "39:07", "5:12:44".
   ///
   /// Tabular figures so the number does not jitter sideways every second.
