@@ -21,8 +21,7 @@ import '../bloc/prayer_times_event.dart';
 import '../bloc/prayer_times_state.dart';
 import '../widgets/home_header.dart';
 import '../widgets/prayer_countdown_carousel.dart';
-import '../widgets/prayer_row_tile.dart';
-import '../widgets/suhoor_iftaar_card.dart';
+import '../widgets/prayer_schedule_card.dart';
 
 /// The main screen: today's schedule for the current location.
 @RoutePage()
@@ -188,38 +187,33 @@ class _LocationFailedCard extends StatelessWidget {
               ? state.failure!.message
               : l10n.locationFailedTitle);
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xl),
-      child: SizedBox(
-        width: AppSpacing.contentWidth,
-        child: GlassCard(
-          radius: AppSpacing.radiusMd,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(l10n.locationFailedTitle, style: AppTextStyle.rowLabel),
-              const SizedBox(height: AppSpacing.xxs),
-              Text(message, style: AppTextStyle.bodySmall),
-              const SizedBox(height: AppSpacing.sm),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  TextButton(
-                    onPressed: () => context.read<LocationBloc>().add(
-                      const LocationRefreshRequested(),
-                    ),
-                    child: Text(l10n.locationRetry),
+    return _BodySection(
+      child: GlassCard(
+        radius: AppSpacing.radiusMd,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(l10n.locationFailedTitle, style: AppTextStyle.rowLabel),
+            const SizedBox(height: AppSpacing.xxs),
+            Text(message, style: AppTextStyle.bodySmall),
+            const SizedBox(height: AppSpacing.sm),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                TextButton(
+                  onPressed: () => context.read<LocationBloc>().add(
+                    const LocationRefreshRequested(),
                   ),
-                  const SizedBox(width: AppSpacing.sm),
-                  FilledButton(
-                    onPressed: () =>
-                        context.router.push(const CityPickerRoute()),
-                    child: Text(l10n.locationChooseManually),
-                  ),
-                ],
-              ),
-            ],
-          ),
+                  child: Text(l10n.locationRetry),
+                ),
+                const SizedBox(width: AppSpacing.sm),
+                FilledButton(
+                  onPressed: () => context.router.push(const CityPickerRoute()),
+                  child: Text(l10n.locationChooseManually),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
@@ -237,26 +231,40 @@ class _Schedule extends StatelessWidget {
     final imsak = times.entryFor(PrayerSlot.imsak);
     final maghrib = times.entryFor(PrayerSlot.maghrib);
 
-    return SizedBox(
-      width: AppSpacing.contentWidth,
-      child: Column(
-        children: [
-          if (imsak != null && maghrib != null)
-            SuhoorIftaarCard(suhoor: imsak.time, iftaar: maghrib.time),
-          const SizedBox(height: AppSpacing.xl),
-          // Only the prayers: imsak already has its own card above, and
-          // sunrise is shown on the All Prayer screen rather than here.
-          for (final entry in times.prayerEntries) ...[
-            PrayerRowTile(
-              entry: entry,
-              highlighted: entry.slot == currentSlot,
-              // Per-prayer notification switching arrives with the
-              // notification feature; the control is inert until then.
-              notificationEnabled: true,
-            ),
-            const SizedBox(height: AppSpacing.lg),
-          ],
-        ],
+    return _BodySection(
+      child: PrayerScheduleCard(
+        // Only the prayers: imsak rides on the fasting row, and sunrise is
+        // shown on the All Prayer screen rather than here.
+        entries: times.prayerEntries,
+        currentSlot: currentSlot,
+        suhoor: imsak?.time,
+        iftaar: maghrib?.time,
+      ),
+    );
+  }
+}
+
+/// The gutter every block of the Home body sits in.
+///
+/// The design centred a fixed 306dp column, which left a wide dead margin on
+/// a modern phone and overflowed on a narrow one. Stretching to the screen
+/// with the standard padding fixes both; the cap only matters on tablets.
+class _BodySection extends StatelessWidget {
+  const _BodySection({required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: AppSpacing.maxContentWidth),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.screenPadding,
+          ),
+          child: child,
+        ),
       ),
     );
   }

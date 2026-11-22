@@ -242,10 +242,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get allPrayersTitle => 'All Prayer Times';
 
   @override
-  String get notificationOn => 'Notification on';
-
-  @override
-  String get notificationOff => 'Notification off';
+  String get scheduleCurrentPrayer => 'Current prayer';
 
   @override
   String get previousPrayer => 'Previous prayer';

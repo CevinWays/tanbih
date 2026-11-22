@@ -542,17 +542,11 @@ abstract class AppLocalizations {
   /// **'Semua Waktu Shalat'**
   String get allPrayersTitle;
 
-  /// No description provided for @notificationOn.
+  /// No description provided for @scheduleCurrentPrayer.
   ///
   /// In id, this message translates to:
-  /// **'Notifikasi aktif'**
-  String get notificationOn;
-
-  /// No description provided for @notificationOff.
-  ///
-  /// In id, this message translates to:
-  /// **'Notifikasi mati'**
-  String get notificationOff;
+  /// **'Waktu shalat saat ini'**
+  String get scheduleCurrentPrayer;
 
   /// No description provided for @previousPrayer.
   ///

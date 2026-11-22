@@ -113,6 +113,26 @@ abstract final class AppTextStyle {
     color: AppColors.textPrimary,
   );
 
+  /// The ticking digits — "39:07", "5:12:44".
+  ///
+  /// Tabular figures so the number does not jitter sideways every second.
+  static const TextStyle countdownTimer = TextStyle(
+    fontFamily: fontBody,
+    fontSize: 28,
+    fontWeight: FontWeight.w600,
+    color: Colors.white,
+    fontFeatures: [FontFeature.tabularFigures()],
+  );
+
+  /// The clock time of the prayer being counted down to.
+  static const TextStyle countdownTarget = TextStyle(
+    fontFamily: fontBody,
+    fontSize: 13,
+    fontWeight: FontWeight.w500,
+    color: Colors.white70,
+    fontFeatures: [FontFeature.tabularFigures()],
+  );
+
   /// "Remaining".
   static const TextStyle countdownCaption = TextStyle(
     fontFamily: fontBody,
@@ -149,6 +169,35 @@ abstract final class AppTextStyle {
     fontFamily: fontBody,
     fontSize: 14,
     fontWeight: FontWeight.w600,
+    fontFeatures: [FontFeature.tabularFigures()],
+  );
+
+  /// The prayer currently in effect, in the schedule list.
+  ///
+  /// Weight carries the emphasis and the colour is left to the theme. The
+  /// brand teal reads at about 2.2:1 on the light card, so using it for text
+  /// here would fail contrast — the accent lives in the marker pill and the
+  /// row wash instead.
+  static final TextStyle rowLabelActive = rowLabel.copyWith(
+    fontWeight: FontWeight.w600,
+  );
+  static final TextStyle prayerTimeActive = prayerTime.copyWith(
+    fontWeight: FontWeight.w700,
+  );
+
+  /// The imsak / iftaar times, which the design sets larger than a row.
+  static const TextStyle pairTime = TextStyle(
+    fontFamily: fontBody,
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+    fontFeatures: [FontFeature.tabularFigures()],
+  );
+
+  /// Trailing value on a summary row — "294° · 8.582 km ke Makkah".
+  static const TextStyle rowValue = TextStyle(
+    fontFamily: fontBody,
+    fontSize: 13,
+    fontWeight: FontWeight.w500,
     fontFeatures: [FontFeature.tabularFigures()],
   );
 }

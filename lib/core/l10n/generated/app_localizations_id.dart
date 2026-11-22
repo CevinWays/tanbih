@@ -240,10 +240,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get allPrayersTitle => 'Semua Waktu Shalat';
 
   @override
-  String get notificationOn => 'Notifikasi aktif';
-
-  @override
-  String get notificationOff => 'Notifikasi mati';
+  String get scheduleCurrentPrayer => 'Waktu shalat saat ini';
 
   @override
   String get previousPrayer => 'Waktu sebelumnya';

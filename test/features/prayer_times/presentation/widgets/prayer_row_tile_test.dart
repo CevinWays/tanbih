@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tanbih/core/enums/prayer_slot.dart';
 import 'package:tanbih/core/l10n/generated/app_localizations.dart';
@@ -12,7 +13,9 @@ Widget _wrap(Widget child, {Locale locale = const Locale('id')}) => MaterialApp(
   supportedLocales: const [Locale('id'), Locale('en')],
   theme: AppTheme.light,
   home: Scaffold(
-    body: Center(child: SizedBox(width: 306, child: child)),
+    body: Center(
+      child: SizedBox(width: AppSpacing.maxContentWidth, child: child),
+    ),
   ),
 );
 
@@ -23,9 +26,7 @@ void main() {
   );
 
   testWidgets('shows the Indonesian prayer name', (tester) async {
-    await tester.pumpWidget(
-      _wrap(PrayerRowTile(entry: maghrib, notificationEnabled: true)),
-    );
+    await tester.pumpWidget(_wrap(PrayerRowTile(entry: maghrib)));
     await tester.pumpAndSettle();
 
     expect(find.text('Maghrib'), findsOneWidget);
@@ -40,10 +41,7 @@ void main() {
     );
 
     await tester.pumpWidget(
-      _wrap(
-        PrayerRowTile(entry: fajr, notificationEnabled: true),
-        locale: const Locale('en'),
-      ),
+      _wrap(PrayerRowTile(entry: fajr), locale: const Locale('en')),
     );
     await tester.pumpAndSettle();
 
@@ -59,47 +57,44 @@ void main() {
     // Indonesian renders a 24-hour clock with a dot separator; English
     // renders 12-hour with AM/PM. Both must follow the app's locale rather
     // than whatever the host machine is set to.
-    await tester.pumpWidget(
-      _wrap(PrayerRowTile(entry: maghrib, notificationEnabled: true)),
-    );
+    await tester.pumpWidget(_wrap(PrayerRowTile(entry: maghrib)));
     await tester.pumpAndSettle();
     expect(find.text('17.55'), findsOneWidget);
 
     await tester.pumpWidget(
-      _wrap(
-        PrayerRowTile(entry: maghrib, notificationEnabled: true),
-        locale: const Locale('en'),
-      ),
+      _wrap(PrayerRowTile(entry: maghrib), locale: const Locale('en')),
     );
     await tester.pumpAndSettle();
     expect(find.text('5:55 PM'), findsOneWidget);
   });
 
-  testWidgets('the notification toggle reports its state to screen readers', (
-    tester,
-  ) async {
-    await tester.pumpWidget(
-      _wrap(PrayerRowTile(entry: maghrib, notificationEnabled: false)),
-    );
+  testWidgets('has no speaker button', (tester) async {
+    // The control was never wired to anything: Home passed no callback, so
+    // it rendered "sound on" for every prayer and did nothing when tapped.
+    // Per-prayer notification switching lives in the notification settings
+    // screen, which does work.
+    await tester.pumpWidget(_wrap(PrayerRowTile(entry: maghrib)));
     await tester.pumpAndSettle();
 
-    expect(find.bySemanticsLabel(RegExp('Maghrib')), findsWidgets);
+    expect(find.byType(InkResponse), findsNothing);
+    expect(find.byType(SvgPicture), findsOneWidget);
   });
 
-  testWidgets('tapping the toggle fires the callback', (tester) async {
-    var taps = 0;
+  testWidgets('marks the prayer in effect, and only then', (tester) async {
     await tester.pumpWidget(
-      _wrap(
-        PrayerRowTile(
-          entry: maghrib,
-          notificationEnabled: true,
-          onToggleNotification: () => taps++,
-        ),
-      ),
+      _wrap(PrayerRowTile(entry: maghrib, highlighted: true)),
     );
     await tester.pumpAndSettle();
 
-    await tester.tap(find.byType(InkResponse));
-    expect(taps, 1);
+    expect(find.byKey(PrayerRowTile.markerKey), findsOneWidget);
+    expect(
+      tester.getSemantics(find.byType(PrayerRowTile)),
+      isSemantics(isSelected: true),
+    );
+
+    await tester.pumpWidget(_wrap(PrayerRowTile(entry: maghrib)));
+    await tester.pumpAndSettle();
+
+    expect(find.byKey(PrayerRowTile.markerKey), findsNothing);
   });
 }

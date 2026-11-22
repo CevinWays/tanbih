@@ -49,4 +49,17 @@ abstract final class AppColors {
 
   static const Color divider = Color(0x14373232);
   static const Color dividerDark = Color(0x1FFFFFFF);
+
+  /// Wash behind the prayer currently in effect, inside the grouped schedule.
+  ///
+  /// Replaces the per-card fill the rows used to carry: a row sharing one
+  /// card with its neighbours cannot tint the card.
+  static const Color rowHighlight = Color(0x1F54BCA3); // brandSolid @ 12%
+
+  /// Darkened brand teal, for accent-coloured text on a light glass card.
+  ///
+  /// [brandSolid] on that ground measures about 2.2:1 — well under the 4.5:1
+  /// floor for 14px text. This measures 5.1:1. On dark surfaces use
+  /// [brandMint] instead, which measures 7.2:1 there.
+  static const Color brandOnSurface = Color(0xFF17766A);
 }

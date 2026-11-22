@@ -5,29 +5,28 @@ import 'package:intl/intl.dart';
 import '../../../../core/l10n/l10n_extension.dart';
 import '../../../../core/styles/styles.dart';
 import '../../../../core/utils/prayer_slot_x.dart';
-import '../../../../core/widgets/glass_card.dart';
 import '../../domain/entities/prayer_time_entry.dart';
 
-/// One row of the schedule: icon, name, time, notification toggle.
+/// One row of the schedule: marker, icon, name, time.
+///
+/// The row no longer owns a card. It is rendered inside
+/// `PrayerScheduleCard`, which carries the single frosted panel for the whole
+/// list — five separate `BackdropFilter`s was five times the budget.
 class PrayerRowTile extends StatelessWidget {
   const PrayerRowTile({
     required this.entry,
-    required this.notificationEnabled,
     super.key,
-    this.onToggleNotification,
     this.highlighted = false,
   });
 
+  /// The accent pill, so tests can assert the highlight without reaching for
+  /// a colour.
+  static const Key markerKey = Key('prayer-row-marker');
+
   final PrayerTimeEntry entry;
-  final bool notificationEnabled;
-  final VoidCallback? onToggleNotification;
 
-  /// The prayer currently in effect gets a slightly stronger fill.
+  /// The prayer currently in effect.
   final bool highlighted;
-
-  static const AssetImage _watermark = AssetImage(
-    'assets/images/row_watermark.png',
-  );
 
   @override
   Widget build(BuildContext context) {
@@ -35,83 +34,86 @@ class PrayerRowTile extends StatelessWidget {
     final timeFormat = DateFormat.jm(
       Localizations.localeOf(context).toString(),
     );
+    final label = entry.slot.label(l10n);
 
-    return GlassCard(
-      radius: AppSpacing.radiusSm + 2,
-      backgroundImage: _watermark,
-      // The prayer in effect is tinted with the brand colour rather than a
-      // lighter white, so the highlight reads on both themes. Everything
-      // else leaves the fill to the card, which follows the theme.
-      fill: highlighted ? AppColors.brandSolid.withValues(alpha: 0.22) : null,
-      child: Row(
-        children: [
-          // The exported glyphs are a single dark colour, which disappears
-          // against a dark card. Tint them with the theme's text colour so
-          // they stay visible in both themes.
-          SvgPicture.asset(
-            'assets/icons/${entry.slot.iconAsset}.svg',
-            width: 20,
-            height: 20,
-            colorFilter: ColorFilter.mode(
-              DefaultTextStyle.of(context).style.color ?? AppColors.textPrimary,
-              BlendMode.srcIn,
+    return Semantics(
+      selected: highlighted,
+      hint: highlighted ? l10n.scheduleCurrentPrayer : null,
+      child: ColoredBox(
+        color: highlighted ? AppColors.rowHighlight : Colors.transparent,
+        // A floor, not a fixed height: the row has to grow with the system
+        // font size instead of clipping its own text.
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(minHeight: AppSpacing.rowMinHeight),
+          child: Padding(
+            padding: const EdgeInsets.only(right: AppSpacing.lg),
+            child: Row(
+              children: [
+                _Marker(visible: highlighted),
+                // The exported glyphs are a single dark colour, which
+                // disappears against a dark card. Tint them with the theme's
+                // text colour so they stay visible in both themes.
+                SvgPicture.asset(
+                  'assets/icons/${entry.slot.iconAsset}.svg',
+                  width: AppSpacing.rowIconSize,
+                  height: AppSpacing.rowIconSize,
+                  colorFilter: ColorFilter.mode(
+                    DefaultTextStyle.of(context).style.color ??
+                        AppColors.textPrimary,
+                    BlendMode.srcIn,
+                  ),
+                ),
+                const SizedBox(width: AppSpacing.iconGap),
+                Expanded(
+                  child: Text(
+                    label,
+                    style: highlighted
+                        ? AppTextStyle.rowLabelActive
+                        : AppTextStyle.rowLabel,
+                  ),
+                ),
+                Text(
+                  timeFormat.format(entry.time),
+                  style: highlighted
+                      ? AppTextStyle.prayerTimeActive
+                      : AppTextStyle.prayerTime,
+                ),
+              ],
             ),
           ),
-          const SizedBox(width: AppSpacing.xs + 1),
-          Expanded(
-            child: Text(entry.slot.label(l10n), style: AppTextStyle.rowLabel),
-          ),
-          Text(timeFormat.format(entry.time), style: AppTextStyle.prayerTime),
-          const SizedBox(width: AppSpacing.xl),
-          _NotificationToggle(
-            enabled: notificationEnabled,
-            onPressed: onToggleNotification,
-            prayerName: entry.slot.label(l10n),
-          ),
-        ],
+        ),
       ),
     );
   }
 }
 
-class _NotificationToggle extends StatelessWidget {
-  const _NotificationToggle({
-    required this.enabled,
-    required this.prayerName,
-    this.onPressed,
-  });
+/// The accent pill on the leading edge of the prayer in effect.
+///
+/// Always occupies its slot, visible or not, so the glyphs of every row stay
+/// on the same vertical line.
+class _Marker extends StatelessWidget {
+  const _Marker({required this.visible});
 
-  final bool enabled;
-  final String prayerName;
-  final VoidCallback? onPressed;
+  final bool visible;
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
-
-    return Semantics(
-      button: true,
-      toggled: enabled,
-      label:
-          '$prayerName — '
-          '${enabled ? l10n.notificationOn : l10n.notificationOff}',
-      child: InkResponse(
-        onTap: onPressed,
-        radius: AppSpacing.xxl,
-        child: SizedBox(
-          width: AppSpacing.minTouchTarget,
-          height: AppSpacing.minTouchTarget,
-          child: Center(
-            child: SvgPicture.asset(
-              enabled
-                  ? 'assets/icons/speaker_on.svg'
-                  : 'assets/icons/speaker_muted.svg',
-              width: 24,
-              height: 24,
-            ),
-          ),
-        ),
-      ),
+    return SizedBox(
+      width: AppSpacing.lg + AppSpacing.rowMarkerWidth,
+      child: visible
+          ? Align(
+              alignment: Alignment.centerLeft,
+              child: Container(
+                key: PrayerRowTile.markerKey,
+                width: AppSpacing.rowMarkerWidth,
+                height: AppSpacing.rowMarkerHeight,
+                decoration: BoxDecoration(
+                  color: AppColors.brandSolid,
+                  borderRadius: BorderRadius.circular(AppSpacing.radiusPill),
+                ),
+              ),
+            )
+          : null,
     );
   }
 }
